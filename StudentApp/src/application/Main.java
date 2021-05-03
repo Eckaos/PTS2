@@ -1,13 +1,22 @@
 package application;
 	
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
 
 
 public class Main extends Application {
+	
+	static BorderPane root;
+	static List<AnchorPane> screens = new ArrayList<>();
+	static int currentIndex;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -23,5 +32,15 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
+	}
+	
+	public static AnchorPane getScreen(int index) {
+		return screens.get(index);
+	}
+	
+	public static void setScreen(int index) {
+		root.getChildren().remove(screens.get(currentIndex));
+		root.getChildren().add(screens.get(index));
+		currentIndex = index;
 	}
 }
