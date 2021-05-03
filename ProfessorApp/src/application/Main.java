@@ -23,6 +23,7 @@ public class Main extends Application {
 			root = (BorderPane)FXMLLoader.load(getClass().getResource("GUIProfessor.fxml"));
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			primaryStage.setMaximized(true);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
