@@ -22,8 +22,8 @@ public class Main extends Application {
 		try {
 			root = (BorderPane)FXMLLoader.load(getClass().getResource("GUIStudent.fxml"));
 			screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("Accueil.fxml")));
-			screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("Entrainement.fxml")));
-			screens.add((AnchorPane) FXMLLoader.load(getClass().getResource("Examen.fxml")));
+			screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("Exercice.fxml")));
+			//screens.add((AnchorPane) FXMLLoader.load(getClass().getResource("Examen.fxml")));
 			root.getChildren().add(screens.get(0));
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
