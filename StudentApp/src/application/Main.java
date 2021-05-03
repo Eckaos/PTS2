@@ -3,6 +3,7 @@ package application;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -21,9 +22,6 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			root = (BorderPane)FXMLLoader.load(getClass().getResource("GUIStudent.fxml"));
-			screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("Accueil.fxml")));
-			screens.add((AnchorPane)FXMLLoader.load(getClass().getResource("Exercice.fxml")));
-			root.getChildren().add(screens.get(0));
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setMaximized(true);
