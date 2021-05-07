@@ -1,4 +1,6 @@
 package application;
+import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -14,7 +16,13 @@ public class ExerciceController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//String pathString = new File("src/Avatar.avi").getAbsolutePath();
-		testMe.setMediaPlayer(new MediaPlayer(new Media("src/Avatar.avi")));
+		File pathString = new File("src/Avatar.avi");
+		
+		try {
+			testMe.setMediaPlayer(new MediaPlayer(new Media(pathString.toURI().toURL().toExternalForm())));
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
