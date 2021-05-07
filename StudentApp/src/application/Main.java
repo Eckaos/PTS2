@@ -14,14 +14,12 @@ public class Main extends Application {
 	
 	static Parent root;
 	static List<BorderPane> screens = new ArrayList<>();
-	static int currentIndex;
+	static int currentIndex = 0;
 	
 	@Override
 	public void start(Stage primaryStage){
 		try {
-			//root = FXMLLoader.load(getClass().getResource("GUIStudent.fxml"));
 			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("Exercice.fxml")));
-			//root.getChildren().add(screens.get(0));
 			Scene scene = new Scene(screens.get(0),1280,720);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setMaximized(true);
