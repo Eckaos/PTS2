@@ -1,5 +1,4 @@
 package application;
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -15,7 +14,7 @@ public class ExerciceController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		String pathString = new File("src/Avatar.avi").getAbsolutePath();
-		testMe.setMediaPlayer(new MediaPlayer(new Media(pathString)));
+		//String pathString = new File("src/Avatar.avi").getAbsolutePath();
+		testMe.setMediaPlayer(new MediaPlayer(new Media("src/Avatar.avi")));
 	}
 }
