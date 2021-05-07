@@ -3,11 +3,11 @@ package application;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.fxml.FXMLLoader;
 
 
 public class Main extends Application {
@@ -17,9 +17,9 @@ public class Main extends Application {
 	static int currentIndex;
 	
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage){
 		try {
-			root = FXMLLoader.load(getClass().getResource("GUIStudent.fxml"));
+			//root = FXMLLoader.load(getClass().getResource("GUIStudent.fxml"));
 			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("Exercice.fxml")));
 			//root.getChildren().add(screens.get(0));
 			Scene scene = new Scene(screens.get(0),1280,720);
