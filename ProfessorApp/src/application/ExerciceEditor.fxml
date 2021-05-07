@@ -1,8 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ExerciceEditorController">
-	<!-- TODO Add Nodes -->
+<BorderPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ExerciceEditorController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <right>
+      <VBox prefHeight="695.0" prefWidth="640.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextArea fx:id="help" maxHeight="150.0" maxWidth="500.0" promptText="Aide">
+               <VBox.margin>
+                  <Insets bottom="60.0" left="60.0" top="60.0" />
+               </VBox.margin>
+            </TextArea>
+            <TextArea fx:id="text" maxHeight="150.0" maxWidth="500.0" prefHeight="200.0" prefWidth="200.0" promptText="Text">
+               <VBox.margin>
+                  <Insets left="60.0" />
+               </VBox.margin>
+            </TextArea>
+            <Button fx:id="parameter" mnemonicParsing="false" text="Paramètres">
+               <VBox.margin>
+                  <Insets left="280.0" top="50.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </right>
+   <center>
+      <VBox prefHeight="695.0" prefWidth="640.0" BorderPane.alignment="CENTER">
+         <children>
+            <Region prefHeight="34.0" prefWidth="720.0" />
+            <TextArea fx:id="instruction" maxWidth="600.0" prefHeight="192.0" prefWidth="490.0" promptText="Consigne">
+               <VBox.margin>
+                  <Insets bottom="30.0" left="60.0" top="60.0" />
+               </VBox.margin>
+            </TextArea>
+            <TextField fx:id="title" maxWidth="500.0" prefHeight="25.0" prefWidth="500.0" promptText="Titre">
+               <VBox.margin>
+                  <Insets bottom="30.0" left="100.0" />
+               </VBox.margin>
+            </TextField>
+            <MediaView fx:id="importMediaView" fitHeight="360.0" fitWidth="480.0">
+               <VBox.margin>
+                  <Insets left="80.0" />
+               </VBox.margin>
+            </MediaView>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="importButton" mnemonicParsing="false" text="Importer">
+                     <HBox.margin>
+                        <Insets left="50.0" right="30.0" />
+                     </HBox.margin>
+                  </Button>
+                  <TextField fx:id="filePath" prefHeight="25.0" prefWidth="310.0" />
+                  <ProgressBar prefHeight="18.0" prefWidth="79.0" progress="0.0">
+                     <HBox.margin>
+                        <Insets left="30.0" />
+                     </HBox.margin>
+                  </ProgressBar>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
 </BorderPane>
-

@@ -20,7 +20,6 @@ public class AccueilController implements Initializable{
 		
 		createModifyButton.setOnAction(ActionEvent -> Main.setScreen(1));
 		result.setOnAction(ActionEvent -> Main.setScreen(2));
-		
 	}
 	
 }

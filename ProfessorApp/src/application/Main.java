@@ -14,12 +14,14 @@ public class Main extends Application {
 	
 	static List<BorderPane> screens = new ArrayList<>();
 	static int currentIndex = 0;
+	static Scene scene;
 	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("Accueil.fxml")));
-			Scene scene = new Scene(screens.get(0),400,400);
+			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("ExerciceEditor.fxml")));
+			scene = new Scene(screens.get(0),400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setMaximized(true);
 			primaryStage.setScene(scene);
@@ -38,6 +40,7 @@ public class Main extends Application {
 	}
 	
 	public static void setScreen(int index) {
+		scene.setRoot(screens.get(index));
 		currentIndex = index;
 	}
 }
