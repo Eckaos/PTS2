@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteBuffer;
@@ -193,11 +192,9 @@ public class ExerciceEditorController implements Initializable{
 		parameters = test.getParameters();
 		occultationChar = test.getOccultationCharacter();
 		exerciceTime = test.getTime();
-
-
-
+		
+		
 		FileOutputStream fos = new FileOutputStream(title.getText()+".bin");
-		ObjectOutputStream oos = new ObjectOutputStream(fos);
 
 		fos.write(lenghtText);
 		fos.write(textBinary);
@@ -207,11 +204,9 @@ public class ExerciceEditorController implements Initializable{
 
 		fos.write(lenghtInstruction);
 		fos.write(instructionBinary);
-
-		//TODO ecriture des parametres
-		//fos.write(parameters);
+		fos.write(parameters);
 		fos.write(occultationChar);
-		//fos.write(exerciceTime);
+		fos.write(exerciceTime);
 
 		if (file != null) {
 			FileInputStream fileInputStream = new FileInputStream(file);

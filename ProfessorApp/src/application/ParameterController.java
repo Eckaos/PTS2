@@ -114,6 +114,6 @@ public class ParameterController implements Initializable{
 	}
 
 	public byte[] getTime() {
-		return ByteBuffer.allocate(5).putInt(1).array();
+		return ByteBuffer.allocate(4).putInt(1).array();
 	}
 }
