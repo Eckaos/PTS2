@@ -55,6 +55,7 @@
                   <Insets left="280.0" top="50.0" />
                </VBox.margin>
             </Button>
+            <Button fx:id="save" mnemonicParsing="false" text="Save" />
          </children>
       </VBox>
    </right>
@@ -79,9 +80,10 @@
             </MediaView>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" text="Play" />
-                  <Slider />
-                  <Button mnemonicParsing="false" text="Sound" />
+                  <Button fx:id="pausePlayButton" mnemonicParsing="false" text="Play" />
+                  <Slider fx:id="progressBar" />
+                  <Button fx:id="soundButton" mnemonicParsing="false" text="Sound" />
+                  <Slider fx:id="soundSlider" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">

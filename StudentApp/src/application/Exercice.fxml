@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -33,11 +33,10 @@
                <children>
                   <Button fx:id="pausePlayButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="40.0" />
                   <Region prefHeight="100.0" prefWidth="39.0" />
-                  <ProgressBar fx:id="progressBar" prefHeight="18.0" prefWidth="474.0" progress="0.0" />
+                  <Slider fx:id="progressBar" />
                   <Region prefHeight="100.0" prefWidth="37.0" />
                   <Button fx:id="soundButton" mnemonicParsing="false" text="Button" />
                   <Region prefHeight="100.0" prefWidth="26.0" />
-                  <Button fx:id="fullscreenButton" mnemonicParsing="false" text="Button" />
                </children>
                <VBox.margin>
                   <Insets left="50.0" />

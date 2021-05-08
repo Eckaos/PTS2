@@ -1,9 +1,8 @@
 package application;
 
 import java.net.URL;
+import java.nio.ByteBuffer;
 import java.util.ResourceBundle;
-
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
@@ -16,41 +15,41 @@ public class ParameterController implements Initializable{
 
 	@FXML
 	RadioButton trainingRadioButton;
-	
+
 	@FXML
 	RadioButton examRadioButton;
-	
+
 	@FXML
 	CheckBox partialReplacementCheckBox;
-	
+
 	@FXML
 	CheckBox letterCaseCheckBox;
-	
+
 	@FXML
 	CheckBox realTimeNumberWordCheckBox;
-	
+
 	@FXML
 	CheckBox solutionPresenceCheckBox;
-	
+
 	@FXML
 	Spinner<Integer> timeSpinner;
-	
+
 	@FXML
 	TextField occultationChoiceField;
-	
+
 	@FXML
 	Spinner<Integer> numberOfLetterPartialReplacement;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
 		trainingRadioButton.setSelected(true);
-		
+
 		trainingRadioButton.setOnAction(ActionEvent -> 
 		{
 			examRadioButton.setSelected(false);
 		});
-		
+
 		examRadioButton.setOnAction(ActionEvent -> 
 		{
 			trainingRadioButton.setSelected(false);
@@ -59,18 +58,18 @@ public class ParameterController implements Initializable{
 			realTimeNumberWordCheckBox.setDisable(true);
 			solutionPresenceCheckBox.setDisable(true);
 		});
-		
+
 		occultationChoiceField.setText("#");
 		SpinnerValueFactory<Integer> valueFactory = //
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, 1);
-		
+				new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, 1);
+
 		timeSpinner.setValueFactory(valueFactory);
-		
+
 		SpinnerValueFactory<Integer> valueFactory2 = //
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 3, 2);
+				new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 3, 2);
 		numberOfLetterPartialReplacement.setValueFactory(valueFactory2);
 		numberOfLetterPartialReplacement.setVisible(false);
-		
+
 		partialReplacementCheckBox.setOnAction(ActionEvent -> 
 		{
 			if (partialReplacementCheckBox.isSelected()) {
@@ -79,10 +78,42 @@ public class ParameterController implements Initializable{
 				numberOfLetterPartialReplacement.setVisible(false);
 			}
 		});
-		
 	}
-	
-	
-	
-	
+
+	public byte getParameters() {
+		byte parameters = 0;
+		int position = 0;
+		if (examRadioButton.isSelected()) {
+			parameters |= (1<<position);
+		}
+		position++;
+		if (partialReplacementCheckBox.isSelected()) {
+			parameters |= (1<<position);
+		}
+		position++;
+		if (numberOfLetterPartialReplacement.getValue() == 3) {
+			parameters |= (1<<position);
+		}
+		position++;
+		if (letterCaseCheckBox.isSelected()) {
+			parameters |= (1<<position);
+		}
+		position++;
+		if (realTimeNumberWordCheckBox.isSelected()) {
+			parameters |= (1<<position);
+		}
+		position++;
+		if (solutionPresenceCheckBox.isSelected()) {
+			parameters |= (1<<position);
+		}
+		return parameters;
+	}
+
+	public byte[] getOccultationCharacter() {
+		return occultationChoiceField.getText().getBytes();
+	}
+
+	public byte[] getTime() {
+		return ByteBuffer.allocate(5).putInt(1).array();
+	}
 }

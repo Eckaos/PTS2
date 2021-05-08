@@ -9,7 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.media.*;
 import javafx.scene.media.MediaPlayer.Status;
@@ -23,11 +23,9 @@ public class ExerciceController implements Initializable{
 	@FXML
 	Button pausePlayButton;
 	@FXML
-	ProgressBar progressBar;
+	Slider progressBar;
 	@FXML
 	Button soundButton;
-	@FXML
-	Button fullscreenButton;
 	
 	
 	@FXML
@@ -64,7 +62,7 @@ public class ExerciceController implements Initializable{
 			}
 		);
 		
-		soundButton.setOnAction(ActionEvent -> 
+		soundButton.setOnMousePressed(ActionEvent -> 
 		{
 			if (testMe.getMediaPlayer().isMute()) {
 				testMe.getMediaPlayer().setMute(false);
