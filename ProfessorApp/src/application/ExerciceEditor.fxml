@@ -6,6 +6,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
@@ -76,6 +77,13 @@
                   <Insets left="80.0" />
                </VBox.margin>
             </MediaView>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" text="Play" />
+                  <Slider />
+                  <Button mnemonicParsing="false" text="Sound" />
+               </children>
+            </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button fx:id="importButton" mnemonicParsing="false" text="Importer">
