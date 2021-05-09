@@ -8,9 +8,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import javafx.util.Duration;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.InvalidationListener;
@@ -80,8 +77,9 @@ public class ExerciceEditorController implements Initializable{
 	
 	@FXML
 	ImageView imageView;
-
-
+	
+	
+	
 	FXMLLoader loader = new FXMLLoader(getClass().getResource("Parameter.fxml"));
 	private byte[] getLenght(String input) {
 		int count = 0;
@@ -90,10 +88,10 @@ public class ExerciceEditorController implements Initializable{
 		}
 		return ByteBuffer.allocate(4).putInt(count).array();
 	}
-
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		
 		importButton.setOnAction(ActionEvent -> 
 		{
 			FileChooser fileChooser = new FileChooser();
@@ -200,18 +198,21 @@ public class ExerciceEditorController implements Initializable{
 		ParameterController test = loader.getController();
 		byte[] textBinary = text.getText().getBytes();
 		byte[] lenghtText = getLenght(text.getText());
+		
 		byte[] instructionBinary = instruction.getText().getBytes();
 		byte[] lenghtInstruction = getLenght(instruction.getText());
+		
 		byte[] helpBinary = help.getText().getBytes();
 		byte[] lenghtHelp = getLenght(help.getText());
 
 		byte parameters = 0;
 		byte[] occultationChar;
 		byte[] exerciceTime;
+		
 		parameters = test.getParameters();
 		byte[] imageFile = null;
 		int imageLenght = 0;
-		if ("mp4".equals(getExtensionByStringHandling(file.getName()))) {
+		if ("mp4".equals(getExtensionByStringHandling(file.getName()).get())) {
 			parameters |= (1<<6);
 		}else {
 			if (image != null) {
@@ -241,9 +242,7 @@ public class ExerciceEditorController implements Initializable{
 		fos.write(exerciceTime);
 
 		if (file != null) {
-			//bytesRead contient max 4096 c'est un probleme
 			FileInputStream fileInputStream1 = new FileInputStream(file);
-			//byte[] media = new byte[4*1024];
 			int bytesRead = 0;
 			byte[] mediaFile = fileInputStream1.readAllBytes();
 			bytesRead = mediaFile.length;

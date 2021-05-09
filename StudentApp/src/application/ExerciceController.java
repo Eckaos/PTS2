@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import javafx.beans.InvalidationListener;
@@ -58,6 +60,8 @@ public class ExerciceController implements Initializable{
 	@FXML
 	ImageView imageView;
 
+	String encryptedText;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -67,6 +71,9 @@ public class ExerciceController implements Initializable{
 				FileChooser fileChooser = new FileChooser();
 				File file = fileChooser.showOpenDialog(importButton.getScene().getWindow());
 				parseExercise(file);
+				wordsText = textString.split(" ");
+				encryptedText = encryptText();
+				textToFind.setText(encryptedText);
 				File mediaSelected;
 				if (mediaType) {
 					mediaSelected = new File("C:/Users/NathanPollart/git/PTS2/StudentApp/temp.mp4");
@@ -157,17 +164,32 @@ public class ExerciceController implements Initializable{
 	}
 
 	private void verify(String text) {
-		// TODO faire l'algorithme de découverte de mot
+		//TODO faire la verif pour le parametre 
+		String string = "";
+		for (int i = 0; i < wordsText.length; i++) {
+			if (wordsText[i].equals(text)) {
+				wordsTextEncrypted[i] = wordsText[i];
+			}
+			string += wordsTextEncrypted[i] +" ";
+		}
+		if (textString.equals(typedText.getText())) {
+			typedText.setText(textString);
+			string = textString;
+		}
+		textToFind.setText(string);
+		typedText.setText("");
 	}
-
+	String textString;
+	String[] wordsText;
+	
+	char occultationChar;
 	boolean mediaType =true;;
 	public void parseExercise(File file) throws IOException {
 		int nbBytesToRead;
-		String textString;
 		String helpString;
 		String instructionString;
+		String occultation;
 		byte[] parameter;
-		String occultationChar;
 		int time;
 		
 		FileInputStream fin = new FileInputStream(file);
@@ -182,7 +204,9 @@ public class ExerciceController implements Initializable{
 		instructionString = convertByteToString(fin.readNBytes(nbBytesToRead));
 		
 		parameter = fin.readNBytes(1);
-		occultationChar = convertByteToString(fin.readNBytes(1));
+		occultation = convertByteToString(fin.readNBytes(1));
+		occultationChar = occultation.charAt(0);
+		
 		time = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
 		
 		FileOutputStream fos = null;
@@ -195,15 +219,16 @@ public class ExerciceController implements Initializable{
 			fos = new FileOutputStream("C:/Users/NathanPollart/git/PTS2/StudentApp/temp.mp3");
 			fos2 = new FileOutputStream("C:/Users/NathanPollart/git/PTS2/StudentApp/temp.png");
 		}
-		
 		int bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
 		fos.write(fin.readNBytes(bytesRead));
-		bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
-		fos2.write(fin.readNBytes(bytesRead));
+		
+		if (getBit(parameter[0], 6) == 0) {
+			bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
+			fos2.write(fin.readNBytes(bytesRead));
+		}
 		fos.close();
 		fin.close();
-		
-		textToFind.setText(textString);
+	
 		instructionText.setText(instructionString);
 		
 	}
@@ -218,6 +243,23 @@ public class ExerciceController implements Initializable{
 			buildString += (char) readNBytes[i];
 		}
 		return buildString;
+	}
+	
+	String[] wordsTextEncrypted;
+	private String encryptText() {
+		char[] test = textString.toCharArray();
+		String string = "";
+		for (int i = 0; i < test.length; i++) {
+			if (test[i] != ' ' && test[i] != '\'') {
+				string += occultationChar;
+			}else if(test[i] == ' '){
+				string += ' ';
+			}else if (test[i] == '\'') {
+				string += '\'';
+			}
+		}
+		wordsTextEncrypted = string.split(" ");
+		return string;
 	}
 
 }
