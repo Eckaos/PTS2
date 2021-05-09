@@ -47,16 +47,24 @@ public class ParameterController implements Initializable{
 
 		trainingRadioButton.setOnAction(ActionEvent -> 
 		{
+			trainingRadioButton.setSelected(true);
 			examRadioButton.setSelected(false);
+			partialReplacementCheckBox.setDisable(false);
+			letterCaseCheckBox.setDisable(false);
+			realTimeNumberWordCheckBox.setDisable(false);
+			solutionPresenceCheckBox.setDisable(false);
+			numberOfLetterPartialReplacement.setDisable(false);
 		});
 
 		examRadioButton.setOnAction(ActionEvent -> 
 		{
+			examRadioButton.setSelected(true);
 			trainingRadioButton.setSelected(false);
 			partialReplacementCheckBox.setDisable(true);
 			letterCaseCheckBox.setDisable(true);
 			realTimeNumberWordCheckBox.setDisable(true);
 			solutionPresenceCheckBox.setDisable(true);
+			numberOfLetterPartialReplacement.setDisable(true);
 		});
 
 		occultationChoiceField.setText("#");
