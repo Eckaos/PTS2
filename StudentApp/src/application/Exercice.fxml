@@ -7,9 +7,11 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Text?>
@@ -18,6 +20,7 @@
    <left>
       <VBox prefHeight="695.0" prefWidth="934.0" BorderPane.alignment="CENTER">
          <children>
+            <Button fx:id="importButton" mnemonicParsing="false" text="import" />
             <Region prefHeight="44.0" prefWidth="934.0" />
             <Text fx:id="instructionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="934.13671875">
                <VBox.margin>
@@ -25,10 +28,12 @@
                </VBox.margin>
             </Text>
             <Region prefHeight="46.0" prefWidth="934.0" />
-            <MediaView fx:id="testMe" fitHeight="480.0" fitWidth="720.0">
-               <VBox.margin>
-                  <Insets left="50.0" />
-               </VBox.margin></MediaView>
+            <StackPane prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <MediaView fx:id="testMe" fitHeight="480.0" fitWidth="720.0" />
+                  <ImageView fx:id="imageView" fitHeight="480.0" fitWidth="720.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </StackPane>
             <HBox prefHeight="100.0" prefWidth="740.0">
                <children>
                   <Button fx:id="pausePlayButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="40.0" />
@@ -37,6 +42,7 @@
                   <Region prefHeight="100.0" prefWidth="37.0" />
                   <Button fx:id="soundButton" mnemonicParsing="false" text="Button" />
                   <Region prefHeight="100.0" prefWidth="26.0" />
+                  <Slider fx:id="soundSlider" />
                </children>
                <VBox.margin>
                   <Insets left="50.0" />

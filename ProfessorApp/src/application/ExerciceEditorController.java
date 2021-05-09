@@ -8,6 +8,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import javafx.util.Duration;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -19,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -67,8 +72,16 @@ public class ExerciceEditorController implements Initializable{
 	Button save;
 
 	File file;
+
+	File image;
+
+	@FXML
+	Button importImageButton;
 	
-	
+	@FXML
+	ImageView imageView;
+
+
 	FXMLLoader loader = new FXMLLoader(getClass().getResource("Parameter.fxml"));
 	private byte[] getLenght(String input) {
 		int count = 0;
@@ -80,7 +93,7 @@ public class ExerciceEditorController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
 		importButton.setOnAction(ActionEvent -> 
 		{
 			FileChooser fileChooser = new FileChooser();
@@ -91,35 +104,41 @@ public class ExerciceEditorController implements Initializable{
 				importMediaView.setMediaPlayer(new MediaPlayer(new Media(file.toURI().toURL().toExternalForm())));
 				soundSlider.setValue(importMediaView.getMediaPlayer().getVolume() * 100);
 				InvalidationListener sliderChangeListener = o-> {
-				    Duration seekTo = Duration.seconds(progressBar.getValue());
-				    importMediaView.getMediaPlayer().seek(seekTo);
+					Duration seekTo = Duration.seconds(progressBar.getValue());
+					importMediaView.getMediaPlayer().seek(seekTo);
 				};
 				progressBar.valueProperty().addListener(sliderChangeListener);
 				importMediaView.getMediaPlayer().currentTimeProperty().addListener(l-> {
-				    progressBar.valueProperty().removeListener(sliderChangeListener);
-				    Duration currentTime = importMediaView.getMediaPlayer().getCurrentTime();
-				    progressBar.setValue(currentTime.toSeconds());
-				    progressBar.valueProperty().addListener(sliderChangeListener);
+					progressBar.valueProperty().removeListener(sliderChangeListener);
+					Duration currentTime = importMediaView.getMediaPlayer().getCurrentTime();
+					progressBar.setValue(currentTime.toSeconds());
+					progressBar.valueProperty().addListener(sliderChangeListener);
 				});
-				
+
 				importMediaView.getMediaPlayer().setOnReady(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						progressBar.setMax(importMediaView.getMediaPlayer().getTotalDuration().toSeconds());
-						
+
 					}
 				});
-				
+
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			}
 		});
-		
+
+		importImageButton.setOnAction(ActionEvent -> 
+		{
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Open Resource File");
+			image = fileChooser.showOpenDialog(importButton.getScene().getWindow());
+		});
 
 		Stage stage = new Stage();
 		BorderPane root = new BorderPane();
-		
+
 		try {
 			root = loader.load();
 		} catch (IOException e) {
@@ -177,7 +196,7 @@ public class ExerciceEditorController implements Initializable{
 		});
 	}
 
-	public void save() throws IOException {
+	public void save() throws IOException{
 		ParameterController test = loader.getController();
 		byte[] textBinary = text.getText().getBytes();
 		byte[] lenghtText = getLenght(text.getText());
@@ -190,10 +209,23 @@ public class ExerciceEditorController implements Initializable{
 		byte[] occultationChar;
 		byte[] exerciceTime;
 		parameters = test.getParameters();
+		byte[] imageFile = null;
+		int imageLenght = 0;
+		if ("mp4".equals(getExtensionByStringHandling(file.getName()))) {
+			parameters |= (1<<6);
+		}else {
+			if (image != null) {
+				FileInputStream imageInputStream = new FileInputStream(image);
+				imageFile = imageInputStream.readAllBytes();
+				imageLenght = imageFile.length;
+				imageInputStream.close();
+			}
+			
+		}
 		occultationChar = test.getOccultationCharacter();
 		exerciceTime = test.getTime();
-		
-		
+
+
 		FileOutputStream fos = new FileOutputStream(title.getText()+".bin");
 
 		fos.write(lenghtText);
@@ -209,15 +241,26 @@ public class ExerciceEditorController implements Initializable{
 		fos.write(exerciceTime);
 
 		if (file != null) {
-			FileInputStream fileInputStream = new FileInputStream(file);
-			byte[] media = new byte[4*1024];
-			int bytesRead;
-			while (fileInputStream.available() != 0) {
-				bytesRead = fileInputStream.read(media);
-				fos.write(media, 0, bytesRead);
-			}
-			fileInputStream.close();
+			//bytesRead contient max 4096 c'est un probleme
+			FileInputStream fileInputStream1 = new FileInputStream(file);
+			//byte[] media = new byte[4*1024];
+			int bytesRead = 0;
+			byte[] mediaFile = fileInputStream1.readAllBytes();
+			bytesRead = mediaFile.length;
+			fos.write(ByteBuffer.allocate(8).putInt(bytesRead).array());
+			fos.write(mediaFile);
+			fileInputStream1.close();
+		}
+		if (image != null) {
+			fos.write(ByteBuffer.allocate(8).putInt(imageLenght).array());
+			fos.write(imageFile);
 		}
 		fos.close();
+	}
+	
+	public Optional<String> getExtensionByStringHandling(String filename) {
+		return Optional.ofNullable(filename)
+				.filter(f -> f.contains("."))
+				.map(f -> f.substring(filename.lastIndexOf(".") + 1));
 	}
 }
