@@ -5,8 +5,12 @@ import java.util.List;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
 
 
@@ -19,9 +23,10 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("Accueil.fxml")));
-			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("ExerciceEditor.fxml")));
-			scene = new Scene(screens.get(0),400,400);
+			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("Accueil.fxml"))); //index 0
+			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("ModifyExercise.fxml"))); //index 1
+			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("ExerciceEditor.fxml"))); //index 2
+			scene = new Scene(screens.get(0),1280,720);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setMaximized(true);
 			primaryStage.setScene(scene);

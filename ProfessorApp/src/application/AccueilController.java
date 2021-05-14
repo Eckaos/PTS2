@@ -19,7 +19,7 @@ public class AccueilController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		createModifyButton.setOnAction(ActionEvent -> Main.setScreen(1));
-		result.setOnAction(ActionEvent -> Main.setScreen(2));
+		result.setOnAction(ActionEvent -> Main.setScreen(1));
 	}
 	
 }
