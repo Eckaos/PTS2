@@ -76,7 +76,7 @@
             </TextField>
             <StackPane prefHeight="150.0" prefWidth="200.0">
                <children>
-                  <MediaView fx:id="importMediaView" fitHeight="360.0" fitWidth="480.0" />
+                  <MediaView fx:id="mediaView" fitHeight="360.0" fitWidth="480.0" />
                   <ImageView fx:id="imageView" fitHeight="360.0" fitWidth="480.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </StackPane>
@@ -90,7 +90,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="importButton" mnemonicParsing="false" onAction="#OpenFileMethod" text="Importer">
+                  <Button fx:id="importMediaButton" mnemonicParsing="false" onAction="#OpenFileMethod" text="Importer">
                      <HBox.margin>
                         <Insets left="50.0" right="30.0" />
                      </HBox.margin>

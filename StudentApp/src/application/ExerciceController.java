@@ -187,7 +187,8 @@ public class ExerciceController implements Initializable{
 		String instructionString;
 		String occultation;
 		byte[] parameter;
-		int time;
+		int minutes;
+		int seconds;
 		
 		FileInputStream fin = new FileInputStream(file);
 
@@ -204,7 +205,8 @@ public class ExerciceController implements Initializable{
 		occultation = convertByteToString(fin.readNBytes(1));
 		occultationChar = occultation.charAt(0);
 		
-		time = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
+		minutes = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
+		seconds = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
 		
 		FileOutputStream fos = null;
 		FileOutputStream fos2 = null;

@@ -24,6 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -38,9 +39,9 @@ import javafx.stage.Stage;
 public class ExerciceEditorController implements Initializable{
 
 	@FXML
-	MediaView importMediaView;
+	MediaView mediaView;
 	@FXML
-	Button importButton;
+	Button importMediaButton;
 	@FXML
 	TextArea instruction;
 	@FXML
@@ -68,12 +69,13 @@ public class ExerciceEditorController implements Initializable{
 	@FXML
 	ImageView imageView;
 
-	File file;
+	File mediaFile;
 	File image;
 	FXMLLoader loader = new FXMLLoader(getClass().getResource("Parameter.fxml"));
 	Stage parameterStage = new Stage();
 	BorderPane parameterRoot;
 	
+	private File fileToModify;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
@@ -98,15 +100,14 @@ public class ExerciceEditorController implements Initializable{
 		byte[] helpBinary = help.getText().getBytes();
 		byte[] lenghtHelp = getLenght(help.getText());
 
-		byte parameters = 0;
-		byte[] occultationChar;
-		byte[] exerciceMinute;
-		byte[] exerciceSeconds;
-
-		parameters = test.getParameters();
+		byte parameters = test.getParameters();
+		byte[] occultationChar = test.getOccultationCharacter();
+		byte[] exerciceMinute = test.getMinute();
+		byte[] exerciceSeconds = test.getSecond();
 		byte[] imageFile = null;
 		int imageLenght = 0;
-		if ("mp4".equals(getExtensionByStringHandling(file.getName()).get())) {
+		
+		if ("mp4".equals(getExtensionByStringHandling(mediaFile.getName()).get())) {
 			parameters |= (1<<6);
 		}else {
 			if (image != null) {
@@ -117,12 +118,15 @@ public class ExerciceEditorController implements Initializable{
 			}
 
 		}
-		occultationChar = test.getOccultationCharacter();
-		exerciceMinute = test.getMinute();
-		exerciceSeconds = test.getSecond(); //TODO attention au parser pour le temps
-
-		FileOutputStream fos = new FileOutputStream(title.getText()+".bin");
-
+		FileOutputStream fos;
+		if (fileToModify != null) {
+			fos = new FileOutputStream(fileToModify);
+		}else if(getBit(parameters, 0) == 0){
+			fos = new FileOutputStream("C:\\Users\\NathanPollart\\git\\PTS2\\ProfessorApp\\exercise\\training\\"+title.getText()+".bin");
+		}else {
+			fos = new FileOutputStream("C:\\Users\\NathanPollart\\git\\PTS2\\ProfessorApp\\exercise\\exam\\"+title.getText()+".bin");
+		}
+		
 		fos.write(lenghtText);
 		fos.write(textBinary);
 
@@ -131,12 +135,14 @@ public class ExerciceEditorController implements Initializable{
 
 		fos.write(lenghtInstruction);
 		fos.write(instructionBinary);
+		
 		fos.write(parameters);
 		fos.write(occultationChar);
-		//fos.write(exerciceTime);
-
-		if (file != null) {
-			FileInputStream fileInputStream1 = new FileInputStream(file);
+		fos.write(exerciceMinute);
+		fos.write(exerciceSeconds);
+		
+		if (mediaFile != null) {
+			FileInputStream fileInputStream1 = new FileInputStream(mediaFile);
 			int bytesRead = 0;
 			byte[] mediaFile = fileInputStream1.readAllBytes();
 			bytesRead = mediaFile.length;
@@ -159,10 +165,11 @@ public class ExerciceEditorController implements Initializable{
 
 	private boolean mediaType;
 	public void parseExercise(File file) throws IOException {
-		ParameterController test = loader.getController();
+		ParameterController parameterController = loader.getController();
 		int nbBytesToRead;
 		byte[] parameter;
-		int time;
+		int minutes;
+		int seconds;
 		
 		title.setText(FileUtil.stripExtension(file));
 		FileInputStream fin = new FileInputStream(file);
@@ -177,13 +184,16 @@ public class ExerciceEditorController implements Initializable{
 		instruction.setText(convertByteToString(fin.readNBytes(nbBytesToRead)));
 
 		parameter = fin.readNBytes(1);
+		parameterController.setParameters(parameter);
 
-		test.setParameters(parameter);
 
+		parameterController.setOccultationChoiceField(convertByteToString(fin.readNBytes(1)));
 
-		test.setOccultationChoiceField(convertByteToString(fin.readNBytes(1)));
-
-		time = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
+		minutes = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
+		seconds = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
+		
+		parameterController.setMinute(minutes);
+		parameterController.setSecond(seconds);
 
 		FileOutputStream fos = null;
 		FileOutputStream fos2 = null;
@@ -197,11 +207,27 @@ public class ExerciceEditorController implements Initializable{
 		}
 		int bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
 		fos.write(fin.readNBytes(bytesRead));
-
+		
+		File mediaFile;
+		Media media;
 		if (getBit(parameter[0], 6) == 0) {
 			bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
 			fos2.write(fin.readNBytes(bytesRead));
+			mediaFile = new File("temp.png");
+			imageView.setImage(new Image(mediaFile.toURI().toString()));
+			mediaFile = new File("temp.mp3");
+			media = new Media(mediaFile.toURI().toString());
+			mediaPlayer = new MediaPlayer(media);
+			mediaView.setMediaPlayer(mediaPlayer);
+			setMediaListener(media);
+		}else {
+			mediaFile = new File("temp.mp4");
+			media = new Media(mediaFile.toURI().toString());
+			mediaPlayer = new MediaPlayer(media);
+			mediaView.setMediaPlayer(mediaPlayer);
+			setMediaListener(media);
 		}
+		
 		fos.close();
 		fin.close();
 	}
@@ -226,14 +252,12 @@ public class ExerciceEditorController implements Initializable{
 		return (b >> pos) & 1;
 	}
 
-	public void setFile(File file) throws MalformedURLException {
-		this.file = file;
-		importMediaView.setMediaPlayer(new MediaPlayer(new Media(file.toURI().toURL().toExternalForm())));
-		importMediaView.getMediaPlayer().setAutoPlay(true);
-	}
-
 	public void setImage(File image) {
 		this.image = image;
+	}
+	
+	public void setFileToModify(File fileToModify) {
+		this.fileToModify = fileToModify;
 	}
 
 	private String path;
@@ -241,50 +265,15 @@ public class ExerciceEditorController implements Initializable{
 	@FXML
 	private void OpenFileMethod(ActionEvent event) throws MalformedURLException {
 		FileChooser fileChooser = new FileChooser();
-		file = fileChooser.showOpenDialog(importButton.getScene().getWindow());
-		if(file != null){
-			path = file.toURI().toString();
-			filePath.setText(file.toURI().toURL().getPath());
+		mediaFile = fileChooser.showOpenDialog(importMediaButton.getScene().getWindow());
+		if(mediaFile != null){
+			path = mediaFile.toURI().toString();
+			filePath.setText(mediaFile.toString());
 			Media media = new Media(path);
 			mediaPlayer = new MediaPlayer(media);
-			importMediaView.setMediaPlayer(mediaPlayer);
+			mediaView.setMediaPlayer(mediaPlayer);
 
-			soundSlider.setValue(mediaPlayer.getVolume()*100);
-			soundSlider.valueProperty().addListener(new InvalidationListener() {
-				@Override
-				public void invalidated(Observable observable) {
-					mediaPlayer.setVolume(soundSlider.getValue()/100);
-				}
-			});
-
-			mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
-				@Override
-				public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
-					progressBar.setValue(newValue.toSeconds());
-				}
-			});
-
-			progressBar.setOnMousePressed(new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(MouseEvent event) {
-					mediaPlayer.seek(Duration.seconds(progressBar.getValue()));
-				}
-			});
-
-			progressBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(MouseEvent event) {
-					mediaPlayer.seek(Duration.seconds(progressBar.getValue()));
-				}
-			});
-
-			mediaPlayer.setOnReady(new Runnable() {
-				@Override
-				public void run() {
-					Duration total = media.getDuration();
-					progressBar.setMax(total.toSeconds());
-				}
-			});
+			setMediaListener(media);
 
 			mediaPlayer.play();
 		}
@@ -294,7 +283,8 @@ public class ExerciceEditorController implements Initializable{
 	public void importImage() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Resource File");
-		image = fileChooser.showOpenDialog(importButton.getScene().getWindow());
+		image = fileChooser.showOpenDialog(importMediaButton.getScene().getWindow());
+		imageView.setImage(new Image(image.toURI().toString()));
 	}
 	
 	@FXML
@@ -304,30 +294,69 @@ public class ExerciceEditorController implements Initializable{
 	
 	@FXML
 	public void playPauseHandle() {
-		if (importMediaView.getMediaPlayer()== null) {
+		if (mediaView.getMediaPlayer()== null) {
 			return;
 		}
-		if (importMediaView.getMediaPlayer().getStatus().equals(Status.PAUSED) || importMediaView.getMediaPlayer().getStatus().equals(Status.READY)) {
-			importMediaView.getMediaPlayer().play();
+		if (mediaView.getMediaPlayer().getStatus().equals(Status.PAUSED) || mediaView.getMediaPlayer().getStatus().equals(Status.READY)) {
+			mediaView.getMediaPlayer().play();
 		}else {
-			importMediaView.getMediaPlayer().pause();
+			mediaView.getMediaPlayer().pause();
 		}
 	}
 	
 	@FXML
 	public void muteHandle() {
-		if (importMediaView.getMediaPlayer()== null) {
+		if (mediaView.getMediaPlayer()== null) {
 			return;
 		}
-		if(importMediaView.getMediaPlayer().isMute()) {
-			importMediaView.getMediaPlayer().setMute(false);
+		if(mediaView.getMediaPlayer().isMute()) {
+			mediaView.getMediaPlayer().setMute(false);
 		}else {
-			importMediaView.getMediaPlayer().setMute(true);
+			mediaView.getMediaPlayer().setMute(true);
 		}
 	}
 	
 	@FXML
 	public void saveHandle() throws IOException {
 		save();
+	}
+	
+	private void setMediaListener(Media media) {
+		soundSlider.setValue(mediaPlayer.getVolume()*100);
+		soundSlider.valueProperty().addListener(new InvalidationListener() {
+			@Override
+			public void invalidated(Observable observable) {
+				mediaPlayer.setVolume(soundSlider.getValue()/100);
+			}
+		});
+
+		mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+			@Override
+			public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+				progressBar.setValue(newValue.toSeconds());
+			}
+		});
+
+		progressBar.setOnMousePressed(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				mediaPlayer.seek(Duration.seconds(progressBar.getValue()));
+			}
+		});
+
+		progressBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				mediaPlayer.seek(Duration.seconds(progressBar.getValue()));
+			}
+		});
+
+		mediaPlayer.setOnReady(new Runnable() {
+			@Override
+			public void run() {
+				Duration total = media.getDuration();
+				progressBar.setMax(total.toSeconds());
+			}
+		});
 	}
 }

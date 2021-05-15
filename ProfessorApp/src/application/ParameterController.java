@@ -13,6 +13,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
 public class ParameterController implements Initializable{
 
@@ -33,13 +34,17 @@ public class ParameterController implements Initializable{
 
 	@FXML
 	CheckBox solutionPresenceCheckBox;
-	
+
 	@FXML
 	TextField minuteField;
+	@FXML
+	Text minute;
 	
 	@FXML
 	TextField secondField;
-
+	@FXML
+	Text second;
+	
 	@FXML
 	TextField occultationChoiceField;
 
@@ -48,36 +53,47 @@ public class ParameterController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		minuteField.setDisable(true);
+		secondField.setDisable(true);
 		minuteField.textProperty().addListener(new ChangeListener<String>() {
-		    public void changed(ObservableValue<? extends String> observable, String oldValue, 
-		        String newValue) {
-		        if (!newValue.matches("\\d*")) {
-		        	minuteField.setText(newValue.replaceAll("[^\\d]", ""));
-		        }
-		    }
+			public void changed(ObservableValue<? extends String> observable, String oldValue, 
+					String newValue) {
+				if (!newValue.matches("\\d*")) {
+					minuteField.setText(newValue.replaceAll("[^\\d]", ""));
+				}
+				if (!newValue.matches("[0-9]{0,3}")) {
+					newValue = newValue.replaceFirst("[0-9]{0,3}", "999");
+					newValue = newValue.replaceAll(".$", "");
+					minuteField.setText(newValue);
+				}
+			}
 		});
-		
+
 		secondField.textProperty().addListener(new ChangeListener<String>() {
-		    public void changed(ObservableValue<? extends String> observable, String oldValue, 
-		        String newValue) {
-		        if (!newValue.matches("\\d*")) {
-		        	if () {
-		        		
-					}else {
-						
-					}
-		        	
-		        }
-		    }
+			public void changed(ObservableValue<? extends String> observable, String oldValue, 
+					String newValue) {
+				if (!newValue.matches("\\d*")) {
+					secondField.setText(newValue.replaceAll("[^\\d]", ""));
+				}
+				int testMax = 0;
+				if (!newValue.equals("")) {
+					testMax = Integer.parseInt(secondField.getText());
+				}
+				if (testMax>=60) {
+					secondField.setText("59");
+					minuteField.setText(String.valueOf(Integer.parseInt(minuteField.getText())+1));
+				}
+			}
 		});
-		
+
 		trainingRadioButton.setSelected(true);
 
 		trainingRadioButton.setOnAction(ActionEvent -> 
 		{
 			trainingRadioButton.setSelected(true);
 			examRadioButton.setSelected(false);
+			minuteField.setDisable(true);
+			secondField.setDisable(true);
 			partialReplacementCheckBox.setDisable(false);
 			letterCaseCheckBox.setDisable(false);
 			realTimeNumberWordCheckBox.setDisable(false);
@@ -89,6 +105,8 @@ public class ParameterController implements Initializable{
 		{
 			examRadioButton.setSelected(true);
 			trainingRadioButton.setSelected(false);
+			minuteField.setDisable(false);
+			secondField.setDisable(false);
 			partialReplacementCheckBox.setDisable(true);
 			letterCaseCheckBox.setDisable(true);
 			realTimeNumberWordCheckBox.setDisable(true);
@@ -99,7 +117,7 @@ public class ParameterController implements Initializable{
 		occultationChoiceField.setText("#");
 		minuteField.setText("1");
 		secondField.setText("30");
-		
+
 		SpinnerValueFactory<Integer> valueFactory2 = //
 				new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 3, 2);
 		numberOfLetterPartialReplacement.setValueFactory(valueFactory2);
@@ -149,27 +167,34 @@ public class ParameterController implements Initializable{
 	}
 
 	public byte[] getMinute() {
-		int minute = Integer.getInteger(minuteField.getText());
-		return ByteBuffer.allocate(4).putInt(1).array();
+		int minute = 0;
+		if (minuteField.getText() != "" || minuteField.getText() != null) {
+			minute = Integer.parseInt(minuteField.getText());
+		}
+		return ByteBuffer.allocate(4).putInt(minute).array();
 	}
-	
+
 	public byte[] getSecond() {
-		return ByteBuffer.allocate(4).putInt(1).array();
+		int seconds = 0;
+		if (minuteField.getText() != "" || minuteField.getText() != null) {
+			seconds = Integer.parseInt(minuteField.getText());
+		}
+		return ByteBuffer.allocate(4).putInt(seconds).array();
 	}
-	
+
 	public void setModeRadioButton(boolean option) {
 		if (option) {
 			examRadioButton.setSelected(true);
 		} else {
 			trainingRadioButton.setSelected(true);
 		}
-		
+
 	}
-	
+
 	public void setOccultationChoiceField(String occultationChar) {
 		occultationChoiceField.setText(occultationChar);
 	}
-	
+
 	public void setParameters(byte[] parameters) {
 		int position = 0;
 		if (getBit(parameters[0], position) == 1) {
@@ -204,6 +229,14 @@ public class ParameterController implements Initializable{
 		if (getBit(parameters[0], position) == 1) {
 			solutionPresenceCheckBox.setSelected(true);
 		}
+	}
+
+	public void setMinute(int minute) {
+		minuteField.setText(String.valueOf(minute));
+	}
+	
+	public void setSecond(int second) {
+		secondField.setText(String.valueOf(second));
 	}
 	
 	private int getBit(byte b, int pos) {
