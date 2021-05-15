@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane prefHeight="535.0" prefWidth="890.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ParameterController">
    <center>
@@ -18,18 +19,28 @@
             <RadioButton fx:id="examRadioButton" mnemonicParsing="false" text="Examen" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <VBox prefHeight="100.0" prefWidth="280.0">
+                  <VBox prefHeight="100.0" prefWidth="460.0">
                      <children>
-                        <Spinner fx:id="timeSpinner" />
-                        <TextField fx:id="occultationChoiceField" />
-                        <CheckBox fx:id="partialReplacementCheckBox" mnemonicParsing="false" text="Autoriser le remplacement partiel d'un mot" />
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="100.0" prefWidth="176.0">
-                     <children>
-                        <Label text="Temps de l'exercice" />
-                        <Label text="caractere d'occultation" />
-                        <Spinner fx:id="numberOfLetterPartialReplacement" />
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <TextField fx:id="minuteField" prefHeight="25.0" prefWidth="43.0" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="minutes" />
+                              <TextField fx:id="secondField" prefHeight="25.0" prefWidth="45.0" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="seconds" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <TextField fx:id="occultationChoiceField" />
+                              <Label text="caractere d'occultation" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <CheckBox fx:id="partialReplacementCheckBox" mnemonicParsing="false" text="Autoriser le remplacement partiel d'un mot" />
+                              <Spinner fx:id="numberOfLetterPartialReplacement" />
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                </children>

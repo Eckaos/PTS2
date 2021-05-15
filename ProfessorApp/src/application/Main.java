@@ -5,12 +5,8 @@ import java.util.List;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
 
 
@@ -20,12 +16,16 @@ public class Main extends Application {
 	static int currentIndex = 0;
 	static Scene scene;
 	
+	static FXMLLoader modifyLoader;
+	static FXMLLoader exerciseEditorLoader;
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			modifyLoader = new FXMLLoader(getClass().getResource("ModifyExercise.fxml"));
+			exerciseEditorLoader = new FXMLLoader(getClass().getResource("ExerciceEditor.fxml"));
 			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("Accueil.fxml"))); //index 0
-			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("ModifyExercise.fxml"))); //index 1
-			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("ExerciceEditor.fxml"))); //index 2
+			screens.add((BorderPane)modifyLoader.load()); //index 1
+			screens.add((BorderPane)exerciseEditorLoader.load()); //index 2
 			scene = new Scene(screens.get(0),1280,720);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setMaximized(true);
@@ -47,5 +47,17 @@ public class Main extends Application {
 	public static void setScreen(int index) {
 		scene.setRoot(screens.get(index));
 		currentIndex = index;
+	}
+	
+	public static BorderPane getCurrentScreen() {
+		return screens.get(currentIndex);
+	}
+	
+	public static FXMLLoader getModifyLoader() {
+		return modifyLoader;
+	}
+	
+	public static FXMLLoader getExerciseEditorLoader() {
+		return exerciseEditorLoader;
 	}
 }
