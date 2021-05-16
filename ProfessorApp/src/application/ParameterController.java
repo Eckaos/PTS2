@@ -37,12 +37,13 @@ public class ParameterController implements Initializable{
 
 	@FXML
 	TextField minuteField;
-	@FXML
+
 	Text minute;
 	
 	@FXML
 	TextField secondField;
-	@FXML
+
+	
 	Text second;
 	
 	@FXML

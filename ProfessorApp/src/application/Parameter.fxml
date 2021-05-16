@@ -1,54 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane prefHeight="535.0" prefWidth="890.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ParameterController">
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="635.0" minWidth="10.0" prefWidth="625.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="440.0" minWidth="10.0" prefWidth="265.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <Label text="Mode" />
-            <RadioButton fx:id="trainingRadioButton" mnemonicParsing="false" text="Entraînement" />
-            <RadioButton fx:id="examRadioButton" mnemonicParsing="false" text="Examen" />
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <VBox prefHeight="100.0" prefWidth="460.0">
-                     <children>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <TextField fx:id="minuteField" prefHeight="25.0" prefWidth="43.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="minutes" />
-                              <TextField fx:id="secondField" prefHeight="25.0" prefWidth="45.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="seconds" />
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <TextField fx:id="occultationChoiceField" />
-                              <Label text="caractere d'occultation" />
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <CheckBox fx:id="partialReplacementCheckBox" mnemonicParsing="false" text="Autoriser le remplacement partiel d'un mot" />
-                              <Spinner fx:id="numberOfLetterPartialReplacement" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <CheckBox fx:id="letterCaseCheckBox" mnemonicParsing="false" text="Sensibilité à la casse" />
-            <CheckBox fx:id="realTimeNumberWordCheckBox" mnemonicParsing="false" text="Autoriser l’affichage en temps réel du rapport nombre de mots découverts / nombre total de mots" />
-            <CheckBox fx:id="solutionPresenceCheckBox" mnemonicParsing="false" text="Autoriser la présence d’un bouton « Solution »" />
+            <Label text="Mode" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="10.0" top="10.0" />
+               </GridPane.margin>
+            </Label>
+            <RadioButton fx:id="trainingRadioButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="Entraînement" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="20.0" top="30.0" />
+               </GridPane.margin>
+            </RadioButton>
+            <RadioButton fx:id="examRadioButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="Examen" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="20.0" top="50.0" />
+               </GridPane.margin>
+            </RadioButton>
+            <TextField fx:id="minuteField" maxHeight="20.0" maxWidth="50.0" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="20.0" top="90.0" />
+               </GridPane.margin>
+            </TextField>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="minutes" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="75.0" right="5.0" top="92.5" />
+               </GridPane.margin>
+            </Text>
+            <TextField fx:id="secondField" maxHeight="20.0" maxWidth="40.0" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="123.0" top="90.0" />
+               </GridPane.margin>
+            </TextField>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="secondes" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="168.0" top="92.5" />
+               </GridPane.margin>
+            </Text>
+            <TextField fx:id="occultationChoiceField" maxHeight="20.0" maxWidth="25.0" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="20.0" top="130.0" />
+               </GridPane.margin>
+            </TextField>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Caractere d'occultation" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="50.0" top="132.5" />
+               </GridPane.margin>
+            </Text>
+            <CheckBox fx:id="letterCaseCheckBox" mnemonicParsing="false" text="Sensibilité à la casse " GridPane.halignment="LEFT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="20.0" top="165.0" />
+               </GridPane.margin>
+            </CheckBox>
+            <CheckBox fx:id="partialReplacementCheckBox" mnemonicParsing="false" text="Autoriser le remplacement partiel d'un mot" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="20.0" top="225.0" />
+               </GridPane.margin>
+            </CheckBox>
+            <CheckBox fx:id="solutionPresenceCheckBox" mnemonicParsing="false" text="Autoriser la présence d'un bouton &quot;Solution&quot;" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="20.0" top="205.0" />
+               </GridPane.margin>
+            </CheckBox>
+            <CheckBox fx:id="realTimeNumberWordCheckBox" mnemonicParsing="false" text="Autoriser l'affichage en temps réel du rapport nombre de mots découverts / nombre total de mots" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="20.0" top="185.0" />
+               </GridPane.margin>
+            </CheckBox>
+            <Spinner fx:id="numberOfLetterPartialReplacement" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="300.0" top="221.5" />
+               </GridPane.margin>
+            </Spinner>
          </children>
-      </VBox>
+      </GridPane>
    </center>
 </BorderPane>

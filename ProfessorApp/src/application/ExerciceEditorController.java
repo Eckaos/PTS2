@@ -31,6 +31,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.text.Text;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -53,7 +54,7 @@ public class ExerciceEditorController implements Initializable{
 	@FXML
 	Button parameter;
 	@FXML
-	TextField filePath;
+	Text filePath;
 	@FXML
 	Button pausePlayButton;
 	@FXML
