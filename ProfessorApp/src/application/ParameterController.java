@@ -2,14 +2,11 @@ package application;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Scanner;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -35,11 +32,15 @@ public class ParameterController implements Initializable {
 	
 	@FXML private Button saveButton;
 	
+	@FXML private Text problemPath;
+	
 	private File createdExercisePath;
 	private File studentExercsiePath;
 	
 	private boolean darkModeActivated = false;
 	private SpinnerValueFactory<Integer> valueFactory;
+	
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 30, 10);
@@ -50,12 +51,16 @@ public class ParameterController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		if (createdExercisePath == null || studentExercsiePath == null) {
+			problemPath.setVisible(true);
+		}else {
+			problemPath.setVisible(false);
+		}
 		if (darkModeActivated) {
 			setDarkMode();
 		}else {
 			unsetDarkMode();
 		}
-		
 		
 	}
 
@@ -65,6 +70,9 @@ public class ParameterController implements Initializable {
 		directoryChooser.setTitle("Open Resource File");
 		createdExercisePath = directoryChooser.showDialog(createdExerciseButton.getScene().getWindow());
 		createdExercisePathText.setText(createdExercisePath.getAbsolutePath());
+		if (studentExercsiePath != null) {
+			problemPath.setVisible(false);
+		}
 	}
 	
 	@FXML
@@ -73,6 +81,9 @@ public class ParameterController implements Initializable {
 		directoryChooser.setTitle("Open Resource File");
 		studentExercsiePath = directoryChooser.showDialog(studentExerciseButton.getScene().getWindow());
 		studentExercisePathText.setText(studentExercsiePath.getAbsolutePath());
+		if (createdExercisePath != null) {
+			problemPath.setVisible(false);
+		}
 	}
 	
 	@FXML

@@ -73,11 +73,12 @@ public class ExerciceController implements Initializable{
 				textToFind.setText(encryptedText);
 				File mediaSelected;
 				if (mediaType) {
-					mediaSelected = new File("C:/Users/NathanPollart/git/PTS2/StudentApp/temp.mp4");
+					mediaSelected = new File("temp.mp4");
 					imageView.setVisible(false);
 				}else {
-					mediaSelected = new File("C:/Users/NathanPollart/git/PTS2/StudentApp/temp.mp3");
-					Image image = new Image("file:C:/Users/NathanPollart/git/PTS2/StudentApp/temp.png");
+					mediaSelected = new File("temp.mp3");
+					File imageTemp = new File("temp.png");
+					Image image = new Image(imageTemp.toURI().toString());
 					imageView.setImage(image);
 				}
 				
@@ -211,12 +212,12 @@ public class ExerciceController implements Initializable{
 		FileOutputStream fos = null;
 		FileOutputStream fos2 = null;
 		if (getBit(parameter[0], 6) == 1) {
-			fos = new FileOutputStream("C:/Users/NathanPollart/git/PTS2/StudentApp/temp.mp4");
+			fos = new FileOutputStream("temp.mp4");
 			mediaType = true;
 		}else {
 			mediaType =false;
-			fos = new FileOutputStream("C:/Users/NathanPollart/git/PTS2/StudentApp/temp.mp3");
-			fos2 = new FileOutputStream("C:/Users/NathanPollart/git/PTS2/StudentApp/temp.png");
+			fos = new FileOutputStream("temp.mp3");
+			fos2 = new FileOutputStream("temp.png");
 		}
 		int bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
 		fos.write(fin.readNBytes(bytesRead));

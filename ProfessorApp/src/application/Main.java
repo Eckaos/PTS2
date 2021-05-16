@@ -3,6 +3,7 @@ package application;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -17,15 +18,26 @@ public class Main extends Application {
 	
 	private static FXMLLoader modifyLoader;
 	private static FXMLLoader exerciseEditorLoader;
+	
+	
 	private static FXMLLoader parameterLoader;
 	private static ParameterController parameterController;
+	private BorderPane parameterScreen;
+	private static Stage parameterStage;
+	private Scene parameterScene;
 	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			parameterLoader = new FXMLLoader(getClass().getResource("Parameter.fxml"));
-			parameterLoader.load();
+			parameterScreen = (BorderPane) parameterLoader.load();
 			parameterController = parameterLoader.getController();
+			parameterStage = new Stage();
+			parameterScene = new Scene(parameterScreen);
+			parameterStage.setResizable(false);
+			parameterStage.setScene(parameterScene);
+			parameterStage.initModality(Modality.APPLICATION_MODAL);
+			
 			modifyLoader = new FXMLLoader(getClass().getResource("ModifyExercise.fxml"));
 			exerciseEditorLoader = new FXMLLoader(getClass().getResource("ExerciceEditor.fxml"));
 			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("Accueil.fxml"))); //index 0
@@ -68,5 +80,13 @@ public class Main extends Application {
 	
 	public static ParameterController getParameterController() {
 		return parameterController;
+	}
+
+	public static FXMLLoader getParameterLoader() {
+		return parameterLoader;
+	}
+	
+	public static Stage getParameterStage() {
+		return parameterStage;
 	}
 }

@@ -11,7 +11,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public class ModifyExerciseController implements Initializable{
 
@@ -29,9 +31,30 @@ public class ModifyExerciseController implements Initializable{
 	
 	private File currentFile;
 	
+	@FXML
+	MenuItem newExercise;
+	
+	@FXML
+	MenuItem seeResults;
+	
+	@FXML
+	MenuItem close;
+	
+	@FXML
+	MenuItem parameter;
+	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		close.setOnAction(ActionEvent -> 
+		{
+			Stage stage = (Stage) Addbutton.getScene().getWindow();
+			stage.close();
+		});
+		
+		newExercise.setOnAction(ActionEvent -> Main.setScreen(2));
+		parameter.setOnAction(ActionEvent -> Main.getParameterStage().show());
+		
 		File exerciseDirectory;
 		if (Main.getParameterController().getCreatedExercisePath() != null) {
 			exerciseDirectory = Main.getParameterController().getCreatedExercisePath();

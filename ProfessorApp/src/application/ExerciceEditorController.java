@@ -20,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -53,7 +54,10 @@ public class ExerciceEditorController implements Initializable{
 	@FXML
 	Button parameter;
 	@FXML
-	Text filePath;
+	Text mediaPath;
+	@FXML
+	Text imagePath;
+
 	@FXML
 	Button pausePlayButton;
 	@FXML
@@ -69,23 +73,57 @@ public class ExerciceEditorController implements Initializable{
 	@FXML
 	ImageView imageView;
 
+	@FXML
+	MenuItem newExercise;
+
+	@FXML
+	MenuItem modifExercise;
+
+	@FXML
+	MenuItem seeResults;
+
+	@FXML
+	MenuItem close;
+
+	@FXML
+	MenuItem parameterMenuItem;
+
 	File mediaFile;
 	File image;
 	FXMLLoader loader = new FXMLLoader(getClass().getResource("ExerciseParameter.fxml"));
 	Stage parameterStage = new Stage();
 	BorderPane parameterRoot;
-	
+
 	private File fileToModify;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		importImageButton.setVisible(false);
+		imagePath.setVisible(false);
+		close.setOnAction(ActionEvent -> 
+		{
+			Stage stage = (Stage) mediaView.getScene().getWindow();
+			stage.close();
+		});
+
+		newExercise.setOnAction(ActionEvent -> Main.setScreen(2));
+		modifExercise.setOnAction(ActionEvent -> 
+		{
+			if (Main.getParameterController().getCreatedExercisePath() != null) {
+				Main.setScreen(1);
+			}
+		});
+		parameterMenuItem.setOnAction(ActionEvent -> Main.getParameterStage().show());
+		
+		parameter.setOnAction(ActionEvent -> parameterStage.show());
+
 		try {
 			parameterRoot = (BorderPane) loader.load();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		Scene scene = new Scene(parameterRoot);
+		Scene parameterScene = new Scene(parameterRoot);
 		parameterStage.setResizable(false);
-		parameterStage.setScene(scene);
+		parameterStage.setScene(parameterScene);
 		parameterStage.initModality(Modality.APPLICATION_MODAL);
 	}
 
@@ -106,7 +144,7 @@ public class ExerciceEditorController implements Initializable{
 		byte[] exerciceSeconds = test.getSecond();
 		byte[] imageFile = null;
 		int imageLenght = 0;
-		
+
 		if ("mp4".equals(FileUtil.getExtension(mediaFile))) {
 			parameters |= (1<<6);
 		}else {
@@ -126,7 +164,7 @@ public class ExerciceEditorController implements Initializable{
 		}else {
 			fos = new FileOutputStream(Main.getParameterController().getCreatedExercisePath().getAbsolutePath()+"/"+title.getText()+".exam");
 		}
-		
+
 		fos.write(lenghtText);
 		fos.write(textBinary);
 
@@ -135,12 +173,12 @@ public class ExerciceEditorController implements Initializable{
 
 		fos.write(lenghtInstruction);
 		fos.write(instructionBinary);
-		
+
 		fos.write(parameters);
 		fos.write(occultationChar);
 		fos.write(exerciceMinute);
 		fos.write(exerciceSeconds);
-		
+
 		if (mediaFile != null) {
 			FileInputStream fileInputStream1 = new FileInputStream(mediaFile);
 			int bytesRead = 0;
@@ -162,7 +200,7 @@ public class ExerciceEditorController implements Initializable{
 		byte[] parameter;
 		int minutes;
 		int seconds;
-		
+
 		title.setText(FileUtil.stripExtension(file));
 		FileInputStream fin = new FileInputStream(file);
 
@@ -183,7 +221,7 @@ public class ExerciceEditorController implements Initializable{
 
 		minutes = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
 		seconds = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
-		
+
 		parameterController.setMinute(minutes);
 		parameterController.setSecond(seconds);
 
@@ -197,7 +235,7 @@ public class ExerciceEditorController implements Initializable{
 		}
 		int bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
 		fos.write(fin.readNBytes(bytesRead));
-		
+
 		File mediaFile;
 		Media media;
 		if (getBit(parameter[0], 6) == 0) {
@@ -210,6 +248,8 @@ public class ExerciceEditorController implements Initializable{
 			mediaPlayer = new MediaPlayer(media);
 			mediaView.setMediaPlayer(mediaPlayer);
 			setMediaListener(media);
+			importImageButton.setVisible(true);
+			imagePath.setVisible(true);
 		}else {
 			mediaFile = new File("temp.mp4");
 			media = new Media(mediaFile.toURI().toString());
@@ -217,7 +257,7 @@ public class ExerciceEditorController implements Initializable{
 			mediaView.setMediaPlayer(mediaPlayer);
 			setMediaListener(media);
 		}
-		
+
 		fos.close();
 		fin.close();
 	}
@@ -245,7 +285,7 @@ public class ExerciceEditorController implements Initializable{
 	public void setImage(File image) {
 		this.image = image;
 	}
-	
+
 	public void setFileToModify(File fileToModify) {
 		this.fileToModify = fileToModify;
 	}
@@ -256,13 +296,16 @@ public class ExerciceEditorController implements Initializable{
 	private void OpenFileMethod(ActionEvent event) throws MalformedURLException {
 		FileChooser fileChooser = new FileChooser();
 		mediaFile = fileChooser.showOpenDialog(importMediaButton.getScene().getWindow());
+		if (".mp3".equals(FileUtil.getExtension(mediaFile))) {
+			importImageButton.setVisible(true);
+			imagePath.setVisible(true);
+		}
 		if(mediaFile != null){
 			path = mediaFile.toURI().toString();
-			filePath.setText(mediaFile.toString());
+			mediaPath.setText(mediaFile.toString());
 			Media media = new Media(path);
 			mediaPlayer = new MediaPlayer(media);
 			mediaView.setMediaPlayer(mediaPlayer);
-
 			setMediaListener(media);
 
 			mediaPlayer.play();
@@ -274,14 +317,15 @@ public class ExerciceEditorController implements Initializable{
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Resource File");
 		image = fileChooser.showOpenDialog(importMediaButton.getScene().getWindow());
+		imagePath.setText(image.toString());
 		imageView.setImage(new Image(image.toURI().toString()));
 	}
-	
+
 	@FXML
 	public void parmeterButtonHandle() {
 		parameterStage.show();
 	}
-	
+
 	@FXML
 	public void playPauseHandle() {
 		if (mediaView.getMediaPlayer()== null) {
@@ -293,7 +337,7 @@ public class ExerciceEditorController implements Initializable{
 			mediaView.getMediaPlayer().pause();
 		}
 	}
-	
+
 	@FXML
 	public void muteHandle() {
 		if (mediaView.getMediaPlayer()== null) {
@@ -305,12 +349,12 @@ public class ExerciceEditorController implements Initializable{
 			mediaView.getMediaPlayer().setMute(true);
 		}
 	}
-	
+
 	@FXML
 	public void saveHandle() throws IOException {
 		save();
 	}
-	
+
 	private void setMediaListener(Media media) {
 		soundSlider.setValue(mediaPlayer.getVolume()*100);
 		soundSlider.valueProperty().addListener(new InvalidationListener() {
