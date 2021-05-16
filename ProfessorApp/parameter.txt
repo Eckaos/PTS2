@@ -1,0 +1,4 @@
+Font size : 15
+Created Exercise directory : C:\
+Student Exercise directory : C:\Users\natha\3D Objects
+Dark mode : true

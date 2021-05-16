@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.shape.Rectangle;
 import javafx.fxml.FXMLLoader;
 
 
@@ -21,11 +22,12 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			modifyLoader = new FXMLLoader(getClass().getResource("ModifyExercise.fxml"));
+			screens.add((BorderPane) FXMLLoader.load(getClass().getResource("Parameter.fxml")));
+			/*modifyLoader = new FXMLLoader(getClass().getResource("ModifyExercise.fxml"));
 			exerciseEditorLoader = new FXMLLoader(getClass().getResource("ExerciceEditor.fxml"));
 			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("Accueil.fxml"))); //index 0
 			screens.add((BorderPane)modifyLoader.load()); //index 1
-			screens.add((BorderPane)exerciseEditorLoader.load()); //index 2
+			screens.add((BorderPane)exerciseEditorLoader.load()); //index 2*/
 			scene = new Scene(screens.get(0),1280,720);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setMaximized(true);
