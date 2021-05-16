@@ -44,10 +44,10 @@ public class ParameterController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 30, 10);
 		fontSizeSpinner.setValueFactory(valueFactory);
+		
 		try {
 			load();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (darkModeActivated) {
@@ -127,13 +127,20 @@ public class ParameterController implements Initializable {
 			}
 			if (string.contains("Created Exercise directory : ")) {
 				int index = "Created Exercise directory : ".length();
-				createdExercisePath = new File(string.substring(index));
+				if ("Aucun dossier selectionné".equals(string.substring(index))) {
+					createdExercisePath = null;
+				}else {
+					createdExercisePath = new File(string.substring(index));
+				}
 				createdExercisePathText.setText(string.substring(index));
-				//set the directory for all screen of the app
 			}
 			if (string.contains("Student Exercise directory : ")) {
 				int index = "Student Exercise directory : ".length();
-				studentExercsiePath = new File(string.substring(index));
+				if ("Aucun dossier selectionné".equals(string.substring(index))) {
+					studentExercsiePath = null;
+				}else {
+					studentExercsiePath = new File(string.substring(index));
+				}
 				studentExercisePathText.setText(string.substring(index));
 			}
 			if (string.contains("Dark mode : ")) {

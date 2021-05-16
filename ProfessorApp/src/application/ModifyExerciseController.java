@@ -88,7 +88,6 @@ public class ModifyExerciseController implements Initializable{
 		
 		Addbutton.setOnAction(ActionEvent -> 
 		{
-			//creer un nouveau exercise
 			currentFile = null;
 			ExerciceEditorController exerciceEditorController = Main.getExerciseEditorLoader().getController();
 			exerciceEditorController.setFileToModify(null);

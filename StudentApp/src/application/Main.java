@@ -16,9 +16,16 @@ public class Main extends Application {
 	static List<BorderPane> screens = new ArrayList<>();
 	static int currentIndex = 0;
 	
+	private static FXMLLoader parameterLoader;
+	private static ParameterController parameterController;
+	
 	@Override
 	public void start(Stage primaryStage){
 		try {
+			
+			parameterLoader = new FXMLLoader(getClass().getResource("Parameter.fxml"));
+			parameterLoader.load();
+			parameterController = parameterLoader.getController();
 			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("Exercice.fxml")));
 			Scene scene = new Scene(screens.get(0),1280,720);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -42,5 +49,9 @@ public class Main extends Application {
 	
 	public static void setScreen(int index) {
 		currentIndex = index;
+	}
+	
+	public static ParameterController getParameterController() {
+		return parameterController;
 	}
 }

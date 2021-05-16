@@ -41,7 +41,7 @@
                   <Insets left="10.0" top="40.0" />
                </GridPane.margin>
             </Text>
-            <Text fx:id="createdExercisePathText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <Text fx:id="createdExercisePathText" strokeType="OUTSIDE" strokeWidth="0.0" text="Aucun dossier selectionné" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="180.0" top="40.0" />
                </GridPane.margin>
@@ -51,7 +51,7 @@
                   <Insets left="10.0" top="70.0" />
                </GridPane.margin>
             </Text>
-            <Text fx:id="studentExercisePathText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <Text fx:id="studentExercisePathText" strokeType="OUTSIDE" strokeWidth="0.0" text="Aucun dossier selectionné" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="180.0" top="70.0" />
                </GridPane.margin>

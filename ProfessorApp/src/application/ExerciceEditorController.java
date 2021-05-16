@@ -156,8 +156,6 @@ public class ExerciceEditorController implements Initializable{
 		}
 		fos.close();
 	}
-
-	private boolean mediaType;
 	public void parseExercise(File file) throws IOException {
 		ExerciseParameterController parameterController = loader.getController();
 		int nbBytesToRead;
@@ -193,9 +191,7 @@ public class ExerciceEditorController implements Initializable{
 		FileOutputStream fos2 = null;
 		if (getBit(parameter[0], 6) == 1) {
 			fos = new FileOutputStream("temp.mp4");
-			mediaType = true;
 		}else {
-			mediaType =false;
 			fos = new FileOutputStream("temp.mp3");
 			fos2 = new FileOutputStream("temp.png");
 		}
