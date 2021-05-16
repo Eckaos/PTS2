@@ -10,6 +10,7 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -71,9 +72,12 @@
                   <Rectangle arcHeight="5.0" arcWidth="5.0" height="480.0" stroke="BLACK" strokeType="INSIDE" width="854.0" StackPane.alignment="TOP_CENTER" />
                   <MediaView fx:id="mediaView" fitHeight="480.0" fitWidth="854.0" StackPane.alignment="TOP_CENTER" />
                   <ImageView fx:id="imageView" fitHeight="480.0" fitWidth="854.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_CENTER" />
-                  <Button fx:id="pausePlayButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#playPauseHandle" prefHeight="25.0" prefWidth="25.0" StackPane.alignment="BOTTOM_LEFT">
+                  <Button fx:id="pausePlayButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#playPauseHandle" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: transparent;" StackPane.alignment="BOTTOM_LEFT">
                      <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="playPauseImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../image/playButton.png" />
+                           </image></ImageView>
                      </graphic>
                   </Button>
                   <Slider fx:id="progressBar" maxWidth="599.0" StackPane.alignment="BOTTOM_CENTER">
@@ -81,12 +85,15 @@
                         <Insets bottom="5.0" left="30.0" right="225.0" />
                      </StackPane.margin>
                   </Slider>
-                  <Button fx:id="muteButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#muteHandle" prefHeight="25.0" prefWidth="25.0" StackPane.alignment="BOTTOM_RIGHT">
+                  <Button fx:id="muteButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#muteHandle" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: transparent;" StackPane.alignment="BOTTOM_RIGHT">
                      <StackPane.margin>
                         <Insets right="200.0" />
                      </StackPane.margin>
                      <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="muteImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../image/speaker.png" />
+                           </image></ImageView>
                      </graphic>
                   </Button>
                   <Slider fx:id="soundSlider" maxWidth="195.0" StackPane.alignment="BOTTOM_RIGHT">

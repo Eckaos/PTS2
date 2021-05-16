@@ -61,9 +61,13 @@ public class ExerciceEditorController implements Initializable{
 	@FXML
 	Button pausePlayButton;
 	@FXML
+	ImageView playPauseImage;
+	@FXML
 	Slider progressBar;
 	@FXML
 	Button muteButton;
+	@FXML
+	ImageView muteImage;
 	@FXML
 	Slider soundSlider;
 	@FXML
@@ -307,8 +311,10 @@ public class ExerciceEditorController implements Initializable{
 			mediaPlayer = new MediaPlayer(media);
 			mediaView.setMediaPlayer(mediaPlayer);
 			setMediaListener(media);
-
 			mediaPlayer.play();
+			File tempFile = new File("image/pauseButton.png");
+			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			playPauseImage.setImage(imageTemp);
 		}
 	}
 
@@ -333,8 +339,10 @@ public class ExerciceEditorController implements Initializable{
 		}
 		if (mediaView.getMediaPlayer().getStatus().equals(Status.PAUSED) || mediaView.getMediaPlayer().getStatus().equals(Status.READY)) {
 			mediaView.getMediaPlayer().play();
+			changePlayImage();
 		}else {
 			mediaView.getMediaPlayer().pause();
+			changePlayImage();
 		}
 	}
 
@@ -345,8 +353,10 @@ public class ExerciceEditorController implements Initializable{
 		}
 		if(mediaView.getMediaPlayer().isMute()) {
 			mediaView.getMediaPlayer().setMute(false);
+			changeSpeakerImage();
 		}else {
 			mediaView.getMediaPlayer().setMute(true);
+			changeSpeakerImage();
 		}
 	}
 
@@ -392,5 +402,30 @@ public class ExerciceEditorController implements Initializable{
 				progressBar.setMax(total.toSeconds());
 			}
 		});
+	}
+	
+	
+	private void changePlayImage() {
+		if (mediaView.getMediaPlayer().getStatus().equals(Status.PAUSED) || mediaView.getMediaPlayer().getStatus().equals(Status.READY)) {
+			File tempFile = new File("image/pauseButton.png");
+			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			playPauseImage.setImage(imageTemp);
+		}else {
+			File tempFile = new File("image/playButton.png");
+			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			playPauseImage.setImage(imageTemp);
+		}
+	}
+	
+	private void changeSpeakerImage() {
+		if(mediaView.getMediaPlayer().isMute()) {
+			File tempFile = new File("image/speakerMute.png");
+			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			muteImage.setImage(imageTemp);
+		}else {
+			File tempFile = new File("image/speaker.png");
+			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			muteImage.setImage(imageTemp);
+		}
 	}
 }
