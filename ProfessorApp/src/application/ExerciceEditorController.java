@@ -91,7 +91,7 @@ public class ExerciceEditorController implements Initializable{
 	}
 
 	public void save() throws IOException{
-		ParameterController test = loader.getController();
+		ExerciseParameterController test = loader.getController();
 		byte[] textBinary = text.getText().getBytes();
 		byte[] lenghtText = getLenght(text.getText());
 
@@ -166,7 +166,7 @@ public class ExerciceEditorController implements Initializable{
 
 	private boolean mediaType;
 	public void parseExercise(File file) throws IOException {
-		ParameterController parameterController = loader.getController();
+		ExerciseParameterController parameterController = loader.getController();
 		int nbBytesToRead;
 		byte[] parameter;
 		int minutes;
