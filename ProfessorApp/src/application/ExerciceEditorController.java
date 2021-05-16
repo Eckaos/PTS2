@@ -8,7 +8,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import javafx.util.Duration;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -72,7 +71,7 @@ public class ExerciceEditorController implements Initializable{
 
 	File mediaFile;
 	File image;
-	FXMLLoader loader = new FXMLLoader(getClass().getResource("Parameter.fxml"));
+	FXMLLoader loader = new FXMLLoader(getClass().getResource("ExerciseParameter.fxml"));
 	Stage parameterStage = new Stage();
 	BorderPane parameterRoot;
 	
@@ -108,7 +107,7 @@ public class ExerciceEditorController implements Initializable{
 		byte[] imageFile = null;
 		int imageLenght = 0;
 		
-		if ("mp4".equals(getExtensionByStringHandling(mediaFile.getName()).get())) {
+		if ("mp4".equals(FileUtil.getExtension(mediaFile))) {
 			parameters |= (1<<6);
 		}else {
 			if (image != null) {
@@ -123,9 +122,9 @@ public class ExerciceEditorController implements Initializable{
 		if (fileToModify != null) {
 			fos = new FileOutputStream(fileToModify);
 		}else if(getBit(parameters, 0) == 0){
-			fos = new FileOutputStream("C:\\Users\\NathanPollart\\git\\PTS2\\ProfessorApp\\exercise\\training\\"+title.getText()+".bin");
+			fos = new FileOutputStream(Main.getParameterController().getCreatedExercisePath().getAbsolutePath()+"/"+title.getText()+".train");
 		}else {
-			fos = new FileOutputStream("C:\\Users\\NathanPollart\\git\\PTS2\\ProfessorApp\\exercise\\exam\\"+title.getText()+".bin");
+			fos = new FileOutputStream(Main.getParameterController().getCreatedExercisePath().getAbsolutePath()+"/"+title.getText()+".exam");
 		}
 		
 		fos.write(lenghtText);
@@ -156,12 +155,6 @@ public class ExerciceEditorController implements Initializable{
 			fos.write(imageFile);
 		}
 		fos.close();
-	}
-
-	public Optional<String> getExtensionByStringHandling(String filename) {
-		return Optional.ofNullable(filename)
-				.filter(f -> f.contains("."))
-				.map(f -> f.substring(filename.lastIndexOf(".") + 1));
 	}
 
 	private boolean mediaType;
@@ -199,12 +192,12 @@ public class ExerciceEditorController implements Initializable{
 		FileOutputStream fos = null;
 		FileOutputStream fos2 = null;
 		if (getBit(parameter[0], 6) == 1) {
-			fos = new FileOutputStream("C:/Users/NathanPollart/git/PTS2/ProfessorApp/temp.mp4");
+			fos = new FileOutputStream("temp.mp4");
 			mediaType = true;
 		}else {
 			mediaType =false;
-			fos = new FileOutputStream("C:/Users/NathanPollart/git/PTS2/ProfessorApp/temp.mp3");
-			fos2 = new FileOutputStream("C:/Users/NathanPollart/git/PTS2/ProfessorApp/temp.png");
+			fos = new FileOutputStream("temp.mp3");
+			fos2 = new FileOutputStream("temp.png");
 		}
 		int bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
 		fos.write(fin.readNBytes(bytesRead));

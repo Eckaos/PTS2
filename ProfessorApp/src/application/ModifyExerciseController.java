@@ -32,19 +32,22 @@ public class ModifyExerciseController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		File trainingDirectory = new File("C:\\Users\\NathanPollart\\git\\PTS2\\ProfessorApp\\exercise\\training");
-		ObservableList<String> trainingFileList = FXCollections.observableArrayList();
-		for (File file : trainingDirectory.listFiles()) {
-			trainingFileList.add(FileUtil.stripExtension(file));
+		File exerciseDirectory;
+		if (Main.getParameterController().getCreatedExercisePath() != null) {
+			exerciseDirectory = Main.getParameterController().getCreatedExercisePath();
+			ObservableList<String> trainingFileList = FXCollections.observableArrayList();
+			ObservableList<String> examFileList = FXCollections.observableArrayList();
+			for (File file : exerciseDirectory.listFiles()) {
+				if (".train".equals(FileUtil.getExtension(file))) {
+					trainingFileList.add(FileUtil.stripExtension(file));
+				}
+				if (".exam".equals(FileUtil.getExtension(file))) {
+					examFileList.add(FileUtil.stripExtension(file));
+				}
+			}
+			trainingFiles.setItems(trainingFileList);
+			examFiles.setItems(examFileList);
 		}
-		trainingFiles.setItems(trainingFileList);
-		
-		File examDirectory = new File("C:\\Users\\NathanPollart\\git\\PTS2\\ProfessorApp\\exercise\\exam");
-		ObservableList<String> examFileList = FXCollections.observableArrayList();
-		for (File file : examDirectory.listFiles()) {
-			examFileList.add(FileUtil.stripExtension(file));
-		}
-		examFiles.setItems(examFileList);
 		
 		trainingFiles.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override

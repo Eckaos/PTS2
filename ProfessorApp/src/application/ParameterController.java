@@ -127,11 +127,13 @@ public class ParameterController implements Initializable {
 			}
 			if (string.contains("Created Exercise directory : ")) {
 				int index = "Created Exercise directory : ".length();
+				createdExercisePath = new File(string.substring(index));
 				createdExercisePathText.setText(string.substring(index));
 				//set the directory for all screen of the app
 			}
 			if (string.contains("Student Exercise directory : ")) {
 				int index = "Student Exercise directory : ".length();
+				studentExercsiePath = new File(string.substring(index));
 				studentExercisePathText.setText(string.substring(index));
 			}
 			if (string.contains("Dark mode : ")) {
@@ -149,5 +151,21 @@ public class ParameterController implements Initializable {
 	private void setFontSize() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public int getFontSize() {
+		return fontSizeSpinner.getValue();
+	}
+	
+	public String test() {
+		return getCreatedExercisePath().getAbsolutePath();
+	}
+	
+	public File getCreatedExercisePath() {
+		return createdExercisePath;
+	}
+	
+	public File getStudentExercisePath() {
+		return studentExercsiePath;
 	}
 }

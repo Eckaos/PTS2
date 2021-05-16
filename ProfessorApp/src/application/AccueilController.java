@@ -21,6 +21,10 @@ public class AccueilController implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 		addButton.setOnAction(ActionEvent -> Main.setScreen(2));
 		modifyButton.setOnAction(ActionEvent -> Main.setScreen(1));
+		if (Main.getParameterController().getCreatedExercisePath() != null) {
+			modifyButton.setDisable(true);
+		}
+		
 		result.setOnAction(ActionEvent -> Main.setScreen(1));
 	}
 	

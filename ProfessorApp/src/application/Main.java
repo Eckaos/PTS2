@@ -2,28 +2,31 @@ package application;
 	
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.shape.Rectangle;
 import javafx.fxml.FXMLLoader;
 
 
 public class Main extends Application {
 	
-	static List<BorderPane> screens = new ArrayList<>();
-	static int currentIndex = 0;
-	static Scene scene;
+	private static List<BorderPane> screens = new ArrayList<>();
+	private static int currentIndex = 0;
+	private static Scene scene;
 	
-	static FXMLLoader modifyLoader;
-	static FXMLLoader exerciseEditorLoader;
+	private static FXMLLoader modifyLoader;
+	private static FXMLLoader exerciseEditorLoader;
+	private static FXMLLoader parameterLoader;
+	private static ParameterController parameterController;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			screens.add((BorderPane) FXMLLoader.load(getClass().getResource("Parameter.fxml")));
-			/*modifyLoader = new FXMLLoader(getClass().getResource("ModifyExercise.fxml"));
+			parameterLoader = new FXMLLoader(getClass().getResource("Parameter.fxml"));
+			parameterLoader.load();
+			parameterController = parameterLoader.getController();
+			modifyLoader = new FXMLLoader(getClass().getResource("ModifyExercise.fxml"));
 			exerciseEditorLoader = new FXMLLoader(getClass().getResource("ExerciceEditor.fxml"));
 			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("Accueil.fxml"))); //index 0
 			screens.add((BorderPane)modifyLoader.load()); //index 1
@@ -61,5 +64,9 @@ public class Main extends Application {
 	
 	public static FXMLLoader getExerciseEditorLoader() {
 		return exerciseEditorLoader;
+	}
+	
+	public static ParameterController getParameterController() {
+		return parameterController;
 	}
 }
