@@ -50,15 +50,15 @@ public class ExerciceController implements Initializable{
 
 	@FXML
 	Button importButton;
-	
+
 	@FXML
 	Slider soundSlider;
-	
+
 	@FXML
 	ImageView imageView;
 
 	String encryptedText;
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -81,28 +81,28 @@ public class ExerciceController implements Initializable{
 					Image image = new Image(imageTemp.toURI().toString());
 					imageView.setImage(image);
 				}
-				
+
 				testMe.setMediaPlayer(new MediaPlayer(new Media(mediaSelected.toURI().toURL().toExternalForm())));
 				testMe.getMediaPlayer().setAutoPlay(true);
 				soundSlider.setValue(testMe.getMediaPlayer().getVolume() * 100);
 				InvalidationListener sliderChangeListener = o-> {
-				    Duration seekTo = Duration.seconds(progressBar.getValue());
-				    testMe.getMediaPlayer().seek(seekTo);
+					Duration seekTo = Duration.seconds(progressBar.getValue());
+					testMe.getMediaPlayer().seek(seekTo);
 				};
 				progressBar.valueProperty().addListener(sliderChangeListener);
 				testMe.getMediaPlayer().currentTimeProperty().addListener(l-> {
-				    progressBar.valueProperty().removeListener(sliderChangeListener);
-				    Duration currentTime = testMe.getMediaPlayer().getCurrentTime();
-				    progressBar.setValue(currentTime.toSeconds());
-				    progressBar.valueProperty().addListener(sliderChangeListener);
+					progressBar.valueProperty().removeListener(sliderChangeListener);
+					Duration currentTime = testMe.getMediaPlayer().getCurrentTime();
+					progressBar.setValue(currentTime.toSeconds());
+					progressBar.valueProperty().addListener(sliderChangeListener);
 				});
-				
+
 				testMe.getMediaPlayer().setOnReady(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						progressBar.setMax(testMe.getMediaPlayer().getTotalDuration().toSeconds());
-						
+
 					}
 				});
 			} catch (IOException e) {
@@ -179,7 +179,7 @@ public class ExerciceController implements Initializable{
 	}
 	String textString;
 	String[] wordsText;
-	
+
 	char occultationChar;
 	boolean mediaType =true;;
 	public void parseExercise(File file) throws IOException {
@@ -190,25 +190,25 @@ public class ExerciceController implements Initializable{
 		byte[] parameter;
 		int minutes;
 		int seconds;
-		
+
 		FileInputStream fin = new FileInputStream(file);
 
 		nbBytesToRead = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
 		textString = convertByteToString(fin.readNBytes(nbBytesToRead));
-		
+
 		nbBytesToRead = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
 		helpString = convertByteToString(fin.readNBytes(nbBytesToRead));
-		
+
 		nbBytesToRead = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
 		instructionString = convertByteToString(fin.readNBytes(nbBytesToRead));
-		
+
 		parameter = fin.readNBytes(1);
 		occultation = convertByteToString(fin.readNBytes(1));
 		occultationChar = occultation.charAt(0);
-		
+
 		minutes = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
 		seconds = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
-		
+
 		FileOutputStream fos = null;
 		FileOutputStream fos2 = null;
 		if (getBit(parameter[0], 6) == 1) {
@@ -221,16 +221,16 @@ public class ExerciceController implements Initializable{
 		}
 		int bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
 		fos.write(fin.readNBytes(bytesRead));
-		
+
 		if (getBit(parameter[0], 6) == 0) {
 			bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
 			fos2.write(fin.readNBytes(bytesRead));
 		}
 		fos.close();
 		fin.close();
-	
+
 		instructionText.setText(instructionString);
-		
+
 	}
 
 	private int getBit(byte b, int pos) {
@@ -244,7 +244,7 @@ public class ExerciceController implements Initializable{
 		}
 		return buildString;
 	}
-	
+
 	String[] wordsTextEncrypted;
 	private String encryptText() {
 		char[] test = textString.toCharArray();
@@ -262,4 +262,50 @@ public class ExerciceController implements Initializable{
 		return string;
 	}
 
+	public void setExercise(String exName) throws IOException {
+		File ex = new File(Main.getParameterController().getCreatedExercisePath().getAbsolutePath() + "/" + exName);
+		parseExercise(ex);
+
+		try {
+			wordsText = textString.split(" ");
+			encryptedText = encryptText();
+			textToFind.setText(encryptedText);
+			File mediaSelected;
+			if (mediaType) {
+				mediaSelected = new File("temp.mp4");
+				imageView.setVisible(false);
+			}else {
+				mediaSelected = new File("temp.mp3");
+				File imageTemp = new File("temp.png");
+				Image image = new Image(imageTemp.toURI().toString());
+				imageView.setImage(image);
+			}
+
+			testMe.setMediaPlayer(new MediaPlayer(new Media(mediaSelected.toURI().toURL().toExternalForm())));
+			testMe.getMediaPlayer().setAutoPlay(true);
+			soundSlider.setValue(testMe.getMediaPlayer().getVolume() * 100);
+			InvalidationListener sliderChangeListener = o-> {
+				Duration seekTo = Duration.seconds(progressBar.getValue());
+				testMe.getMediaPlayer().seek(seekTo);
+			};
+			progressBar.valueProperty().addListener(sliderChangeListener);
+			testMe.getMediaPlayer().currentTimeProperty().addListener(l-> {
+				progressBar.valueProperty().removeListener(sliderChangeListener);
+				Duration currentTime = testMe.getMediaPlayer().getCurrentTime();
+				progressBar.setValue(currentTime.toSeconds());
+				progressBar.valueProperty().addListener(sliderChangeListener);
+			});
+
+			testMe.getMediaPlayer().setOnReady(new Runnable() {
+
+				@Override
+				public void run() {
+					progressBar.setMax(testMe.getMediaPlayer().getTotalDuration().toSeconds());
+
+				}
+			});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

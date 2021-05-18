@@ -20,7 +20,6 @@
    <left>
       <VBox prefHeight="695.0" prefWidth="934.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="importButton" mnemonicParsing="false" text="import" />
             <Region prefHeight="44.0" prefWidth="934.0" />
             <Text fx:id="instructionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="934.13671875">
                <VBox.margin>
