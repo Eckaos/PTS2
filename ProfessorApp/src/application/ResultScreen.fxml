@@ -1,8 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.media.MediaView?>
+<?import javafx.scene.shape.Rectangle?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ResultScreenController">
-	<!-- TODO Add Nodes -->
+<BorderPane minHeight="720.0" minWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ResultScreenController">
+   <center>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="360.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="480.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="360.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="80.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="640.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label fx:id="averageNumberOfWord" text="Mots" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Label fx:id="instruction" text="Label">
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="completeText" alignment="TOP_LEFT" prefHeight="640.0" prefWidth="360.0" text="Texte complet" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="30.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="reconstructedText" alignment="TOP_LEFT" prefHeight="640.0" prefWidth="360.0" text="Texte reconstittué" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <MediaView fx:id="mediaView" fitHeight="300.0" fitWidth="480.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" height="300.0" stroke="BLACK" strokeType="INSIDE" width="480.0" />
+                  <ImageView fx:id="imageView" fitHeight="300.0" fitWidth="480.0" pickOnBounds="true" preserveRatio="true" />
+                  <Button fx:id="playButton" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false">
+                     <StackPane.margin>
+                        <Insets right="455.0" top="325.0" />
+                     </StackPane.margin>
+                  </Button>
+                  <Slider fx:id="timeSlider" maxWidth="300.0">
+                     <StackPane.margin>
+                        <Insets right="110.0" top="325.0" />
+                     </StackPane.margin>
+                  </Slider>
+                  <Button fx:id="muteButton" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false">
+                     <StackPane.margin>
+                        <Insets left="225.0" top="325.0" />
+                     </StackPane.margin>
+                  </Button>
+                  <Slider fx:id="volumeSlider" maxWidth="100.0">
+                     <StackPane.margin>
+                        <Insets left="370.0" top="325.0" />
+                     </StackPane.margin>
+                  </Slider>
+               </children>
+            </StackPane>
+         </children>
+      </GridPane>
+   </center>
 </BorderPane>
-

@@ -19,6 +19,7 @@ public class Main extends Application {
 	private static FXMLLoader modifyLoader;
 	private static FXMLLoader exerciseEditorLoader;
 	private static FXMLLoader seeResultLoader;
+	private static FXMLLoader resultScreenLoader;
 	
 	private static FXMLLoader parameterLoader;
 	private BorderPane parameterScreen;
@@ -39,10 +40,13 @@ public class Main extends Application {
 			modifyLoader = new FXMLLoader(getClass().getResource("ModifyExercise.fxml"));
 			exerciseEditorLoader = new FXMLLoader(getClass().getResource("ExerciceEditor.fxml"));
 			seeResultLoader = new FXMLLoader(getClass().getResource("SeeResult.fxml"));
+			resultScreenLoader = new FXMLLoader(getClass().getResource("ResultScreen.fxml"));
+			
 			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("Accueil.fxml"))); //index 0
 			screens.add((BorderPane)modifyLoader.load()); //index 1
 			screens.add((BorderPane)exerciseEditorLoader.load()); //index 2*/
 			screens.add((BorderPane)seeResultLoader.load());
+			screens.add((BorderPane)resultScreenLoader.load());
 			scene = new Scene(screens.get(0),1280,720);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setMaximized(true);
@@ -83,6 +87,10 @@ public class Main extends Application {
 	}
 	public static SeeResultController getSeeResultController() {
 		return seeResultLoader.getController();
+	}
+	
+	public static ResultScreenController getResultScreenController() {
+		return resultScreenLoader.getController();
 	}
 	
 	public static Stage getParameterStage() {
