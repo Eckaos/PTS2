@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
 
@@ -16,15 +19,27 @@ public class Main extends Application {
 	static List<BorderPane> screens = new ArrayList<>();
 	static int currentIndex = 0;
 	static Scene scene;
+	static Scene popupScene;
 
 	private static FXMLLoader parameterLoader;
 	private static ParameterController parameterController;
 	private static FXMLLoader accueilLoader;
 	private static FXMLLoader exLoader;
+	private static FXMLLoader popupLoader;
+
+	static Stage popupStage;
 	
 	@Override
 	public void start(Stage primaryStage){
 		try {
+			
+			popupLoader = new FXMLLoader(getClass().getResource("FinishPopupEx.fxml"));
+			BorderPane popupScreen = (BorderPane) popupLoader.load();
+			popupStage = new Stage();
+			popupScene = new Scene(popupScreen);
+			popupStage.setResizable(false);
+			popupStage.setScene(popupScene);
+			popupStage.initModality(Modality.APPLICATION_MODAL);
 
 			parameterLoader = new FXMLLoader(getClass().getResource("Parameter.fxml"));
 			accueilLoader = new FXMLLoader(getClass().getResource("Accueil.fxml"));
@@ -69,4 +84,14 @@ public class Main extends Application {
 	public static ExerciceController getExController() {
 		return exLoader.getController();
 	}
+	
+	public static PopupController getPopupController() {
+		return popupLoader.getController();
+	}
+
+	public static Stage getPopupStage() {
+		return popupStage;
+	}
+
+
 }
