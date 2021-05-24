@@ -50,11 +50,10 @@ public class FileUtil {
 	}
 	
 	public static String stripExerciceName(File file) {
-		stripExtension(file);
+		String name = stripExtension(file);
 		if (file == null) {
 			return null;
 		}
-		String name = file.getName();
 
 		int posPoint = name.lastIndexOf("_");
 
@@ -62,6 +61,6 @@ public class FileUtil {
 			return name;
 		}
 		
-		return name.substring(posPoint, name.length());
+		return name.substring(posPoint+1, name.length());
 	}
 }

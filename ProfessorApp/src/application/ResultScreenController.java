@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ResourceBundle;
-
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
@@ -93,16 +92,19 @@ public class ResultScreenController implements Initializable {
 		int bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
 		fos.write(fin.readNBytes(bytesRead));
 
+		
+		File tempFile = null;
 		if (getBit(parameter[0], 6) == 0) {
 			bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
 			fos2.write(fin.readNBytes(bytesRead));
 			imageView.setImage(new Image("file:temp.png"));
-			media = new Media("file:temp.mp3");
+			tempFile = new File("temp.mp3");
 		}else {
-			media = new Media("file:temp.mp4");
+			tempFile = new File("temp.mp4");
 		}
 		fos.close();
 		fin.close();
+		media = new Media(tempFile.toURI().toString());
 		mediaPlayer = new MediaPlayer(media);
 		mediaView.setMediaPlayer(mediaPlayer);
 		setMediaListener(media);

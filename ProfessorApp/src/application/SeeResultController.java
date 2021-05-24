@@ -48,7 +48,9 @@ public class SeeResultController implements Initializable{
 			exerciseDirectory = Main.getParameterController().getStudentExercisePath();
 			if (exerciseDirectory.exists()) {
 				for (File file : exerciseDirectory.listFiles()) {
-					examFiles.getItems().add(FileUtil.stripExtension(file));
+					if (".student".equals(FileUtil.getExtension(file))) {
+						examFiles.getItems().add(FileUtil.stripExtension(file));
+					}
 				}
 			}
 		}
@@ -56,6 +58,7 @@ public class SeeResultController implements Initializable{
 		examFiles.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent click) {
+				elevesListView.getItems().clear();
 				for (File file : Main.getParameterController().getStudentExercisePath().listFiles()) {
 					if (file.getName().contains(examFiles.getSelectionModel().getSelectedItem())) {
 						elevesListView.getItems().add(FileUtil.stripExerciceName(file));
@@ -72,10 +75,10 @@ public class SeeResultController implements Initializable{
 				if (click.getClickCount() == 2) {
 					try {
 						Main.getResultScreenController().parseExercise(currentFile);
+						Main.setScreen(4);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					Main.setScreen(2);
 				}
 			}
 		});
@@ -83,10 +86,18 @@ public class SeeResultController implements Initializable{
 
 		seeButton.setOnAction(ActionEvent -> 
 		{
-			
+			if (currentFile != null) {
+				try {
+					Main.getResultScreenController().parseExercise(currentFile);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Main.setScreen(4);
+			}
 		});
 	}
-
+	
 	public File getCurrentFile() {
 		if (currentFile == null) {
 			return null;
