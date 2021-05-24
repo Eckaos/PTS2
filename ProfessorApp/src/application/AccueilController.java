@@ -1,5 +1,6 @@
 package application;
 
+import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -42,12 +43,14 @@ public class AccueilController implements Initializable{
 			modifyButton.setDisable(true);
 		}
 		
-		result.setOnAction(ActionEvent -> Main.setScreen(1)); //TODO faire result screen et mettre le setOnAction du menuItem
+		result.setOnAction(ActionEvent -> Main.setScreen(3)); //TODO faire result screen et mettre le setOnAction du menuItem
 		close.setOnAction(ActionEvent -> 
 		{
 			Stage stage = (Stage) addButton.getScene().getWindow();
 			stage.close();
 		});
+		
+		seeResults.setOnAction(ActionEvent -> Main.setScreen(3));
 		
 		newExercise.setOnAction(ActionEvent -> Main.setScreen(2));
 		modifExercise.setOnAction(ActionEvent -> 

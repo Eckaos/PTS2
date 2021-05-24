@@ -18,10 +18,9 @@ public class Main extends Application {
 	
 	private static FXMLLoader modifyLoader;
 	private static FXMLLoader exerciseEditorLoader;
-	
+	private static FXMLLoader seeResultLoader;
 	
 	private static FXMLLoader parameterLoader;
-	private static ParameterController parameterController;
 	private BorderPane parameterScreen;
 	private static Stage parameterStage;
 	private Scene parameterScene;
@@ -31,7 +30,6 @@ public class Main extends Application {
 		try {
 			parameterLoader = new FXMLLoader(getClass().getResource("Parameter.fxml"));
 			parameterScreen = (BorderPane) parameterLoader.load();
-			parameterController = parameterLoader.getController();
 			parameterStage = new Stage();
 			parameterScene = new Scene(parameterScreen);
 			parameterStage.setResizable(false);
@@ -40,9 +38,11 @@ public class Main extends Application {
 			
 			modifyLoader = new FXMLLoader(getClass().getResource("ModifyExercise.fxml"));
 			exerciseEditorLoader = new FXMLLoader(getClass().getResource("ExerciceEditor.fxml"));
+			seeResultLoader = new FXMLLoader(getClass().getResource("SeeResult.fxml"));
 			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("Accueil.fxml"))); //index 0
 			screens.add((BorderPane)modifyLoader.load()); //index 1
 			screens.add((BorderPane)exerciseEditorLoader.load()); //index 2*/
+			screens.add((BorderPane)seeResultLoader.load());
 			scene = new Scene(screens.get(0),1280,720);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setMaximized(true);
@@ -70,20 +70,19 @@ public class Main extends Application {
 		return screens.get(currentIndex);
 	}
 	
-	public static FXMLLoader getModifyLoader() {
-		return modifyLoader;
+	public static ModifyExerciseController getModifyExerciseController() {
+		return modifyLoader.getController();
 	}
 	
-	public static FXMLLoader getExerciseEditorLoader() {
-		return exerciseEditorLoader;
+	public static ExerciceEditorController getExerciceEditorController() {
+		return exerciseEditorLoader.getController();
 	}
 	
 	public static ParameterController getParameterController() {
-		return parameterController;
+		return parameterLoader.getController();
 	}
-
-	public static FXMLLoader getParameterLoader() {
-		return parameterLoader;
+	public static SeeResultController getSeeResultController() {
+		return seeResultLoader.getController();
 	}
 	
 	public static Stage getParameterStage() {

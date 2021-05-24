@@ -44,6 +44,7 @@ public class ModifyExerciseController implements Initializable{
 	MenuItem parameter;
 	
 	
+	//TODO reinitialize exercice Editor on new exercise
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		close.setOnAction(ActionEvent -> 
@@ -77,14 +78,12 @@ public class ModifyExerciseController implements Initializable{
 		trainingFiles.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent click) {
-				ExerciceEditorController exerciceEditorController = Main.getExerciseEditorLoader().getController();
 				currentFile = new File(Main.getParameterController().getCreatedExercisePath().getAbsolutePath()+"/"+trainingFiles.getSelectionModel().getSelectedItem()+".train");
 				if (click.getClickCount() == 2) {
 					
 					try {
-						exerciceEditorController.setFileToModify(currentFile);
-						exerciceEditorController.parseExercise(currentFile);
-						//exerciceEditorController.setFile(new File("C:/Users/NathanPollart/git/PTS2/ProfessorApp/temp.mp4"));
+						Main.getExerciceEditorController().setFileToModify(currentFile);
+						Main.getExerciceEditorController().parseExercise(currentFile);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -96,12 +95,11 @@ public class ModifyExerciseController implements Initializable{
 		examFiles.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent click) {
-				ExerciceEditorController exerciceEditorController = Main.getExerciseEditorLoader().getController();
 				currentFile = new File(Main.getParameterController().getCreatedExercisePath().getAbsolutePath()+"/"+examFiles.getSelectionModel().getSelectedItem()+".exam");
 				if (click.getClickCount() == 2) {
 					try {
-						exerciceEditorController.setFileToModify(currentFile);
-						exerciceEditorController.parseExercise(currentFile);
+						Main.getExerciceEditorController().setFileToModify(currentFile);
+						Main.getExerciceEditorController().parseExercise(currentFile);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -113,8 +111,7 @@ public class ModifyExerciseController implements Initializable{
 		Addbutton.setOnAction(ActionEvent -> 
 		{
 			currentFile = null;
-			ExerciceEditorController exerciceEditorController = Main.getExerciseEditorLoader().getController();
-			exerciceEditorController.setFileToModify(null);
+			Main.getExerciceEditorController().setFileToModify(null);
 			Main.setScreen(2);
 		});
 		
@@ -124,13 +121,12 @@ public class ModifyExerciseController implements Initializable{
 			if (trainingFiles.getSelectionModel().getSelectedItem() == null && examFiles.getSelectionModel().getSelectedItem() == null) {
 				return;
 			}
-			ExerciceEditorController exerciceEditorController = Main.getExerciseEditorLoader().getController();
 			try {
-				exerciceEditorController.parseExercise(currentFile);
+				Main.getExerciceEditorController().parseExercise(currentFile);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			exerciceEditorController.setFileToModify(currentFile);
+			Main.getExerciceEditorController().setFileToModify(currentFile);
 			Main.setScreen(2);
 		});
 	}
