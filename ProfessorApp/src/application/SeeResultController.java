@@ -70,8 +70,11 @@ public class SeeResultController implements Initializable{
 			public void handle(MouseEvent click) {
 				currentFile = new File(Main.getParameterController().getStudentExercisePath().getAbsolutePath()+"/"+examFiles.getSelectionModel().getSelectedItem()+".student");
 				if (click.getClickCount() == 2) {
-					Main.getResultScreenController().setFileToModify(currentFile);
-					Main.getResultScreenController().parseExercise(currentFile);
+					try {
+						Main.getResultScreenController().parseExercise(currentFile);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 					Main.setScreen(2);
 				}
 			}
