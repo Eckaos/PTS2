@@ -108,6 +108,9 @@ public class ResultScreenController implements Initializable {
 		mediaPlayer = new MediaPlayer(media);
 		mediaView.setMediaPlayer(mediaPlayer);
 		setMediaListener(media);
+		completeText.setText(textString);
+		instruction.setText(instructionString);
+		//setText
 	}
 
 	private String convertByteToString(byte[] readNBytes) {
