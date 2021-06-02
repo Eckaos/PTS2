@@ -201,19 +201,15 @@ public class ExerciceController implements Initializable {
 	String[] wordsTextEncrypted;
 
 	private String encryptText() {
-		char[] test = textString.toCharArray();
-		String string = "";
-		for (int i = 0; i < test.length; i++) {
-			if (test[i] != ' ' && test[i] != '\'') {
-				string += occultationChar;
-			} else if (test[i] == ' ') {
-				string += ' ';
-			} else if (test[i] == '\'') {
-				string += '\'';
+		String constructString = "";
+		for (String string : textString.split("")) {
+			if (string.matches("[a-zA-Z]") || (string.matches("[0-9]"))) {
+				constructString += occultationChar;
+			}else {
+				constructString += string;
 			}
 		}
-		wordsTextEncrypted = string.split(" ");
-		return string;
+		return constructString;
 	}
 	
 	

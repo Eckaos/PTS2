@@ -149,7 +149,7 @@ public class ExerciceEditorController implements Initializable{
 		byte[] imageFile = null;
 		int imageLenght = 0;
 
-		if ("mp4".equals(FileUtil.getExtension(mediaFile))) {
+		if (".mp4".equals(FileUtil.getExtension(mediaFile))) {
 			parameters |= (1<<6);
 		}else {
 			if (image != null) {
