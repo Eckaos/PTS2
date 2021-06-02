@@ -7,29 +7,27 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
-import javafx.stage.Popup;
 import javafx.util.Duration;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.media.*;
 import javafx.scene.media.MediaPlayer.Status;
 
 public class ExerciceController implements Initializable {
 
 	@FXML
-	MediaView testMe;
+	MediaView mediaView;
 	@FXML
 	Text instructionText;
 	@FXML
@@ -67,30 +65,30 @@ public class ExerciceController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 
 		pausePlayButton.setOnAction(ActionEvent -> {
-			if (testMe.getMediaPlayer() == null) {
+			if (mediaView.getMediaPlayer() == null) {
 				return;
 			}
-			if (testMe.getMediaPlayer().getStatus().equals(Status.PAUSED)) {
-				testMe.getMediaPlayer().play();
+			if (mediaView.getMediaPlayer().getStatus().equals(Status.PAUSED)) {
+				mediaView.getMediaPlayer().play();
 			} else {
-				testMe.getMediaPlayer().pause();
+				mediaView.getMediaPlayer().pause();
 			}
 		});
 
 		soundButton.setOnMousePressed(ActionEvent -> {
-			if (testMe.getMediaPlayer().isMute()) {
-				testMe.getMediaPlayer().setMute(false);
+			if (mediaView.getMediaPlayer().isMute()) {
+				mediaView.getMediaPlayer().setMute(false);
 			} else {
-				testMe.getMediaPlayer().setMute(true);
+				mediaView.getMediaPlayer().setMute(true);
 			}
 
 		});
 
-		testMe.setOnMouseClicked(ActionEvent -> {
-			if (testMe.getMediaPlayer().getStatus().equals(Status.PAUSED)) {
-				testMe.getMediaPlayer().play();
+		mediaView.setOnMouseClicked(ActionEvent -> {
+			if (mediaView.getMediaPlayer().getStatus().equals(Status.PAUSED)) {
+				mediaView.getMediaPlayer().play();
 			} else {
-				testMe.getMediaPlayer().pause();
+				mediaView.getMediaPlayer().pause();
 			}
 		});
 
@@ -98,8 +96,8 @@ public class ExerciceController implements Initializable {
 
 			@Override
 			public void invalidated(Observable observable) {
-				if (testMe.getMediaPlayer() != null) {
-					testMe.getMediaPlayer().setVolume(soundSlider.getValue() / 100);
+				if (mediaView.getMediaPlayer() != null) {
+					mediaView.getMediaPlayer().setVolume(soundSlider.getValue() / 100);
 				}
 
 			}
@@ -108,33 +106,47 @@ public class ExerciceController implements Initializable {
 
 
 		finishButton.setOnAction(ActionEvent -> Main.getPopupStage().show());
-		
+
 	}
 
 	private void verify(String text) {
-		// TODO faire la verif pour le parametre
-
-		String string = "";
-		for (int i = 0; i < wordsText.length; i++) {
-			if (wordsText[i].equals(text)) {
-				wordsTextEncrypted[i] = wordsText[i];
+		String[] encrypted = encryptedText.split(" ");
+		String[] clear = clearText.split(" ");
+		
+		Pattern punctionLessPattern = Pattern.compile("[^\\p{Punct}]*");
+		Matcher clearMatcher;
+		
+		for (int i = 0; i < clear.length; i++) {
+			clearMatcher = punctionLessPattern.matcher(clear[i]);
+			if (clearMatcher.find() && clearMatcher.group(0).equals(text)) {
+				encrypted[i]=clear[i];
 			}
-			string += wordsTextEncrypted[i] + " ";
+
+			Pattern numberCharPattern = Pattern.compile(".{"+numberPartialReplacement+"}");
+			Matcher numberCharMatcher = numberCharPattern.matcher(clear[i]);
+			if (numberCharMatcher.find() && numberCharMatcher.group(0).equals(text)) {
+				encrypted[i] = numberCharMatcher.group(0);
+				for (int j = 2; j < clearMatcher.group(0).length(); j++) {
+					encrypted[i] += occultationChar;
+				}
+				encrypted[i] += clear[i].substring(clearMatcher.group(0).length());
+			}
 		}
-		if (textString.equals(typedText.getText())) {
-			typedText.setText(textString);
-			string = textString;
+		//Reconstruction
+		encryptedText = "";
+		for (String string : encrypted) {
+			encryptedText += string + " ";
 		}
-		textToFind.setText(string);
-		typedText.setText("");
+		textToFind.setText(encryptedText);
 	}
 
-	String textString;
-	String[] wordsText;
+	private String clearText;
 
 	char occultationChar;
-	boolean mediaType = true;;
+	boolean mediaType = true;
 
+	private int numberPartialReplacement;
+	
 	public void parseExercise(File file) throws IOException {
 		int nbBytesToRead;
 		String helpString;
@@ -147,7 +159,7 @@ public class ExerciceController implements Initializable {
 		FileInputStream fin = new FileInputStream(file);
 
 		nbBytesToRead = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
-		textString = convertByteToString(fin.readNBytes(nbBytesToRead));
+		clearText = convertByteToString(fin.readNBytes(nbBytesToRead));
 
 		nbBytesToRead = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
 		helpString = convertByteToString(fin.readNBytes(nbBytesToRead));
@@ -182,8 +194,15 @@ public class ExerciceController implements Initializable {
 		fos.close();
 		fin.close();
 
+		if (getBit(parameter[0], 1) == 1) {
+			if (getBit(parameter[0], 2) == 1) {
+				numberPartialReplacement = 3;
+			} else {
+				numberPartialReplacement = 2;
+			}
+		}
+		
 		instructionText.setText(instructionString);
-
 	}
 
 	private int getBit(byte b, int pos) {
@@ -198,11 +217,10 @@ public class ExerciceController implements Initializable {
 		return buildString;
 	}
 
-	String[] wordsTextEncrypted;
 
 	private String encryptText() {
 		String constructString = "";
-		for (String string : textString.split("")) {
+		for (String string : clearText.split("")) {
 			if (string.matches("[a-zA-Z]") || (string.matches("[0-9]"))) {
 				constructString += occultationChar;
 			}else {
@@ -211,20 +229,19 @@ public class ExerciceController implements Initializable {
 		}
 		return constructString;
 	}
-	
-	
+
+
 	public void setSoluce() {
-		textToFind.setText(textString);
+		textToFind.setText(clearText);
 		finishButton.setVisible(false);
 	}
-	
+
 
 	public void setExercise(String exName) throws IOException {
 		File ex = new File(Main.getParameterController().getCreatedExercisePath().getAbsolutePath() + "/" + exName);
 		parseExercise(ex);
 
 		try {
-			wordsText = textString.split(" ");
 			encryptedText = encryptText();
 			textToFind.setText(encryptedText);
 			File mediaSelected;
@@ -238,29 +255,29 @@ public class ExerciceController implements Initializable {
 				imageView.setImage(image);
 			}
 
-			testMe.setMediaPlayer(new MediaPlayer(new Media(mediaSelected.toURI().toURL().toExternalForm())));
-			testMe.getMediaPlayer().setAutoPlay(true);
-			soundSlider.setValue(testMe.getMediaPlayer().getVolume() * 100);
+			mediaView.setMediaPlayer(new MediaPlayer(new Media(mediaSelected.toURI().toURL().toExternalForm())));
+			mediaView.getMediaPlayer().setAutoPlay(true);
+			soundSlider.setValue(mediaView.getMediaPlayer().getVolume() * 100);
 			InvalidationListener sliderChangeListener = o -> {
 				Duration seekTo = Duration.seconds(progressBar.getValue());
-				testMe.getMediaPlayer().seek(seekTo);
+				mediaView.getMediaPlayer().seek(seekTo);
 			};
 			progressBar.valueProperty().addListener(sliderChangeListener);
-			testMe.getMediaPlayer().currentTimeProperty().addListener(l -> {
+			mediaView.getMediaPlayer().currentTimeProperty().addListener(l -> {
 				progressBar.valueProperty().removeListener(sliderChangeListener);
-				Duration currentTime = testMe.getMediaPlayer().getCurrentTime();
+				Duration currentTime = mediaView.getMediaPlayer().getCurrentTime();
 				progressBar.setValue(currentTime.toSeconds());
 				progressBar.valueProperty().addListener(sliderChangeListener);
 			});
 
-			testMe.getMediaPlayer().setOnReady(new Runnable() {
+			mediaView.getMediaPlayer().setOnReady(new Runnable() {
 
 				@Override
 				public void run() {
-					progressBar.setMax(testMe.getMediaPlayer().getTotalDuration().toSeconds());
+					progressBar.setMax(mediaView.getMediaPlayer().getTotalDuration().toSeconds());
 
 				}
-				
+
 			});
 		} catch (IOException e) {
 			e.printStackTrace();
