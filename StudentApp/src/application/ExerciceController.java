@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.ByteBuffer;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -110,21 +111,28 @@ public class ExerciceController implements Initializable {
 	}
 
 	private void verify(String text) {
-		String[] encrypted = encryptedText.split(" ");
-		String[] clear = clearText.split(" ");
+		if (text == null) {
+			return;
+		}
+		String[] encrypted = encryptedText.split("[ \\t\\n\\x0B\\f\\r]");
+		String[] clear = clearText.split("[ \\t\\n\\x0B\\f\\r]");
+		String[] space = clearText.split("[^\n]*");
 		
-		Pattern punctionLessPattern = Pattern.compile("[^\\p{Punct}]*");
+
+		System.out.println(space.length);
+		for (String string : space) {
+			System.out.println(string + " here");
+		}
+		Pattern punctionLessPattern = Pattern.compile("[^\\p{Punct}&&[^'-]]*");
 		Matcher clearMatcher;
-		
 		for (int i = 0; i < clear.length; i++) {
 			clearMatcher = punctionLessPattern.matcher(clear[i]);
 			if (clearMatcher.find() && clearMatcher.group(0).equals(text)) {
 				encrypted[i]=clear[i];
 			}
-
 			Pattern numberCharPattern = Pattern.compile(".{"+numberPartialReplacement+"}");
 			Matcher numberCharMatcher = numberCharPattern.matcher(clear[i]);
-			if (numberCharMatcher.find() && numberCharMatcher.group(0).equals(text)) {
+			if (numberCharMatcher.find() && numberCharMatcher.group(0).equals(text) && numberPartialReplacement >0) {
 				encrypted[i] = numberCharMatcher.group(0);
 				for (int j = 2; j < clearMatcher.group(0).length(); j++) {
 					encrypted[i] += occultationChar;
@@ -134,8 +142,14 @@ public class ExerciceController implements Initializable {
 		}
 		//Reconstruction
 		encryptedText = "";
+		int i = 1;
 		for (String string : encrypted) {
-			encryptedText += string + " ";
+			if (i < space.length) {
+				encryptedText += string + "\n";
+			}else {
+				encryptedText += string + " ";
+			}
+			i++;
 		}
 		textToFind.setText(encryptedText);
 	}
@@ -145,7 +159,7 @@ public class ExerciceController implements Initializable {
 	char occultationChar;
 	boolean mediaType = true;
 
-	private int numberPartialReplacement;
+	private int numberPartialReplacement = 0;
 	
 	public void parseExercise(File file) throws IOException {
 		int nbBytesToRead;
