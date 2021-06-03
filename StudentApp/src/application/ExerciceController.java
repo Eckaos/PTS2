@@ -2,11 +2,11 @@ package application;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.ByteBuffer;
-import java.util.Iterator;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,43 +28,65 @@ import javafx.scene.media.MediaPlayer.Status;
 public class ExerciceController implements Initializable {
 
 	@FXML
-	MediaView mediaView;
+	private MediaView mediaView;
 	@FXML
-	Text instructionText;
+	private Text instructionText;
 	@FXML
-	Button pausePlayButton;
+	private Button pausePlayButton;
 	@FXML
-	Slider progressBar;
+	private Slider progressBar;
 	@FXML
-	Button soundButton;
+	private Button soundButton;
 
 	@FXML
-	Text timeText;
+	private Text timeText;
 	@FXML
-	Button helpButton;
+	private Button helpButton;
 	@FXML
-	Text textToFind;
+	private Text textToFind; //TODO Change name
 	@FXML
-	TextField typedText;
+	private TextField typedText;
 	@FXML
-	Button validateButton;
+	private Button validateButton;
 	@FXML
-	Button finishButton;
+	private Button finishButton;
 
 	@FXML
-	Button launchExButton;
+	private Button launchExButton;
 
 	@FXML
-	Slider soundSlider;
+	private Slider soundSlider;
 
 	@FXML
-	ImageView imageView;
+	private ImageView imageView;
 
-	String encryptedText;
+	private String encryptedText;
+	private String helpText;
 
+	private boolean helpDisplayed = false;
+	
+	private String fileName;
+	
+	//TODO demander le nom d'un etudiant au chargement d'un exercice exam
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
+		helpButton.setOnAction(ActionEvent -> {
+			if (helpDisplayed) {
+				helpDisplayed = false;
+				textToFind.setText(encryptedText);
+				typedText.setDisable(false);
+				validateButton.setDisable(false);
+				
+			}else {
+				helpDisplayed = true;
+				textToFind.setText(helpText);
+				typedText.setDisable(true);
+				validateButton.setDisable(true);
+			}
+		});
+		
 		pausePlayButton.setOnAction(ActionEvent -> {
 			if (mediaView.getMediaPlayer() == null) {
 				return;
@@ -160,6 +182,8 @@ public class ExerciceController implements Initializable {
 	boolean mediaType = true;
 
 	private int numberPartialReplacement = 0;
+	private int minutes;
+	private int seconds;
 	
 	public void parseExercise(File file) throws IOException {
 		int nbBytesToRead;
@@ -167,8 +191,6 @@ public class ExerciceController implements Initializable {
 		String instructionString;
 		String occultation;
 		byte[] parameter;
-		int minutes;
-		int seconds;
 
 		FileInputStream fin = new FileInputStream(file);
 
@@ -215,7 +237,7 @@ public class ExerciceController implements Initializable {
 				numberPartialReplacement = 2;
 			}
 		}
-		
+		helpText = helpString;
 		instructionText.setText(instructionString);
 	}
 
@@ -298,4 +320,60 @@ public class ExerciceController implements Initializable {
 		}
 	}
 
+	private void saveExercise() throws IOException {
+		byte[] clearTextBytes = clearText.getBytes();
+		byte[] clearTextLength = getLenght(clearText);
+		
+		byte[] encryptedTextBytes = encryptedText.getBytes();
+		byte[] encryptedTextLenght = getLenght(encryptedText);
+		
+		byte[] media = null;
+		byte[] image = null;
+		
+		int imageLength = 0;
+		
+		FileInputStream mediaFileinput;
+		FileInputStream imageFileinput = null;
+		if (mediaType) {
+			mediaFileinput = new FileInputStream("temp.mp4");
+		}else {
+			mediaFileinput = new FileInputStream("temp.mp3");
+			if (imageView.getImage() != null) {
+				imageFileinput = new FileInputStream("temp.png");
+				image = imageFileinput.readAllBytes();
+				imageLength = image.length;
+			}
+		}
+		
+		media = mediaFileinput.readAllBytes();
+		int mediaLength = media.length;
+		
+		FileOutputStream fos = new FileOutputStream(Main.getParameterController().getStudentExercisePath().getAbsolutePath() + "/" + fileName + ".student");
+		fos.write(clearTextLength);
+		fos.write(clearTextBytes);
+		
+		fos.write(encryptedTextLenght);
+		fos.write(encryptedTextBytes);
+		
+		fos.write(ByteBuffer.allocate(8).putInt(mediaLength).array());
+		fos.write(media);
+		
+		
+		if (imageFileinput != null) {
+			fos.write(ByteBuffer.allocate(8).putInt(imageLength).array());
+			fos.write(image);
+			imageFileinput.close();
+		}
+		mediaFileinput.close();
+		fos.close();
+	}
+	
+	
+	private byte[] getLenght(String input) {
+		int count = 0;
+		for(int i=0; i<input.length();i++){  
+			count++;
+		}
+		return ByteBuffer.allocate(4).putInt(count).array();
+	}
 }
