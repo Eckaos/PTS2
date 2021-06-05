@@ -68,6 +68,7 @@
                   <Insets />
                </GridPane.margin>
             </Button>
+            <Button fx:id="deleteButton" mnemonicParsing="false" text="Button" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
    </center>

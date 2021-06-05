@@ -1,8 +1,11 @@
 package application;
 
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,36 +20,39 @@ import javafx.stage.Stage;
 
 public class ModifyExerciseController implements Initializable{
 
-	@FXML
-	private ListView<String> trainingFiles;
+	@FXML private ListView<String> trainingFiles;
 	
-	@FXML
-	private ListView<String> examFiles;
+	@FXML private ListView<String> examFiles;
 	
-	@FXML
-	private Button modifyButton;
+	@FXML private Button modifyButton;
 	
-	@FXML
-	private Button Addbutton;
+	@FXML private Button Addbutton;
 	
 	private File currentFile;
 	
-	@FXML
-	MenuItem newExercise;
+	@FXML private MenuItem newExercise;
 	
-	@FXML
-	MenuItem seeResults;
+	@FXML private MenuItem seeResults;
 	
-	@FXML
-	MenuItem close;
+	@FXML private MenuItem close;
 	
-	@FXML
-	MenuItem parameter;
+	@FXML private MenuItem parameter;
 	
+	@FXML private Button deleteButton;
+	
+	private Map<File, ListView<String>> fileMap = new HashMap<>();
 	
 	//TODO reinitialize exercice Editor on new exercise
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		deleteButton.setOnAction(ActionEvent -> {
+			if (currentFile != null) {
+				currentFile.delete();
+				fileMap.get(currentFile).getItems().remove(FileUtil.stripExtension(currentFile));
+			}
+		});
+		
 		close.setOnAction(ActionEvent -> 
 		{
 			Stage stage = (Stage) Addbutton.getScene().getWindow();
@@ -60,18 +66,16 @@ public class ModifyExerciseController implements Initializable{
 		if (Main.getParameterController().getCreatedExercisePath() != null) {
 			exerciseDirectory = Main.getParameterController().getCreatedExercisePath();
 			if (exerciseDirectory.exists()) {
-				ObservableList<String> trainingFileList = FXCollections.observableArrayList();
-				ObservableList<String> examFileList = FXCollections.observableArrayList();
 				for (File file : exerciseDirectory.listFiles()) {
 					if (".train".equals(FileUtil.getExtension(file))) {
-						trainingFileList.add(FileUtil.stripExtension(file));
+						fileMap.put(file, trainingFiles);
+						trainingFiles.getItems().add(FileUtil.stripExtension(file));
 					}
 					if (".exam".equals(FileUtil.getExtension(file))) {
-						examFileList.add(FileUtil.stripExtension(file));
+						fileMap.put(file, examFiles);
+						examFiles.getItems().add(FileUtil.stripExtension(file));
 					}
 				}
-				trainingFiles.setItems(trainingFileList);
-				examFiles.setItems(examFileList);
 			}
 		}
 		

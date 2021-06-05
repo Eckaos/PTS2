@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -25,18 +27,27 @@ public class SeeResultController implements Initializable{
 	@FXML private Button seeButton;
 	private File currentFile;
 
-	@FXML MenuItem newExercise;
+	@FXML private MenuItem newExercise;
 
-	@FXML MenuItem seeResults;
+	@FXML private MenuItem seeResults;
 
-	@FXML MenuItem close;
+	@FXML private MenuItem close;
 
-	@FXML MenuItem parameter;
+	@FXML private MenuItem parameter;
+	
+	@FXML private Button deleteButton;
 	
 	private List<String> exercisesFullName = new ArrayList<>();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		deleteButton.setOnAction(ActionEvent -> {
+			if (currentFile != null) {
+				currentFile.delete();
+				elevesListView.getItems().remove(FileUtil.stripExerciceName(currentFile));
+			}
+		});
 		
 		close.setOnAction(ActionEvent -> 
 		{
