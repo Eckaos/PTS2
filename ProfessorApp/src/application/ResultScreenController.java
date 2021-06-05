@@ -91,6 +91,7 @@ public class ResultScreenController implements Initializable {
 		if (length > 0) {
 			image = new FileOutputStream("temp.png");
 			image.write(fileInputStream.readNBytes(length));
+			image.close();
 		}
 		
 		instruction.setText(instructionText);
@@ -118,6 +119,8 @@ public class ResultScreenController implements Initializable {
 			}
 		}
 		averageNumberOfWord.setText(numberFoundWord +" mots trouvés/" + numberWord);
+		fileInputStream.close();
+		mediaOutputStream.close();
 	}
 
 	private String convertByteToString(byte[] readNBytes) {
@@ -126,10 +129,6 @@ public class ResultScreenController implements Initializable {
 			buildString += (char) readNBytes[i];
 		}
 		return buildString;
-	}
-	
-	private int getBit(byte b, int pos) {
-		return (b >> pos) & 1;
 	}
 	
 	private void setMediaListener(Media media) {
