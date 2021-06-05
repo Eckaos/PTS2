@@ -46,8 +46,6 @@ public class ResultScreenController implements Initializable {
 	private MediaPlayer mediaPlayer;
 	private Media media;
 	
-	private File fileToRead;
-	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -55,62 +53,71 @@ public class ResultScreenController implements Initializable {
 	}
 
 	public void parseExercise(File currentFile) throws IOException {
-		int nbBytesToRead;
-		String textString;
-		String instructionString;
-		char occultationChar;
-		String occultation;
-		byte[] parameter;
+		int length;
 		
-		//TODO recuperer le texte reconstitue par l'etudiant
-		FileInputStream fin = new FileInputStream(currentFile);
-
-		nbBytesToRead = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
-		textString = convertByteToString(fin.readNBytes(nbBytesToRead));
-
-		nbBytesToRead = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
-		fin.readNBytes(nbBytesToRead);
-
-		nbBytesToRead = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
-		instructionString = convertByteToString(fin.readNBytes(nbBytesToRead));
-
-		parameter = fin.readNBytes(1);
-		occultation = convertByteToString(fin.readNBytes(1));
-		occultationChar = occultation.charAt(0);
-
-		fin.readNBytes(4);
-		fin.readNBytes(4);
-
-		FileOutputStream fos = null;
-		FileOutputStream fos2 = null;
-		if (getBit(parameter[0], 6) == 1) {
-			fos = new FileOutputStream("temp.mp4");
-		} else {
-			fos = new FileOutputStream("temp.mp3");
-			fos2 = new FileOutputStream("temp.png");
-		}
-		int bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
-		fos.write(fin.readNBytes(bytesRead));
-
+		String clearText;
+		String encryptedText;
+		String instructionText;
+		boolean mediaType;
 		
-		File tempFile = null;
-		if (getBit(parameter[0], 6) == 0) {
-			bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
-			fos2.write(fin.readNBytes(bytesRead));
-			imageView.setImage(new Image("file:temp.png"));
-			tempFile = new File("temp.mp3");
+		FileInputStream fileInputStream = new FileInputStream(currentFile);
+		
+		mediaType = ByteBuffer.wrap(fileInputStream.readNBytes(4)).getInt() == 1 ? true:false;
+		
+		length = ByteBuffer.wrap(fileInputStream.readNBytes(4)).getInt();
+		clearText = convertByteToString(fileInputStream.readNBytes(length));
+		
+		length = ByteBuffer.wrap(fileInputStream.readNBytes(4)).getInt();
+		encryptedText = convertByteToString(fileInputStream.readNBytes(length));
+		
+		length = ByteBuffer.wrap(fileInputStream.readNBytes(4)).getInt();
+		instructionText = convertByteToString(fileInputStream.readNBytes(length));
+		
+		length = ByteBuffer.wrap(fileInputStream.readNBytes(8)).getInt();
+		
+		FileOutputStream mediaOutputStream;
+		FileOutputStream image;
+		
+		if (mediaType) {
+			mediaOutputStream = new FileOutputStream("temp.mp4");
 		}else {
-			tempFile = new File("temp.mp4");
+			mediaOutputStream = new FileOutputStream("temp.mp3");
 		}
-		fos.close();
-		fin.close();
-		media = new Media(tempFile.toURI().toString());
+		
+		mediaOutputStream.write(fileInputStream.readNBytes(length));
+		
+		length = ByteBuffer.wrap(fileInputStream.readNBytes(8)).getInt();
+		
+		if (length > 0) {
+			image = new FileOutputStream("temp.png");
+			image.write(fileInputStream.readNBytes(length));
+		}
+		
+		instruction.setText(instructionText);
+		completeText.setText(clearText);
+		reconstructedText.setText(encryptedText);
+		
+		File mediaFile;
+		if (mediaType) {
+			mediaFile = new File("temp.mp4");
+			media = new Media(mediaFile.toURI().toString());
+		}else {
+			mediaFile = new File("temp.mp3");
+			media = new Media(mediaFile.toURI().toString());
+		}
 		mediaPlayer = new MediaPlayer(media);
 		mediaView.setMediaPlayer(mediaPlayer);
 		setMediaListener(media);
-		completeText.setText(textString);
-		instruction.setText(instructionString);
-		//setText
+		String[] words = clearText.split("[ \\t\\n\\x0B\\f\\r]");
+		String[] foundWords = encryptedText.split("[ \\t\\n\\x0B\\f\\r]");
+		int numberWord = words.length;
+		int numberFoundWord = 0;
+		for (String string : foundWords) {
+			if (!string.contains("#")) {
+				numberFoundWord++;
+			}
+		}
+		averageNumberOfWord.setText(numberFoundWord +" mots trouvés/" + numberWord);
 	}
 
 	private String convertByteToString(byte[] readNBytes) {

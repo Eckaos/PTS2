@@ -2,7 +2,6 @@ package application;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -10,18 +9,22 @@ import java.nio.ByteBuffer;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.media.*;
 import javafx.scene.media.MediaPlayer.Status;
 
@@ -67,11 +70,29 @@ public class ExerciceController implements Initializable {
 	
 	private String fileName;
 	
-	//TODO demander le nom d'un etudiant au chargement d'un exercice exam
+	private FXMLLoader popupLoader;
+	private Stage popupStage;
+	private Scene popupScene;
+	
+	//TODO demander le nom d'un etudiant sur la validation de l'exercice exam
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
+		popupLoader = new FXMLLoader(getClass().getResource("FinishPopupEx.fxml"));
+		BorderPane popupScreen;
+		popupStage = new Stage();
+		try {
+			popupScreen = (BorderPane) popupLoader.load();
+			popupScene = new Scene(popupScreen);
+			popupStage.setResizable(false);
+			popupStage.setScene(popupScene);
+			popupStage.initModality(Modality.APPLICATION_MODAL);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
 		helpButton.setOnAction(ActionEvent -> {
 			if (helpDisplayed) {
 				helpDisplayed = false;
@@ -127,24 +148,23 @@ public class ExerciceController implements Initializable {
 		});
 		validateButton.setOnAction(ActionEvent -> verify(typedText.getText()));
 
-
-		finishButton.setOnAction(ActionEvent -> Main.getPopupStage().show());
-
 	}
 
+	@FXML
+	private void finishHandle() {
+		((PopupController)popupLoader.getController()).reset();
+		popupStage.show();
+	}
+	
 	private void verify(String text) {
 		if (text == null) {
 			return;
 		}
+		//TODO gerer la casse.
 		String[] encrypted = encryptedText.split("[ \\t\\n\\x0B\\f\\r]");
 		String[] clear = clearText.split("[ \\t\\n\\x0B\\f\\r]");
 		String[] space = clearText.split("[^\n]*");
 		
-
-		System.out.println(space.length);
-		for (String string : space) {
-			System.out.println(string + " here");
-		}
 		Pattern punctionLessPattern = Pattern.compile("[^\\p{Punct}&&[^'-]]*");
 		Matcher clearMatcher;
 		for (int i = 0; i < clear.length; i++) {
@@ -184,6 +204,8 @@ public class ExerciceController implements Initializable {
 	private int numberPartialReplacement = 0;
 	private int minutes;
 	private int seconds;
+	private boolean exam =false;
+	private String exerciseName;
 	
 	public void parseExercise(File file) throws IOException {
 		int nbBytesToRead;
@@ -191,7 +213,8 @@ public class ExerciceController implements Initializable {
 		String instructionString;
 		String occultation;
 		byte[] parameter;
-
+		
+		exerciseName = FileUtil.stripExtension(file);
 		FileInputStream fin = new FileInputStream(file);
 
 		nbBytesToRead = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
@@ -236,6 +259,9 @@ public class ExerciceController implements Initializable {
 			} else {
 				numberPartialReplacement = 2;
 			}
+		}
+		if (getBit(parameter[0], 0) == 1) {
+			exam = true;
 		}
 		helpText = helpString;
 		instructionText.setText(instructionString);
@@ -320,12 +346,15 @@ public class ExerciceController implements Initializable {
 		}
 	}
 
-	private void saveExercise() throws IOException {
+	public void saveExercise() throws IOException {
 		byte[] clearTextBytes = clearText.getBytes();
 		byte[] clearTextLength = getLenght(clearText);
 		
 		byte[] encryptedTextBytes = encryptedText.getBytes();
 		byte[] encryptedTextLenght = getLenght(encryptedText);
+		
+		byte[] instructionTextBytes = instructionText.getText().getBytes();
+		byte[] instructionTextLength = getLenght(instructionText.getText());
 		
 		byte[] media = null;
 		byte[] image = null;
@@ -347,20 +376,21 @@ public class ExerciceController implements Initializable {
 		
 		media = mediaFileinput.readAllBytes();
 		int mediaLength = media.length;
+		FileOutputStream fos = new FileOutputStream(Main.getParameterController().getStudentExercisePath().getAbsolutePath() + "/" + exerciseName + "_" + fileName + ".student");
+		fos.write(ByteBuffer.allocate(4).putInt(mediaType? 1:0).array());
 		
-		FileOutputStream fos = new FileOutputStream(Main.getParameterController().getStudentExercisePath().getAbsolutePath() + "/" + fileName + ".student");
 		fos.write(clearTextLength);
 		fos.write(clearTextBytes);
-		
 		fos.write(encryptedTextLenght);
 		fos.write(encryptedTextBytes);
+		fos.write(instructionTextLength);
+		fos.write(instructionTextBytes);
 		
 		fos.write(ByteBuffer.allocate(8).putInt(mediaLength).array());
 		fos.write(media);
 		
-		
+		fos.write(ByteBuffer.allocate(8).putInt(imageLength).array());
 		if (imageFileinput != null) {
-			fos.write(ByteBuffer.allocate(8).putInt(imageLength).array());
 			fos.write(image);
 			imageFileinput.close();
 		}
@@ -375,5 +405,13 @@ public class ExerciceController implements Initializable {
 			count++;
 		}
 		return ByteBuffer.allocate(4).putInt(count).array();
+	}
+	
+	public boolean isExam() {
+		return exam;
+	}
+	
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 }

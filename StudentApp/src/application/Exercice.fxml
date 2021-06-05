@@ -68,7 +68,7 @@
                   <Button fx:id="validateButton" mnemonicParsing="false" text="Button" />
                </children>
             </HBox>
-            <Button fx:id="finishButton" mnemonicParsing="false" text="Terminer">
+            <Button fx:id="finishButton" mnemonicParsing="false" onAction="#finishHandle" text="Terminer">
                <VBox.margin>
                   <Insets left="130.0" />
                </VBox.margin>

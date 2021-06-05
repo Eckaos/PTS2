@@ -3,6 +3,8 @@ package application;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -30,6 +32,8 @@ public class SeeResultController implements Initializable{
 	@FXML MenuItem close;
 
 	@FXML MenuItem parameter;
+	
+	private List<String> exercisesFullName = new ArrayList<>();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -48,7 +52,7 @@ public class SeeResultController implements Initializable{
 			exerciseDirectory = Main.getParameterController().getStudentExercisePath();
 			if (exerciseDirectory.exists()) {
 				for (File file : exerciseDirectory.listFiles()) {
-					if (".student".equals(FileUtil.getExtension(file))) {
+					if (".exam".equals(FileUtil.getExtension(file))) {
 						examFiles.getItems().add(FileUtil.stripExtension(file));
 					}
 				}
@@ -60,8 +64,9 @@ public class SeeResultController implements Initializable{
 			public void handle(MouseEvent click) {
 				elevesListView.getItems().clear();
 				for (File file : Main.getParameterController().getStudentExercisePath().listFiles()) {
-					if (file.getName().contains(examFiles.getSelectionModel().getSelectedItem())) {
+					if (file.getName().contains(examFiles.getSelectionModel().getSelectedItem()) && FileUtil.getExtension(file).equals(".student")) {
 						elevesListView.getItems().add(FileUtil.stripExerciceName(file));
+						exercisesFullName.add(file.getName());
 					}
 					
 				}
@@ -71,7 +76,7 @@ public class SeeResultController implements Initializable{
 		elevesListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent click) {
-				currentFile = new File(Main.getParameterController().getStudentExercisePath().getAbsolutePath()+"/"+examFiles.getSelectionModel().getSelectedItem()+".student");
+				currentFile = new File(Main.getParameterController().getStudentExercisePath().getAbsolutePath()+"/"+exercisesFullName.get(elevesListView.getSelectionModel().getSelectedIndex()));
 				if (click.getClickCount() == 2) {
 					try {
 						Main.getResultScreenController().parseExercise(currentFile);

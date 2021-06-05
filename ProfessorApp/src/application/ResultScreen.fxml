@@ -41,6 +41,7 @@
             <Label fx:id="reconstructedText" alignment="TOP_LEFT" prefHeight="640.0" prefWidth="360.0" text="Texte reconstittué" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" height="300.0" stroke="BLACK" strokeType="INSIDE" width="480.0" />
                   <Button fx:id="playButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#playPauseHandle" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: transparent;">
                      <StackPane.margin>
                         <Insets right="455.0" top="325.0" />
@@ -53,9 +54,6 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <MediaView fx:id="mediaView" fitHeight="300.0" fitWidth="480.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" height="300.0" stroke="BLACK" strokeType="INSIDE" width="480.0" />
-                  <ImageView fx:id="imageView" fitHeight="300.0" fitWidth="480.0" pickOnBounds="true" preserveRatio="true" />
                   <Slider fx:id="timeSlider" maxWidth="300.0">
                      <StackPane.margin>
                         <Insets right="110.0" top="325.0" />
@@ -78,6 +76,8 @@
                         <Insets left="370.0" top="325.0" />
                      </StackPane.margin>
                   </Slider>
+                  <MediaView fx:id="mediaView" fitHeight="300.0" fitWidth="480.0" />
+                  <ImageView fx:id="imageView" fitHeight="300.0" fitWidth="480.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </StackPane>
          </children>

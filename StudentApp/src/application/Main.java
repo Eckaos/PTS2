@@ -4,45 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
 
 public class Main extends Application {
 
-	static Parent root;
-	static List<BorderPane> screens = new ArrayList<>();
-	static int currentIndex = 0;
-	static Scene scene;
-	static Scene popupScene;
+	private static List<BorderPane> screens = new ArrayList<>();
+	private static Scene scene;
 
 	private static FXMLLoader parameterLoader;
 	private static ParameterController parameterController;
 	private static FXMLLoader accueilLoader;
 	private static FXMLLoader exLoader;
-	private static FXMLLoader popupLoader;
-
-	static Stage popupStage;
+	
 	
 	@Override
 	public void start(Stage primaryStage){
 		try {
-			popupLoader = new FXMLLoader(getClass().getResource("FinishPopupEx.fxml"));
-			BorderPane popupScreen = (BorderPane) popupLoader.load();
-			popupStage = new Stage();
-			popupScene = new Scene(popupScreen);
-			popupStage.setResizable(false);
-			popupStage.setScene(popupScene);
-			popupStage.initModality(Modality.APPLICATION_MODAL);
-
 			parameterLoader = new FXMLLoader(getClass().getResource("Parameter.fxml"));
 			accueilLoader = new FXMLLoader(getClass().getResource("Accueil.fxml"));
 			exLoader = new FXMLLoader(getClass().getResource("Exercice.fxml"));
 			parameterLoader.load();
 			parameterController = parameterLoader.getController();
+			
+			
 			screens.add((BorderPane)accueilLoader.load());
 			screens.add((BorderPane)exLoader.load());
 			scene = new Scene(screens.get(0),1280,720);
@@ -67,7 +54,6 @@ public class Main extends Application {
 
 	public static void setScreen(int index) {
 		scene.setRoot(screens.get(index));
-		currentIndex = index;
 	}
 
 	public static ParameterController getParameterController() {
@@ -80,14 +66,6 @@ public class Main extends Application {
 
 	public static ExerciceController getExController() {
 		return exLoader.getController();
-	}
-	
-	public static PopupController getPopupController() {
-		return popupLoader.getController();
-	}
-
-	public static Stage getPopupStage() {
-		return popupStage;
 	}
 
 

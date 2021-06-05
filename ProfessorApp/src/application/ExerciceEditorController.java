@@ -207,7 +207,9 @@ public class ExerciceEditorController implements Initializable{
 
 		title.setText(FileUtil.stripExtension(file));
 		FileInputStream fin = new FileInputStream(file);
-
+		
+		
+		
 		nbBytesToRead = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
 		text.setText(convertByteToString(fin.readNBytes(nbBytesToRead)));
 
