@@ -1,14 +1,11 @@
 package application;
 
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -59,7 +56,10 @@ public class ModifyExerciseController implements Initializable{
 			stage.close();
 		});
 		
-		newExercise.setOnAction(ActionEvent -> Main.setScreen(2));
+		newExercise.setOnAction(ActionEvent -> {
+			Main.getExerciceEditorController().reset();
+			Main.setScreen(2);
+		});
 		parameter.setOnAction(ActionEvent -> Main.getParameterStage().show());
 		
 		File exerciseDirectory;
@@ -116,6 +116,7 @@ public class ModifyExerciseController implements Initializable{
 		{
 			currentFile = null;
 			Main.getExerciceEditorController().setFileToModify(null);
+			Main.getExerciceEditorController().reset();
 			Main.setScreen(2);
 		});
 		

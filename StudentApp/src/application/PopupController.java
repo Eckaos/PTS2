@@ -32,9 +32,6 @@ public class PopupController implements Initializable {
 	
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		
-		
-		
 		firstNameField.setOnKeyTyped(ActionEvent -> {
 			if (!firstNameField.getText().equals("") && !lastNameField.getText().equals("")) {
 				oui.setDisable(false);
@@ -57,6 +54,7 @@ public class PopupController implements Initializable {
 			if (soluceController.isExam()) {
 				try {
 					soluceController.saveExercise();
+					Main.setScreen(0);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

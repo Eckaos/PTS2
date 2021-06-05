@@ -132,6 +132,9 @@ public class ExerciceEditorController implements Initializable{
 	}
 
 	public void save() throws IOException{
+		if (title.getText().equals("") || title.getText() == null) {
+			return;
+		}
 		ExerciseParameterController test = loader.getController();
 		
 		byte[] textBinary = text.getText().getBytes();
@@ -430,5 +433,12 @@ public class ExerciceEditorController implements Initializable{
 			Image imageTemp = new Image(tempFile.toURI().toString()); 
 			muteImage.setImage(imageTemp);
 		}
+	}
+
+	public void reset() {
+		help.setText("");
+		text.setText("");
+		instruction.setText("");
+		title.setText("");
 	}
 }

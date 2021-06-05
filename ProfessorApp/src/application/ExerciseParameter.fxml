@@ -16,61 +16,61 @@
    <center>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="635.0" minWidth="10.0" prefWidth="625.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="440.0" minWidth="10.0" prefWidth="265.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="635.0" minWidth="10.0" prefWidth="568.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="472.0" minWidth="10.0" prefWidth="322.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Exercie en mode :" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <Label text="Exercie en mode :" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="10.0" top="10.0" />
+                  <Insets left="10.0" right="60.0" top="10.0" />
                </GridPane.margin>
             </Label>
-            <RadioButton fx:id="trainingRadioButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="Entraînement" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <RadioButton fx:id="trainingRadioButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="Entraînement" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="20.0" top="30.0" />
+                  <Insets left="20.0" right="80.0" top="50.0" />
                </GridPane.margin>
             </RadioButton>
-            <RadioButton fx:id="examRadioButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="Examen" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <RadioButton fx:id="examRadioButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="Examen" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="20.0" top="50.0" />
+                  <Insets left="20.0" right="50.0" top="50.0" />
                </GridPane.margin>
             </RadioButton>
-            <TextField fx:id="minuteField" maxHeight="20.0" maxWidth="50.0" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <TextField fx:id="minuteField" maxHeight="20.0" maxWidth="50.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="20.0" top="90.0" />
                </GridPane.margin>
             </TextField>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="minutes" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="minutes" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="75.0" right="5.0" top="92.5" />
                </GridPane.margin>
             </Text>
-            <TextField fx:id="secondField" maxHeight="20.0" maxWidth="40.0" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <TextField fx:id="secondField" maxHeight="20.0" maxWidth="40.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="123.0" top="90.0" />
                </GridPane.margin>
             </TextField>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="secondes" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="secondes" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="168.0" top="92.5" />
                </GridPane.margin>
             </Text>
-            <TextField fx:id="occultationChoiceField" maxHeight="20.0" maxWidth="25.0" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <TextField fx:id="occultationChoiceField" maxHeight="20.0" maxWidth="25.0" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets left="20.0" top="130.0" />
+                  <Insets bottom="80.0" right="175.0" />
                </GridPane.margin>
             </TextField>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Caractere d'occultation" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Caractere d'occultation" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets left="50.0" top="132.5" />
+                  <Insets bottom="85.0" right="50.0" />
                </GridPane.margin>
             </Text>
-            <CheckBox fx:id="letterCaseCheckBox" mnemonicParsing="false" text="Sensibilité à la casse " GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <CheckBox fx:id="letterCaseCheckBox" mnemonicParsing="false" text="Sensibilité à la casse" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets left="20.0" top="165.0" />
+                  <Insets bottom="50.0" right="60.0" />
                </GridPane.margin>
             </CheckBox>
             <CheckBox fx:id="partialReplacementCheckBox" mnemonicParsing="false" text="Autoriser le remplacement partiel d'un mot" GridPane.halignment="LEFT" GridPane.valignment="TOP">
@@ -80,15 +80,15 @@
             </CheckBox>
             <CheckBox fx:id="solutionPresenceCheckBox" mnemonicParsing="false" text="Autoriser la présence d'un bouton &quot;Solution&quot;" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="20.0" top="205.0" />
+                  <Insets left="20.0" top="175.0" />
                </GridPane.margin>
             </CheckBox>
-            <CheckBox fx:id="realTimeNumberWordCheckBox" mnemonicParsing="false" text="Autoriser l'affichage en temps réel du rapport nombre de mots découverts / nombre total de mots" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <CheckBox fx:id="realTimeNumberWordCheckBox" mnemonicParsing="false" prefHeight="39.0" prefWidth="364.0" text="Autoriser l'affichage en temps réel du rapport nombre de mots découverts / nombre total de mots" textAlignment="CENTER" wrapText="true" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="20.0" top="185.0" />
+                  <Insets left="20.0" top="100.0" />
                </GridPane.margin>
             </CheckBox>
-            <Spinner fx:id="numberOfLetterPartialReplacement" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <Spinner fx:id="numberOfLetterPartialReplacement" prefWidth="50.0" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="300.0" top="221.5" />
                </GridPane.margin>

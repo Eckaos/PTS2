@@ -86,6 +86,15 @@ public class ExerciseParameterController implements Initializable{
 				}
 			}
 		});
+		
+		occultationChoiceField.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (newValue.matches(".{2,}")) {
+					occultationChoiceField.setText(newValue.substring(0,1));
+				}
+			}
+		});
 
 		trainingRadioButton.setSelected(true);
 
@@ -96,7 +105,6 @@ public class ExerciseParameterController implements Initializable{
 			minuteField.setDisable(true);
 			secondField.setDisable(true);
 			partialReplacementCheckBox.setDisable(false);
-			letterCaseCheckBox.setDisable(false);
 			realTimeNumberWordCheckBox.setDisable(false);
 			solutionPresenceCheckBox.setDisable(false);
 			numberOfLetterPartialReplacement.setDisable(false);
@@ -109,7 +117,6 @@ public class ExerciseParameterController implements Initializable{
 			minuteField.setDisable(false);
 			secondField.setDisable(false);
 			partialReplacementCheckBox.setDisable(true);
-			letterCaseCheckBox.setDisable(true);
 			realTimeNumberWordCheckBox.setDisable(true);
 			solutionPresenceCheckBox.setDisable(true);
 			numberOfLetterPartialReplacement.setDisable(true);

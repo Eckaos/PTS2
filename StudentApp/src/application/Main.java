@@ -29,7 +29,6 @@ public class Main extends Application {
 			parameterLoader.load();
 			parameterController = parameterLoader.getController();
 			
-			
 			screens.add((BorderPane)accueilLoader.load());
 			screens.add((BorderPane)exLoader.load());
 			scene = new Scene(screens.get(0),1280,720);
