@@ -9,8 +9,13 @@ import java.nio.ByteBuffer;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,6 +25,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -33,7 +39,7 @@ public class ExerciceController implements Initializable {
 	@FXML
 	private MediaView mediaView;
 	@FXML
-	private Text instructionText;
+	private Label instructionText;
 	@FXML
 	private Button pausePlayButton;
 	@FXML
@@ -42,11 +48,11 @@ public class ExerciceController implements Initializable {
 	private Button soundButton;
 
 	@FXML
-	private Text timeText;
+	private Label timeText;
 	@FXML
 	private Button helpButton;
 	@FXML
-	private Text textToFind; //TODO Change name
+	private Label textToFind; //TODO Change name
 	@FXML
 	private TextField typedText;
 	@FXML
@@ -107,26 +113,6 @@ public class ExerciceController implements Initializable {
 				validateButton.setDisable(true);
 			}
 		});
-		
-		pausePlayButton.setOnAction(ActionEvent -> {
-			if (mediaView.getMediaPlayer() == null) {
-				return;
-			}
-			if (mediaView.getMediaPlayer().getStatus().equals(Status.PAUSED)) {
-				mediaView.getMediaPlayer().play();
-			} else {
-				mediaView.getMediaPlayer().pause();
-			}
-		});
-
-		soundButton.setOnMousePressed(ActionEvent -> {
-			if (mediaView.getMediaPlayer().isMute()) {
-				mediaView.getMediaPlayer().setMute(false);
-			} else {
-				mediaView.getMediaPlayer().setMute(true);
-			}
-
-		});
 
 		mediaView.setOnMouseClicked(ActionEvent -> {
 			if (mediaView.getMediaPlayer().getStatus().equals(Status.PAUSED)) {
@@ -147,7 +133,6 @@ public class ExerciceController implements Initializable {
 			}
 		});
 		validateButton.setOnAction(ActionEvent -> verify(typedText.getText()));
-
 	}
 
 	@FXML
@@ -302,7 +287,7 @@ public class ExerciceController implements Initializable {
 	public void setExercise(String exName) throws IOException {
 		File ex = new File(Main.getParameterController().getCreatedExercisePath().getAbsolutePath() + "/" + exName);
 		parseExercise(ex);
-
+		timeText.setText("Temps restant : " + minutes + ":" + seconds + "s");
 		try {
 			encryptedText = encryptText();
 			textToFind.setText(encryptedText);
@@ -318,7 +303,6 @@ public class ExerciceController implements Initializable {
 			}
 
 			mediaView.setMediaPlayer(new MediaPlayer(new Media(mediaSelected.toURI().toURL().toExternalForm())));
-			mediaView.getMediaPlayer().setAutoPlay(true);
 			soundSlider.setValue(mediaView.getMediaPlayer().getVolume() * 100);
 			InvalidationListener sliderChangeListener = o -> {
 				Duration seekTo = Duration.seconds(progressBar.getValue());
@@ -414,4 +398,102 @@ public class ExerciceController implements Initializable {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
+	
+	private boolean startTimer;
+	
+	@FXML
+	public void playPauseHandle() {
+		if (mediaView.getMediaPlayer()== null) {
+			return;
+		}
+		if (mediaView.getMediaPlayer().getStatus().equals(Status.PAUSED) || mediaView.getMediaPlayer().getStatus().equals(Status.READY)) {
+			if (startTimer == false) {
+				startTimer = true;
+				timerCreation();
+			}
+			mediaView.getMediaPlayer().play();
+			changePlayImage();
+		}else {
+			mediaView.getMediaPlayer().pause();
+			changePlayImage();
+		}
+	}
+
+	@FXML
+	ImageView playPauseImage;
+	
+	@FXML
+	ImageView muteImage;
+	
+	@FXML
+	public void muteHandle() {
+		if (mediaView.getMediaPlayer()== null) {
+			return;
+		}
+		if(mediaView.getMediaPlayer().isMute()) {
+			mediaView.getMediaPlayer().setMute(false);
+			changeSpeakerImage();
+		}else {
+			mediaView.getMediaPlayer().setMute(true);
+			changeSpeakerImage();
+		}
+	}
+	
+	private void changePlayImage() {
+		if (mediaView.getMediaPlayer().getStatus().equals(Status.PAUSED) || mediaView.getMediaPlayer().getStatus().equals(Status.READY)) {
+			File tempFile = new File("image/pauseButton.png");
+			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			playPauseImage.setImage(imageTemp);
+		}else {
+			File tempFile = new File("image/playButton.png");
+			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			playPauseImage.setImage(imageTemp);
+		}
+	}
+	
+	private void changeSpeakerImage() {
+		if(mediaView.getMediaPlayer().isMute()) {
+			File tempFile = new File("image/speakerMute.png");
+			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			muteImage.setImage(imageTemp);
+		}else {
+			File tempFile = new File("image/speaker.png");
+			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			muteImage.setImage(imageTemp);
+		}
+	}
+	
+	private Timeline timeline;
+	
+	private void timerCreation() {
+        timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.getKeyFrames().add(
+                new KeyFrame(Duration.seconds(1),
+                        new EventHandler<ActionEvent>() {
+                    // KeyFrame event handler
+                    @Override    
+                    public void handle(ActionEvent arg0) {
+                        seconds--;
+                        if (seconds < 0) {
+                            minutes--;
+                            seconds=59;
+                        }
+                        // update timerLabel
+                        timeText.setText("Temps restant : " + minutes + ":" + seconds + "s");
+                        if (seconds <= 0 && minutes <=0) {
+                            timeline.stop();
+                            //TODO ouvrir la page de solution
+                            /*try {
+                                openStats();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }*/
+                            return;
+                        }
+
+                    }
+                }));
+        timeline.playFromStart();
+    }
 }

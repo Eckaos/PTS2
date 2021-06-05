@@ -2,11 +2,13 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -14,34 +16,62 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.media.MediaView?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.shape.Rectangle?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ExerciceController">
    <left>
       <VBox prefHeight="695.0" prefWidth="934.0" BorderPane.alignment="CENTER">
          <children>
             <Region prefHeight="44.0" prefWidth="934.0" />
-            <Text fx:id="instructionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="934.13671875">
+            <Label fx:id="instructionText" prefHeight="17.0" prefWidth="731.0" text="Consigne :">
                <VBox.margin>
-                  <Insets />
+                  <Insets left="105.0" />
                </VBox.margin>
-            </Text>
+            </Label>
             <Region prefHeight="46.0" prefWidth="934.0" />
-            <StackPane prefHeight="150.0" prefWidth="200.0">
+            <StackPane prefHeight="556.0" prefWidth="935.0">
                <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" height="480.0" stroke="BLACK" strokeType="INSIDE" width="720.0" />
                   <MediaView fx:id="mediaView" fitHeight="480.0" fitWidth="720.0" />
                   <ImageView fx:id="imageView" fitHeight="480.0" fitWidth="720.0" pickOnBounds="true" preserveRatio="true" />
+                  <Button fx:id="pausePlayButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#playPauseHandle" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: transparent;" StackPane.alignment="BOTTOM_CENTER">
+                     <graphic>
+                        <ImageView fx:id="playPauseImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../image/playButton.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <StackPane.margin>
+                        <Insets right="695.0" />
+                     </StackPane.margin></Button>
+                  <Slider fx:id="progressBar" maxWidth="500.0" prefHeight="14.0" prefWidth="400.0" StackPane.alignment="BOTTOM_CENTER">
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                     <StackPane.margin>
+                        <Insets right="150.0" />
+                     </StackPane.margin></Slider>
+                  <Button fx:id="soundButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#muteHandle" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: transparent;" StackPane.alignment="BOTTOM_CENTER">
+                     <StackPane.margin>
+                        <Insets left="390.0" />
+                     </StackPane.margin>
+                     <graphic>
+                        <ImageView fx:id="muteImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../image/speaker.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Slider fx:id="soundSlider" maxWidth="140.0" StackPane.alignment="BOTTOM_CENTER">
+                     <StackPane.margin>
+                        <Insets bottom="5.0" left="565.0" />
+                     </StackPane.margin></Slider>
                </children>
             </StackPane>
             <HBox prefHeight="100.0" prefWidth="740.0">
                <children>
-                  <Button fx:id="pausePlayButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="40.0" />
-                  <Region prefHeight="100.0" prefWidth="39.0" />
-                  <Slider fx:id="progressBar" />
-                  <Region prefHeight="100.0" prefWidth="37.0" />
-                  <Button fx:id="soundButton" mnemonicParsing="false" text="Button" />
                   <Region prefHeight="100.0" prefWidth="26.0" />
-                  <Slider fx:id="soundSlider" />
                </children>
                <VBox.margin>
                   <Insets left="50.0" />
@@ -54,18 +84,18 @@
       <VBox prefHeight="695.0" prefWidth="368.0" BorderPane.alignment="CENTER">
          <children>
             <Region prefHeight="44.0" prefWidth="934.0" />
-            <Text fx:id="timeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Label fx:id="timeText" prefHeight="17.0" prefWidth="348.0" text="Timer" />
             <Region prefHeight="37.0" prefWidth="345.0" />
             <Button fx:id="helpButton" mnemonicParsing="false" text="Aide" />
             <Region prefHeight="20.0" prefWidth="345.0" />
-            <Text fx:id="textToFind" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Label fx:id="textToFind" prefHeight="17.0" prefWidth="351.0" text="Text" />
             <Region prefHeight="28.0" prefWidth="345.0" />
             <Region prefHeight="367.0" prefWidth="345.0" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Region prefHeight="98.0" prefWidth="69.0" />
                   <TextField fx:id="typedText" />
-                  <Button fx:id="validateButton" mnemonicParsing="false" text="Button" />
+                  <Button fx:id="validateButton" mnemonicParsing="false" text="Valider" />
                </children>
             </HBox>
             <Button fx:id="finishButton" mnemonicParsing="false" onAction="#finishHandle" text="Terminer">

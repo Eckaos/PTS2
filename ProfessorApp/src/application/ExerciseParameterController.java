@@ -177,8 +177,8 @@ public class ExerciseParameterController implements Initializable{
 
 	public byte[] getSecond() {
 		int seconds = 0;
-		if (minuteField.getText() != "" || minuteField.getText() != null) {
-			seconds = Integer.parseInt(minuteField.getText());
+		if (secondField.getText() != "" || secondField.getText() != null) {
+			seconds = Integer.parseInt(secondField.getText());
 		}
 		return ByteBuffer.allocate(4).putInt(seconds).array();
 	}

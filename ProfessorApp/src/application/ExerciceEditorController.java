@@ -133,6 +133,7 @@ public class ExerciceEditorController implements Initializable{
 
 	public void save() throws IOException{
 		ExerciseParameterController test = loader.getController();
+		
 		byte[] textBinary = text.getText().getBytes();
 		byte[] lenghtText = getLenght(text.getText());
 
