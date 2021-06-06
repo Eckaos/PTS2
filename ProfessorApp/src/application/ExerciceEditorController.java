@@ -159,18 +159,20 @@ public class ExerciceEditorController implements Initializable{
 		fos.write(occultationChar);
 		fos.write(exerciceMinute);
 		fos.write(exerciceSeconds);
-
+		
+		int bytesRead = 0;
+		FileInputStream fileInputStream1 = new FileInputStream(mediaFile);
 		if (mediaFile != null) {
-			FileInputStream fileInputStream1 = new FileInputStream(mediaFile);
-			int bytesRead = 0;
 			byte[] mediaFile = fileInputStream1.readAllBytes();
 			bytesRead = mediaFile.length;
-			fos.write(ByteBuffer.allocate(8).putInt(bytesRead).array());
-			fos.write(mediaFile);
-			fileInputStream1.close();
 		}
+		fos.write(ByteBuffer.allocate(8).putInt(bytesRead).array());
+		if (bytesRead > 0) {
+			fos.write(fileInputStream1.readAllBytes());
+		}
+		fileInputStream1.close();
+		fos.write(ByteBuffer.allocate(8).putInt(imageLenght).array());
 		if (image != null) {
-			fos.write(ByteBuffer.allocate(8).putInt(imageLenght).array());
 			fos.write(imageFile);
 		}
 		fos.close();

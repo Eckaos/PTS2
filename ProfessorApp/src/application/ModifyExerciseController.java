@@ -83,8 +83,8 @@ public class ModifyExerciseController implements Initializable{
 			@Override
 			public void handle(MouseEvent click) {
 				currentFile = new File(Main.getParameterController().getCreatedExercisePath().getAbsolutePath()+"/"+trainingFiles.getSelectionModel().getSelectedItem()+".train");
+				examFiles.getSelectionModel().select(null);
 				if (click.getClickCount() == 2) {
-					
 					try {
 						Main.getExerciceEditorController().setFileToModify(currentFile);
 						Main.getExerciceEditorController().parseExercise(currentFile);
@@ -100,6 +100,7 @@ public class ModifyExerciseController implements Initializable{
 			@Override
 			public void handle(MouseEvent click) {
 				currentFile = new File(Main.getParameterController().getCreatedExercisePath().getAbsolutePath()+"/"+examFiles.getSelectionModel().getSelectedItem()+".exam");
+				trainingFiles.getSelectionModel().select(null);
 				if (click.getClickCount() == 2) {
 					try {
 						Main.getExerciceEditorController().setFileToModify(currentFile);

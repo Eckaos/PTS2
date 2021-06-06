@@ -40,3 +40,20 @@
 	-fx-background-color: transparent;
 	-fx-border-color: transparent;
 }
+
+.list-view {
+	-fx-background-color: f2f3f5;
+}
+
+.list-cell {
+	-fx-background-color: f2f3f5;
+	-fx-text-fill: black;
+}
+.list-cell:even {
+	-fx-background-color: f2f3f5;
+	-fx-text-fill: black;
+}
+
+.list-cell:filled:selected {
+	-fx-background-color: d4d7dc;
+}
