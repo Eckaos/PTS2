@@ -7,6 +7,8 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -21,6 +23,7 @@
             <items>
                   <MenuItem fx:id="newExercise" mnemonicParsing="false" text="Nouvel Exercice" />
                   <MenuItem fx:id="modifExercise" mnemonicParsing="false" text="Modifier Exercice" />
+                  <MenuItem mnemonicParsing="false" text="Supprimer Exercice" />
                   <MenuItem fx:id="seeResults" mnemonicParsing="false" text="Consulter résultats" />
                   <SeparatorMenuItem mnemonicParsing="false" />
               <MenuItem fx:id="close" mnemonicParsing="false" text="Fermer" />
@@ -44,25 +47,58 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="modifyButton" mnemonicParsing="false" prefWidth="200.0" text="Modifier un Exercice" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <Button fx:id="result" mnemonicParsing="false" prefWidth="200.0" text="Consulter les résultats" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Button fx:id="modifyButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="Modifier/Supprimer un Exercice" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <GridPane.margin>
-                  <Insets top="100.0" />
-               </GridPane.margin>
-            </Button>
-            <Button fx:id="addButton" mnemonicParsing="false" prefWidth="200.0" text="Crée un nouvel Exercice" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-               <GridPane.margin>
-                  <Insets bottom="100.0" />
-               </GridPane.margin>
-            </Button>
-            <Label text="Bonjour, vous pouvez :" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-               <GridPane.margin>
-                  <Insets bottom="300.0" />
+                  <Insets top="70.0" />
                </GridPane.margin>
                <font>
-                  <Font size="34.0" />
+                  <Font size="15.0" />
+               </font></Button>
+            <Button fx:id="result" mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="Consulter les résultats" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets top="190.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="addButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="Crée un nouvel Exercice" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="50.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <Label prefHeight="105.0" prefWidth="399.0" text="Bienvenue sur Auditrad, vous pouvez :" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="250.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="Comic Sans MS" size="34.0" />
                </font>
             </Label>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+               <image>
+                  <Image url="@../image/lemans-universite-large.png" />
+               </image>
+            </ImageView>
+            <Label text="Olivia MANCEAU, Nathan POLLART, Ewen GILLARD, Albin LADISLAS" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font name="Comic Sans MS" size="25.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="5.0" right="5.0" />
+               </GridPane.margin>
+            </Label>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <image>
+                  <Image url="@../image/logo.png" />
+               </image>
+               <GridPane.margin>
+                  <Insets top="20.0" />
+               </GridPane.margin>
+            </ImageView>
          </children>
       </GridPane>
    </center>

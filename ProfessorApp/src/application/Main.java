@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
 
@@ -29,6 +30,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			primaryStage.setTitle("Auditrad");
+			primaryStage.getIcons().add(new Image(getClass().getResource("/image/logo.png").toString()));
 			parameterLoader = new FXMLLoader(getClass().getResource("Parameter.fxml"));
 			parameterScreen = (BorderPane) parameterLoader.load();
 			parameterStage = new Stage();
