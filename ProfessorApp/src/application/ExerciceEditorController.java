@@ -20,10 +20,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -39,68 +39,42 @@ import javafx.stage.Stage;
 
 public class ExerciceEditorController implements Initializable{
 
-	@FXML
-	MediaView mediaView;
-	@FXML
-	Button importMediaButton;
-	@FXML
-	TextArea instruction;
-	@FXML
-	TextArea help;
-	@FXML
-	TextArea text;
-	@FXML
-	TextField title;
-	@FXML
-	Button parameter;
-	@FXML
-	Text mediaPath;
-	@FXML
-	Text imagePath;
+	@FXML private MediaView mediaView;
+	@FXML private Button importMediaButton;
+	@FXML private TextArea instruction;
+	@FXML private TextArea help;
+	@FXML private TextArea text;
+	@FXML private Text mediaPath;
+	@FXML private Text imagePath;
+	@FXML private Button pausePlayButton;
+	@FXML private ImageView playPauseImage;
+	@FXML private Slider progressBar;
+	@FXML private Button muteButton;
+	@FXML private ImageView muteImage;
+	@FXML private Slider soundSlider;
+	@FXML private Button save;
+	@FXML private Button importImageButton;
+	@FXML private ImageView imageView;
+	@FXML private MenuItem newExercise;
+	@FXML private MenuItem modifExercise;
+	@FXML private MenuItem seeResults;
+	@FXML private MenuItem close;
+	@FXML private MenuItem parameterMenuItem;
+	@FXML private Label errorLabel;
 
-	@FXML
-	Button pausePlayButton;
-	@FXML
-	ImageView playPauseImage;
-	@FXML
-	Slider progressBar;
-	@FXML
-	Button muteButton;
-	@FXML
-	ImageView muteImage;
-	@FXML
-	Slider soundSlider;
-	@FXML
-	Button save;
-	@FXML
-	Button importImageButton;
-	@FXML
-	ImageView imageView;
-
-	@FXML
-	MenuItem newExercise;
-
-	@FXML
-	MenuItem modifExercise;
-
-	@FXML
-	MenuItem seeResults;
-
-	@FXML
-	MenuItem close;
-
-	@FXML
-	MenuItem parameterMenuItem;
-
-	File mediaFile;
-	File image;
-	FXMLLoader loader = new FXMLLoader(getClass().getResource("ExerciseParameter.fxml"));
-	Stage parameterStage = new Stage();
-	BorderPane parameterRoot;
+	private File mediaFile;
+	private File image;
+	private FXMLLoader loader = new FXMLLoader(getClass().getResource("ExerciseParameter.fxml"));
+	private ExerciseParameterController parameterController = loader.getController();
+	private Stage parameterStage = new Stage();
+	private BorderPane parameterRoot;
 
 	private File fileToModify;
+	
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		errorLabel.setVisible(false);
 		importImageButton.setVisible(false);
 		imagePath.setVisible(false);
 		close.setOnAction(ActionEvent -> 
@@ -117,8 +91,6 @@ public class ExerciceEditorController implements Initializable{
 			}
 		});
 		parameterMenuItem.setOnAction(ActionEvent -> Main.getParameterStage().show());
-		
-		parameter.setOnAction(ActionEvent -> parameterStage.show());
 
 		try {
 			parameterRoot = (BorderPane) loader.load();
@@ -129,10 +101,11 @@ public class ExerciceEditorController implements Initializable{
 		parameterStage.setResizable(false);
 		parameterStage.setScene(parameterScene);
 		parameterStage.initModality(Modality.APPLICATION_MODAL);
+		parameterScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 	}
 
-	public void save() throws IOException{
-		if (title.getText().equals("") || title.getText() == null) {
+	public void save(String name) throws IOException{
+		if ("".equals(name) || name == null) {
 			return;
 		}
 		ExerciseParameterController test = loader.getController();
@@ -168,9 +141,9 @@ public class ExerciceEditorController implements Initializable{
 		if (fileToModify != null) {
 			fos = new FileOutputStream(fileToModify);
 		}else if(getBit(parameters, 0) == 0){
-			fos = new FileOutputStream(Main.getParameterController().getCreatedExercisePath().getAbsolutePath()+"/"+title.getText()+".train");
+			fos = new FileOutputStream(Main.getParameterController().getCreatedExercisePath().getAbsolutePath()+"/"+name+".train");
 		}else {
-			fos = new FileOutputStream(Main.getParameterController().getCreatedExercisePath().getAbsolutePath()+"/"+title.getText()+".exam");
+			fos = new FileOutputStream(Main.getParameterController().getCreatedExercisePath().getAbsolutePath()+"/"+name+".exam");
 		}
 
 		fos.write(lenghtText);
@@ -209,10 +182,8 @@ public class ExerciceEditorController implements Initializable{
 		int minutes;
 		int seconds;
 
-		title.setText(FileUtil.stripExtension(file));
+		parameterController.setTitle(FileUtil.stripExtension(file));
 		FileInputStream fin = new FileInputStream(file);
-		
-		
 		
 		nbBytesToRead = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
 		text.setText(convertByteToString(fin.readNBytes(nbBytesToRead)));
@@ -368,7 +339,14 @@ public class ExerciceEditorController implements Initializable{
 
 	@FXML
 	public void saveHandle() throws IOException {
-		save();
+		if (instruction.getText().equals("") || text.getText().equals("")) {
+			errorLabel.setVisible(true);
+			return;
+		}
+		if (!instruction.getText().equals("") && !text.getText().equals("")) {
+			errorLabel.setVisible(false);
+		}
+		parameterStage.show();
 	}
 
 	private void setMediaListener(Media media) {
@@ -439,6 +417,6 @@ public class ExerciceEditorController implements Initializable{
 		help.setText("");
 		text.setText("");
 		instruction.setText("");
-		title.setText("");
 	}
+
 }

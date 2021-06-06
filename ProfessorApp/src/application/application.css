@@ -20,10 +20,6 @@
 	-fx-background-color: e3e5e8;
 }
 
-.menu-bar .container .menu:openvertically:hover{
-	-fx-background-color: d4d7dc;
-}
-
 .menu-bar .container .menu:openvertically .label{
 	-fx-text-fill: black;
 }
@@ -38,4 +34,9 @@
 
 .menu-item:focused{
 	-fx-background-color: d4d7dc;
+}
+
+.mediaButton{
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
 }

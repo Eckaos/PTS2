@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
@@ -10,89 +11,159 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane prefHeight="535.0" prefWidth="890.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ExerciseParameterController">
    <center>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="635.0" minWidth="10.0" prefWidth="568.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="472.0" minWidth="10.0" prefWidth="322.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="568.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Exercie en mode :" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+            <Label text="Exercie en mode :" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="10.0" right="60.0" top="10.0" />
+                  <Insets left="10.0" top="10.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
             </Label>
-            <RadioButton fx:id="trainingRadioButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="Entraînement" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <RadioButton fx:id="trainingRadioButton" maxWidth="126.0" minWidth="100.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="126.0" text="Entraînement" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="20.0" right="80.0" top="50.0" />
+                  <Insets left="150.0" right="80.0" top="50.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
             </RadioButton>
-            <RadioButton fx:id="examRadioButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="Examen" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <RadioButton fx:id="examRadioButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefWidth="100.0" text="Examen" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="20.0" right="50.0" top="50.0" />
+                  <Insets right="150.0" top="50.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
             </RadioButton>
-            <TextField fx:id="minuteField" maxHeight="20.0" maxWidth="50.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <TextField fx:id="minuteField" maxHeight="20.0" maxWidth="50.0" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="20.0" top="90.0" />
+                  <Insets right="265.0" top="100.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
             </TextField>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="minutes" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="minutes" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="75.0" right="5.0" top="92.5" />
+                  <Insets right="210.0" top="102.5" />
                </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
             </Text>
-            <TextField fx:id="secondField" maxHeight="20.0" maxWidth="40.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <TextField fx:id="secondField" maxHeight="20.0" maxWidth="40.0" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="123.0" top="90.0" />
+                  <Insets right="165.0" top="100.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
             </TextField>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="secondes" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="secondes" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="168.0" top="92.5" />
+                  <Insets right="100.0" top="102.5" />
                </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
             </Text>
-            <TextField fx:id="occultationChoiceField" maxHeight="20.0" maxWidth="25.0" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+            <TextField fx:id="occultationChoiceField" maxHeight="31.0" maxWidth="32.0" prefHeight="31.0" prefWidth="32.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="80.0" right="175.0" />
+                  <Insets bottom="160.0" right="155.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
             </TextField>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Caractere d'occultation" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Caractere d'occultation" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="85.0" right="50.0" />
+                  <Insets bottom="165.0" left="35.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
             </Text>
-            <CheckBox fx:id="letterCaseCheckBox" mnemonicParsing="false" text="Sensibilité à la casse" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+            <CheckBox fx:id="letterCaseCheckBox" mnemonicParsing="false" text="Sensibilité à la casse" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="50.0" right="60.0" />
+                  <Insets bottom="130.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
             </CheckBox>
             <CheckBox fx:id="partialReplacementCheckBox" mnemonicParsing="false" text="Autoriser le remplacement partiel d'un mot" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="20.0" top="225.0" />
+                  <Insets left="20.0" top="200.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
             </CheckBox>
             <CheckBox fx:id="solutionPresenceCheckBox" mnemonicParsing="false" text="Autoriser la présence d'un bouton &quot;Solution&quot;" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="20.0" top="175.0" />
+                  <Insets left="20.0" top="150.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
             </CheckBox>
-            <CheckBox fx:id="realTimeNumberWordCheckBox" mnemonicParsing="false" prefHeight="39.0" prefWidth="364.0" text="Autoriser l'affichage en temps réel du rapport nombre de mots découverts / nombre total de mots" textAlignment="CENTER" wrapText="true" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <CheckBox fx:id="realTimeNumberWordCheckBox" mnemonicParsing="false" prefHeight="27.0" prefWidth="524.0" text="Autoriser l'affichage de mot découverts" textAlignment="CENTER" wrapText="true" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="20.0" top="100.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
             </CheckBox>
             <Spinner fx:id="numberOfLetterPartialReplacement" prefWidth="50.0" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="300.0" top="221.5" />
+                  <Insets left="340.0" top="198.5" />
                </GridPane.margin>
             </Spinner>
+            <TextField fx:id="titleField" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="300.0" promptText="Saisir le nom de l'exercice" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="50.0" />
+               </GridPane.margin>
+            </TextField>
+            <Label text="Nom de l'exercice" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="75.0" />
+               </GridPane.margin>
+            </Label>
+            <Button fx:id="finishButton" mnemonicParsing="false" onAction="#finish" text="Enregistrer" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="10.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="returnButton" mnemonicParsing="false" onAction="#returnHandle" text="Retour" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" />
+               </GridPane.margin>
+            </Button>
+            <Label fx:id="errorLabel" prefHeight="64.0" prefWidth="248.0" text="Vous devez rentrer le nom de l'exercice !" textAlignment="CENTER" textFill="RED" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="30.0" left="600.0" />
+               </GridPane.margin>
+            </Label>
          </children>
       </GridPane>
    </center>

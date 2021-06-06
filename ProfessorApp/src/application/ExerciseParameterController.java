@@ -1,59 +1,57 @@
 package application;
 
+import java.io.IOException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ResourceBundle;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class ExerciseParameterController implements Initializable{
 
-	@FXML
-	RadioButton trainingRadioButton;
+	@FXML private RadioButton trainingRadioButton;
 
-	@FXML
-	RadioButton examRadioButton;
+	@FXML private RadioButton examRadioButton;
 
-	@FXML
-	CheckBox partialReplacementCheckBox;
+	@FXML private CheckBox partialReplacementCheckBox;
 
-	@FXML
-	CheckBox letterCaseCheckBox;
+	@FXML private CheckBox letterCaseCheckBox;
 
-	@FXML
-	CheckBox realTimeNumberWordCheckBox;
+	@FXML private CheckBox realTimeNumberWordCheckBox;
 
-	@FXML
-	CheckBox solutionPresenceCheckBox;
+	@FXML private CheckBox solutionPresenceCheckBox;
 
-	@FXML
-	TextField minuteField;
-
-	Text minute;
+	@FXML private TextField minuteField;
 	
-	@FXML
-	TextField secondField;
-
+	@FXML private TextField secondField;
 	
-	Text second;
+	@FXML private TextField occultationChoiceField;
+
+	@FXML private Spinner<Integer> numberOfLetterPartialReplacement;
 	
-	@FXML
-	TextField occultationChoiceField;
+	@FXML private TextField titleField;
+	
+	@FXML private Button finishButton;
+	
+	@FXML private Button returnButton;
+	
+	@FXML private Label errorLabel;
 
-	@FXML
-	Spinner<Integer> numberOfLetterPartialReplacement;
-
+	private SpinnerValueFactory<Integer> valueFactory2 = new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 3, 2);
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		errorLabel.setVisible(false);
 		minuteField.setDisable(true);
 		secondField.setDisable(true);
 		minuteField.textProperty().addListener(new ChangeListener<String>() {
@@ -93,6 +91,9 @@ public class ExerciseParameterController implements Initializable{
 				if (newValue.matches(".{2,}")) {
 					occultationChoiceField.setText(newValue.substring(0,1));
 				}
+				if (newValue.matches("[ \n]")) {
+					occultationChoiceField.setText("");
+				}
 			}
 		});
 
@@ -126,8 +127,7 @@ public class ExerciseParameterController implements Initializable{
 		minuteField.setText("1");
 		secondField.setText("30");
 
-		SpinnerValueFactory<Integer> valueFactory2 = //
-				new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 3, 2);
+		
 		numberOfLetterPartialReplacement.setValueFactory(valueFactory2);
 		numberOfLetterPartialReplacement.setVisible(false);
 
@@ -223,8 +223,11 @@ public class ExerciseParameterController implements Initializable{
 		}
 		position++;
 		if (getBit(parameters[0], position) == 1) {
-			//mettre le bon fonctionnement
+			valueFactory2.setValue(3);
+		}else {
+			valueFactory2.setValue(2);
 		}
+		numberOfLetterPartialReplacement.setValueFactory(valueFactory2);
 		position++;
 		if (getBit(parameters[0], position) == 1) {
 			letterCaseCheckBox.setSelected(true);
@@ -249,5 +252,25 @@ public class ExerciseParameterController implements Initializable{
 	
 	private int getBit(byte b, int pos) {
 		return (b >> pos) & 1;
+	}
+
+	@FXML
+	private void finish() throws IOException {
+		if (titleField.getText().equals("")) {
+			errorLabel.setVisible(true);
+			return;
+		}
+		Main.getExerciceEditorController().save(titleField.getText());
+		Main.setScreen(0);
+		((Stage) finishButton.getScene().getWindow()).close();
+	}
+
+	@FXML
+	private void returnHandle() {
+		((Stage) returnButton.getScene().getWindow()).close();
+	}
+	
+	public void setTitle(String string) {
+		titleField.setText(string);
 	}
 }

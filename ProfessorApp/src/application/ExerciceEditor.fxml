@@ -2,13 +2,13 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -18,6 +18,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ExerciceEditorController">
@@ -28,6 +29,7 @@
             <items>
                   <MenuItem fx:id="newExercise" mnemonicParsing="false" text="Nouvel Exercice" />
                   <MenuItem fx:id="modifExercise" mnemonicParsing="false" text="Modifier Exercice" />
+                  <MenuItem mnemonicParsing="false" text="Supprimer Exercice" />
                   <MenuItem fx:id="seeResults" mnemonicParsing="false" text="Consulter résultats" />
                   <SeparatorMenuItem mnemonicParsing="false" />
               <MenuItem fx:id="close" mnemonicParsing="false" text="Close" />
@@ -47,34 +49,29 @@
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="866.0" prefWidth="866.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="426.0" prefWidth="426.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="10.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="505.0" prefHeight="505.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="505.0" prefHeight="516.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="100.0" minHeight="25.0" prefHeight="79.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextArea fx:id="instruction" maxHeight="60.0" maxWidth="720.0" prefHeight="41.0" prefWidth="720.0" promptText="Veuillez saisir une consigne" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <TextArea fx:id="instruction" maxHeight="60.0" maxWidth="720.0" prefHeight="41.0" prefWidth="720.0" promptText="Veuillez saisir une consigne" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <GridPane.margin>
-                  <Insets />
+                  <Insets left="10.0" right="10.0" top="20.0" />
                </GridPane.margin>
             </TextArea>
-            <TextField fx:id="title" maxWidth="480.0" prefWidth="200.0" promptText="Veuillez saisir un titre" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-            </TextField>
-            <StackPane maxHeight="505.0" maxWidth="854.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <StackPane maxHeight="505.0" maxWidth="854.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" height="480.0" stroke="BLACK" strokeType="INSIDE" width="854.0" StackPane.alignment="TOP_CENTER" />
                   <MediaView fx:id="mediaView" fitHeight="480.0" fitWidth="854.0" StackPane.alignment="TOP_CENTER" />
                   <ImageView fx:id="imageView" fitHeight="480.0" fitWidth="854.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_CENTER" />
-                  <Button fx:id="pausePlayButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#playPauseHandle" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: transparent;" StackPane.alignment="BOTTOM_LEFT">
+                  <Button fx:id="pausePlayButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#playPauseHandle" prefHeight="25.0" prefWidth="25.0" styleClass="mediaButton" StackPane.alignment="BOTTOM_LEFT">
                      <graphic>
                         <ImageView fx:id="playPauseImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../image/playButton.png" />
+                              <Image url="@../image/playButton.png" />
                            </image></ImageView>
                      </graphic>
                   </Button>
@@ -83,14 +80,14 @@
                         <Insets bottom="5.0" left="30.0" right="225.0" />
                      </StackPane.margin>
                   </Slider>
-                  <Button fx:id="muteButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#muteHandle" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: transparent;" StackPane.alignment="BOTTOM_RIGHT">
+                  <Button fx:id="muteButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#muteHandle" prefHeight="25.0" prefWidth="25.0" styleClass="mediaButton" StackPane.alignment="BOTTOM_RIGHT">
                      <StackPane.margin>
                         <Insets right="200.0" />
                      </StackPane.margin>
                      <graphic>
                         <ImageView fx:id="muteImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../image/speaker.png" />
+                              <Image url="@../image/speaker.png" />
                            </image></ImageView>
                      </graphic>
                   </Button>
@@ -101,29 +98,68 @@
                   </Slider>
                </children>
             </StackPane>
-            <Button fx:id="importMediaButton" mnemonicParsing="false" onAction="#OpenFileMethod" text="Choisir une vidéo ou un audio" GridPane.rowIndex="2">
+            <Button fx:id="importMediaButton" mnemonicParsing="false" onAction="#OpenFileMethod" prefWidth="200.0" text="Choisir une vidéo ou un audio" GridPane.rowIndex="2">
                <GridPane.margin>
-                  <Insets left="5.0" />
+                  <Insets bottom="35.0" left="5.0" />
                </GridPane.margin>
             </Button>
-            <Text fx:id="mediaPath" strokeType="OUTSIDE" strokeWidth="0.0" text="Aucune vidéo ou audio choisie" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <Button fx:id="importImageButton" mnemonicParsing="false" onAction="#importImage" prefHeight="25.0" prefWidth="185.0" text="Choisir une image" GridPane.rowIndex="3">
+            <Text fx:id="mediaPath" strokeType="OUTSIDE" strokeWidth="0.0" text="Aucune vidéo ou audio choisie" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <GridPane.margin>
-                  <Insets left="5.0" />
+                  <Insets bottom="35.0" />
+               </GridPane.margin></Text>
+            <Button fx:id="importImageButton" mnemonicParsing="false" onAction="#importImage" prefHeight="25.0" prefWidth="200.0" text="Choisir une image" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="5.0" top="35.0" />
                </GridPane.margin>
             </Button>
-            <Text fx:id="imagePath" strokeType="OUTSIDE" strokeWidth="0.0" text="Aucune image choisie" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-            <TextArea fx:id="help" maxHeight="250.0" prefHeight="250.0" prefWidth="380.0" promptText="Veuillez saisir une aide" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <Text fx:id="imagePath" strokeType="OUTSIDE" strokeWidth="0.0" text="Aucune image choisie" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <GridPane.margin>
-                  <Insets bottom="200.0" />
+                  <Insets top="35.0" />
+               </GridPane.margin></Text>
+            <TextArea fx:id="help" maxHeight="-Infinity" prefHeight="180.0" promptText="Veuillez saisir une aide" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets bottom="200.0" left="10.0" right="10.0" top="50.0" />
                </GridPane.margin>
             </TextArea>
-            <TextArea fx:id="text" maxHeight="250.0" prefHeight="250.0" prefWidth="380.0" promptText="Veuillez saisir le texte à reconstituer" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <TextArea fx:id="text" maxHeight="230.0" prefHeight="230.0" prefWidth="380.0" promptText="Veuillez saisir le texte à reconstituer" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <GridPane.margin>
-                  <Insets top="250.0" />
+                  <Insets left="10.0" right="10.0" top="260.0" />
                </GridPane.margin></TextArea>
-            <Button fx:id="parameter" mnemonicParsing="false" onAction="#parmeterButtonHandle" text="Paramètres" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <Button fx:id="save" mnemonicParsing="false" onAction="#saveHandle" text="Enregistrer" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <Button fx:id="save" mnemonicParsing="false" onAction="#saveHandle" text="Enregistrer" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <Label text="Texte à reconstituer" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label text="Aide pour l'étudiant" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets top="20.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label text="Consigne de l'exercice" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="70.0" />
+               </GridPane.margin>
+            </Label>
+            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <image>
+                  <Image url="@../image/logo.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="errorLabel" text="Vous devez entrer une consigne et un texte à reconstituer !" textFill="RED" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets top="50.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
    </center>

@@ -62,7 +62,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="addButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="Crée un nouvel Exercice" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Button fx:id="addButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="Créer un nouvel Exercice" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets bottom="50.0" />
                </GridPane.margin>
