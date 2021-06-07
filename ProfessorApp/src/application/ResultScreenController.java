@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,20 +33,28 @@ public class ResultScreenController implements Initializable {
 	@FXML private Label averageNumberOfWord;
 	@FXML private Label completeText;
 	@FXML private Label reconstructedText;
-	
+
 	@FXML private MediaView mediaView;
 	@FXML private Button playButton;
 	@FXML private Button muteButton;
 	@FXML private Slider timeSlider;
 	@FXML private Slider volumeSlider;
 	@FXML private ImageView imageView;
-	
+
 	@FXML private ImageView playPauseImage;
 	@FXML private ImageView muteImage;
-	
+
 	private MediaPlayer mediaPlayer;
 	private Media media;
-	
+
+	@FXML private MenuItem newExercise;
+	@FXML private MenuItem modifExercise;
+	@FXML private MenuItem seeResults;
+
+	@FXML private MenuItem close;
+
+	@FXML private MenuItem parameter;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -53,50 +62,50 @@ public class ResultScreenController implements Initializable {
 
 	public void parseExercise(File currentFile) throws IOException {
 		int length;
-		
+
 		String clearText;
 		String encryptedText;
 		String instructionText;
 		boolean mediaType;
-		
+
 		FileInputStream fileInputStream = new FileInputStream(currentFile);
-		
+
 		mediaType = ByteBuffer.wrap(fileInputStream.readNBytes(4)).getInt() == 1 ? true:false;
-		
+
 		length = ByteBuffer.wrap(fileInputStream.readNBytes(4)).getInt();
 		clearText = convertByteToString(fileInputStream.readNBytes(length));
-		
+
 		length = ByteBuffer.wrap(fileInputStream.readNBytes(4)).getInt();
 		encryptedText = convertByteToString(fileInputStream.readNBytes(length));
-		
+
 		length = ByteBuffer.wrap(fileInputStream.readNBytes(4)).getInt();
 		instructionText = convertByteToString(fileInputStream.readNBytes(length));
-		
+
 		length = ByteBuffer.wrap(fileInputStream.readNBytes(8)).getInt();
-		
+
 		FileOutputStream mediaOutputStream;
 		FileOutputStream image;
-		
+
 		if (mediaType) {
 			mediaOutputStream = new FileOutputStream("temp.mp4");
 		}else {
 			mediaOutputStream = new FileOutputStream("temp.mp3");
 		}
-		
+
 		mediaOutputStream.write(fileInputStream.readNBytes(length));
-		
+
 		length = ByteBuffer.wrap(fileInputStream.readNBytes(8)).getInt();
-		
+
 		if (length > 0) {
 			image = new FileOutputStream("temp.png");
 			image.write(fileInputStream.readNBytes(length));
 			image.close();
 		}
-		
+
 		instruction.setText(instructionText);
 		completeText.setText(clearText);
 		reconstructedText.setText(encryptedText);
-		
+
 		File mediaFile;
 		if (mediaType) {
 			mediaFile = new File("temp.mp4");
@@ -129,7 +138,7 @@ public class ResultScreenController implements Initializable {
 		}
 		return buildString;
 	}
-	
+
 	private void setMediaListener(Media media) {
 		volumeSlider.setValue(mediaPlayer.getVolume()*100);
 		volumeSlider.valueProperty().addListener(new InvalidationListener() {
@@ -168,8 +177,8 @@ public class ResultScreenController implements Initializable {
 			}
 		});
 	}
-	
-	
+
+
 	@FXML
 	public void playPauseHandle() {
 		if (mediaView.getMediaPlayer()== null) {
@@ -197,7 +206,7 @@ public class ResultScreenController implements Initializable {
 			changeSpeakerImage();
 		}
 	}
-	
+
 	private void changePlayImage() {
 		if (mediaView.getMediaPlayer().getStatus().equals(Status.PAUSED) || mediaView.getMediaPlayer().getStatus().equals(Status.READY)) {
 			File tempFile = new File("image/pauseButton.png");
@@ -209,7 +218,7 @@ public class ResultScreenController implements Initializable {
 			playPauseImage.setImage(imageTemp);
 		}
 	}
-	
+
 	private void changeSpeakerImage() {
 		if(mediaView.getMediaPlayer().isMute()) {
 			File tempFile = new File("image/speakerMute.png");

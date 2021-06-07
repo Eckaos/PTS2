@@ -18,28 +18,17 @@ import javafx.stage.Stage;
 public class ModifyExerciseController implements Initializable{
 
 	@FXML private ListView<String> trainingFiles;
-	
 	@FXML private ListView<String> examFiles;
-	
 	@FXML private Button modifyButton;
-	
 	@FXML private Button Addbutton;
-	
 	private File currentFile;
-	
 	@FXML private MenuItem newExercise;
-	
 	@FXML private MenuItem seeResults;
-	
 	@FXML private MenuItem close;
-	
 	@FXML private MenuItem parameter;
-	
 	@FXML private Button deleteButton;
-	
 	private Map<File, ListView<String>> fileMap = new HashMap<>();
 	
-	//TODO reinitialize exercice Editor on new exercise
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		

@@ -39,6 +39,7 @@ public class Main extends Application {
 			parameterStage.setResizable(false);
 			parameterStage.setScene(parameterScene);
 			parameterStage.initModality(Modality.APPLICATION_MODAL);
+			parameterScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
 			modifyLoader = new FXMLLoader(getClass().getResource("ModifyExercise.fxml"));
 			exerciseEditorLoader = new FXMLLoader(getClass().getResource("ExerciceEditor.fxml"));

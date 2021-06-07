@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -22,16 +21,6 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Spinner fx:id="fontSizeSpinner" maxWidth="60.0" GridPane.halignment="LEFT" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets left="180.0" top="5.5" />
-               </GridPane.margin>
-            </Spinner>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Taille de la police d'écriture" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets left="10.0" top="10.0" />
-               </GridPane.margin>
-            </Text>
             <Button fx:id="createdExerciseButton" mnemonicParsing="false" onAction="#getPathCreatedExercise" text="Choisir" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="580.0" top="35.5" />
@@ -44,7 +33,7 @@
             </Text>
             <Text fx:id="createdExercisePathText" strokeType="OUTSIDE" strokeWidth="0.0" text="Aucun dossier selectionné" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="180.0" top="40.0" />
+                  <Insets left="200.0" top="40.0" />
                </GridPane.margin>
             </Text>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dossier des travaux étudiants : " GridPane.halignment="LEFT" GridPane.valignment="TOP">
@@ -54,7 +43,7 @@
             </Text>
             <Text fx:id="studentExercisePathText" strokeType="OUTSIDE" strokeWidth="0.0" text="Aucun dossier selectionné" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="180.0" top="70.0" />
+                  <Insets left="200.0" top="70.0" />
                </GridPane.margin>
             </Text>
             <Button fx:id="studentExerciseButton" mnemonicParsing="false" onAction="#getPathStudentExercise" text="Choisir" GridPane.halignment="LEFT" GridPane.valignment="TOP">

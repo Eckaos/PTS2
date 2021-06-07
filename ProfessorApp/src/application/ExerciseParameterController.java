@@ -20,31 +20,18 @@ import javafx.stage.Stage;
 public class ExerciseParameterController implements Initializable{
 
 	@FXML private RadioButton trainingRadioButton;
-
 	@FXML private RadioButton examRadioButton;
-
 	@FXML private CheckBox partialReplacementCheckBox;
-
 	@FXML private CheckBox letterCaseCheckBox;
-
 	@FXML private CheckBox realTimeNumberWordCheckBox;
-
 	@FXML private CheckBox solutionPresenceCheckBox;
-
 	@FXML private TextField minuteField;
-	
 	@FXML private TextField secondField;
-	
 	@FXML private TextField occultationChoiceField;
-
 	@FXML private Spinner<Integer> numberOfLetterPartialReplacement;
-	
 	@FXML private TextField titleField;
-	
 	@FXML private Button finishButton;
-	
 	@FXML private Button returnButton;
-	
 	@FXML private Label errorLabel;
 
 	private SpinnerValueFactory<Integer> valueFactory2 = new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 3, 2);

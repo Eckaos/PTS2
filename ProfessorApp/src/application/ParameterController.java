@@ -10,8 +10,6 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -19,8 +17,6 @@ import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 
 public class ParameterController implements Initializable {
-
-	@FXML private Spinner<Integer> fontSizeSpinner;
 	
 	@FXML private Text createdExercisePathText;
 	@FXML private Text studentExercisePathText;
@@ -38,13 +34,10 @@ public class ParameterController implements Initializable {
 	private File studentExercsiePath;
 	
 	private boolean darkModeActivated = false;
-	private SpinnerValueFactory<Integer> valueFactory;
 	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 30, 10);
-		fontSizeSpinner.setValueFactory(valueFactory);
 		
 		try {
 			load();
@@ -114,14 +107,13 @@ public class ParameterController implements Initializable {
 	@FXML
 	public void save() throws IOException {
 		FileWriter fileWriter = new FileWriter("parameter.txt");
-		fileWriter.write("Font size : " + fontSizeSpinner.getValue());
-		fileWriter.write("\n");
 		fileWriter.write("Created Exercise directory : " + createdExercisePathText.getText());
 		fileWriter.write("\n");
 		fileWriter.write("Student Exercise directory : " + studentExercisePathText.getText());
 		fileWriter.write("\n");
 		fileWriter.write("Dark mode : " + darkModeActivated);
 		fileWriter.close();
+		
 	}
 	
 	private void load() throws IOException {
@@ -129,13 +121,6 @@ public class ParameterController implements Initializable {
 		BufferedReader reader= new BufferedReader(new FileReader(parameter));
 		String string = reader.readLine();
 		while (string != null) {
-			if (string.contains("Font size : ")) {
-				int index = "Font size : ".length();
-				int size = Integer.parseInt(string.substring(index));
-				valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 30, size);
-				fontSizeSpinner.setValueFactory(valueFactory);
-				setFontSize();
-			}
 			if (string.contains("Created Exercise directory : ")) {
 				int index = "Created Exercise directory : ".length();
 				if ("Aucun dossier selectionné".equals(string.substring(index))) {
@@ -164,19 +149,6 @@ public class ParameterController implements Initializable {
 			string = reader.readLine();
 		}
 		reader.close();
-	}
-
-	private void setFontSize() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public int getFontSize() {
-		return fontSizeSpinner.getValue();
-	}
-	
-	public String test() {
-		return getCreatedExercisePath().getAbsolutePath();
 	}
 	
 	public File getCreatedExercisePath() {

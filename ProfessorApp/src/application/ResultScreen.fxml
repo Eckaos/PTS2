@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane minHeight="720.0" minWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ResultScreenController">
    <center>
@@ -27,29 +28,41 @@
           <RowConstraints minHeight="640.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="averageNumberOfWord" text="Mots" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Label fx:id="averageNumberOfWord" text="Mots" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <font>
+                  <Font size="20.0" />
+               </font></Label>
             <Label fx:id="instruction" text="Label">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
             </Label>
-            <Label fx:id="completeText" alignment="TOP_LEFT" prefHeight="640.0" prefWidth="360.0" text="Texte complet" GridPane.rowIndex="1">
+            <Label fx:id="completeText" alignment="TOP_LEFT" prefHeight="596.0" prefWidth="357.0" text="Texte complet" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="30.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
             </Label>
-            <Label fx:id="reconstructedText" alignment="TOP_LEFT" prefHeight="640.0" prefWidth="360.0" text="Texte reconstittué" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label fx:id="reconstructedText" alignment="TOP_LEFT" prefHeight="640.0" prefWidth="360.0" text="Texte reconstittué" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
             <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" height="300.0" stroke="BLACK" strokeType="INSIDE" width="480.0" />
-                  <Button fx:id="playButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#playPauseHandle" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: transparent;">
+                  <Button fx:id="playButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#playPauseHandle" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: transparent;" styleClass="mediaButton">
                      <StackPane.margin>
                         <Insets right="455.0" top="325.0" />
                      </StackPane.margin>
                      <graphic>
                         <ImageView fx:id="playPauseImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../image/playButton.png" />
+                              <Image url="@../image/playButton.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -59,14 +72,14 @@
                         <Insets right="110.0" top="325.0" />
                      </StackPane.margin>
                   </Slider>
-                  <Button fx:id="muteButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#muteHandle" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: transparent;">
+                  <Button fx:id="muteButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#muteHandle" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: transparent;" styleClass="mediaButton">
                      <StackPane.margin>
                         <Insets left="225.0" top="325.0" />
                      </StackPane.margin>
                      <graphic>
                         <ImageView fx:id="muteImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../image/speaker.png" />
+                              <Image url="@../image/speaker.png" />
                            </image>
                         </ImageView>
                      </graphic>

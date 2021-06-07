@@ -1,6 +1,5 @@
 package application;
 
-import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -11,29 +10,21 @@ import javafx.stage.Stage;
 
 public class AccueilController implements Initializable{
 
-	@FXML
-	Button modifyButton;
+	@FXML private Button modifyButton;
 	
-	@FXML
-	Button result;
+	@FXML private Button result;
 	
-	@FXML
-	Button addButton;
+	@FXML private Button addButton;
 	
-	@FXML
-	MenuItem newExercise;
+	@FXML private MenuItem newExercise;
 	
-	@FXML
-	MenuItem modifExercise;
+	@FXML private MenuItem modifExercise;
 	
-	@FXML
-	MenuItem seeResults;
+	@FXML private MenuItem seeResults;
 	
-	@FXML
-	MenuItem close;
+	@FXML private MenuItem close;
 	
-	@FXML
-	MenuItem parameter;
+	@FXML private MenuItem parameter;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

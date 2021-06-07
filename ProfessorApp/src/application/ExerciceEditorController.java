@@ -65,7 +65,6 @@ public class ExerciceEditorController implements Initializable{
 	private File mediaFile;
 	private File image;
 	private FXMLLoader loader = new FXMLLoader(getClass().getResource("ExerciseParameter.fxml"));
-	private ExerciseParameterController parameterController = loader.getController();
 	private Stage parameterStage = new Stage();
 	private BorderPane parameterRoot;
 

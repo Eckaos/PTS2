@@ -37,9 +37,10 @@ public class SeeResultController implements Initializable{
 	
 	private List<String> exercisesFullName = new ArrayList<>();
 
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		deleteButton.setVisible(false);
 		deleteButton.setOnAction(ActionEvent -> {
 			if (currentFile != null) {
 				currentFile.delete();
@@ -86,6 +87,7 @@ public class SeeResultController implements Initializable{
 			@Override
 			public void handle(MouseEvent click) {
 				currentFile = new File(Main.getParameterController().getStudentExercisePath().getAbsolutePath()+"/"+exercisesFullName.get(elevesListView.getSelectionModel().getSelectedIndex()));
+				deleteButton.setVisible(true);
 				if (click.getClickCount() == 2) {
 					try {
 						Main.getResultScreenController().parseExercise(currentFile);
@@ -104,7 +106,6 @@ public class SeeResultController implements Initializable{
 				try {
 					Main.getResultScreenController().parseExercise(currentFile);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				Main.setScreen(4);
