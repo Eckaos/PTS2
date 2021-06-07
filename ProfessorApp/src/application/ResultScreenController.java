@@ -25,6 +25,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.media.MediaPlayer.Status;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class ResultScreenController implements Initializable {
@@ -47,17 +48,34 @@ public class ResultScreenController implements Initializable {
 	private MediaPlayer mediaPlayer;
 	private Media media;
 
+	@FXML private MenuItem reception;
 	@FXML private MenuItem newExercise;
 	@FXML private MenuItem modifExercise;
 	@FXML private MenuItem seeResults;
-
 	@FXML private MenuItem close;
-
 	@FXML private MenuItem parameter;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		reception.setOnAction(ActionEvent -> {
+			Main.setScreen(0);
+		});
+		
+		newExercise.setOnAction(ActionEvent -> {
+			Main.getExerciceEditorController().reset();
+			Main.setScreen(2);
+		});
+		parameter.setOnAction(ActionEvent -> Main.getParameterStage().show());
+		seeResults.setOnAction(ActionEvent -> Main.setScreen(3));
+		modifExercise.setOnAction(ActionEvent -> {
+			if (Main.getParameterController().getCreatedExercisePath() != null) {
+				Main.setScreen(1);
+			}
+		});
+		close.setOnAction(ActionEvent -> {
+			Stage stage = (Stage) mediaView.getScene().getWindow();
+			stage.close();
+		});
 	}
 
 	public void parseExercise(File currentFile) throws IOException {

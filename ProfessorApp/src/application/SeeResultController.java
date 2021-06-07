@@ -25,12 +25,10 @@ public class SeeResultController implements Initializable{
 	@FXML private Button seeButton;
 	private File currentFile;
 
+	@FXML private MenuItem reception;
 	@FXML private MenuItem newExercise;
-
-	@FXML private MenuItem seeResults;
-
+	@FXML private MenuItem modifExercise;
 	@FXML private MenuItem close;
-
 	@FXML private MenuItem parameter;
 	
 	@FXML private Button deleteButton;
@@ -48,14 +46,26 @@ public class SeeResultController implements Initializable{
 			}
 		});
 		
+		reception.setOnAction(ActionEvent -> {
+			Main.setScreen(0);
+		});
+		
 		close.setOnAction(ActionEvent -> 
 		{
 			Stage stage = (Stage) seeButton.getScene().getWindow();
 			stage.close();
 		});
 
-		newExercise.setOnAction(ActionEvent -> Main.setScreen(2));
+		newExercise.setOnAction(ActionEvent -> {
+			Main.getExerciceEditorController().reset();
+			Main.setScreen(2);
+		});
 		parameter.setOnAction(ActionEvent -> Main.getParameterStage().show());
+		modifExercise.setOnAction(ActionEvent -> {
+			if (Main.getParameterController().getCreatedExercisePath() != null) {
+				Main.setScreen(1);
+			}
+		});
 
 		File exerciseDirectory = null;
 		if (Main.getParameterController().getStudentExercisePath() != null) {

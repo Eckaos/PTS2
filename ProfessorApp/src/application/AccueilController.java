@@ -33,7 +33,7 @@ public class AccueilController implements Initializable{
 		if (Main.getParameterController().getCreatedExercisePath() == null) {
 			modifyButton.setDisable(true);
 		}
-		
+		seeResults.setOnAction(ActionEvent -> Main.setScreen(3));
 		result.setOnAction(ActionEvent -> Main.setScreen(3)); //TODO faire result screen et mettre le setOnAction du menuItem
 		close.setOnAction(ActionEvent -> 
 		{
@@ -43,7 +43,10 @@ public class AccueilController implements Initializable{
 		
 		seeResults.setOnAction(ActionEvent -> Main.setScreen(3));
 		
-		newExercise.setOnAction(ActionEvent -> Main.setScreen(2));
+		newExercise.setOnAction(ActionEvent -> {
+			Main.getExerciceEditorController().reset();
+			Main.setScreen(2);
+		});
 		modifExercise.setOnAction(ActionEvent -> 
 		{
 			if (Main.getParameterController().getCreatedExercisePath() != null) {

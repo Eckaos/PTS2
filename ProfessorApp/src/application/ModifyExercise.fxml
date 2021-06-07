@@ -20,10 +20,11 @@
         <menus>
           <Menu mnemonicParsing="false" text="Fichier">
             <items>
+                  <MenuItem fx:id="reception" mnemonicParsing="false" text="Accueil" />
                   <MenuItem fx:id="newExercise" mnemonicParsing="false" text="Nouvel Exercice" />
                   <MenuItem fx:id="seeResults" mnemonicParsing="false" text="Consulter résultats" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-              <MenuItem fx:id="close" mnemonicParsing="false" text="Close" />
+              <MenuItem fx:id="close" mnemonicParsing="false" text="Fermer" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Aide">

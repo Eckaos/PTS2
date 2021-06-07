@@ -9,7 +9,6 @@ import java.nio.ByteBuffer;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.InvalidationListener;
@@ -19,7 +18,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -147,10 +145,8 @@ public class ExerciceController implements Initializable {
 		if (text == null) {
 			return;
 		}
-		//TODO gerer la casse.
 		String[] encrypted = encryptedText.split("[ \\t\\n\\x0B\\f\\r]");
 		String[] clear = clearText.split("[ \\t\\n\\x0B\\f\\r]");
-		String[] space = clearText.split("[^\n]*");
 
 		Pattern punctionLessPattern = Pattern.compile("[^\\p{Punct}&&[^'-]]*");
 		Matcher clearMatcher;
@@ -174,16 +170,17 @@ public class ExerciceController implements Initializable {
 		}
 		//Reconstruction
 		encryptedText = "";
-		int i = 1;
-		for (String string : encrypted) {
-			if (i < space.length) {
-				encryptedText += string + "\n";
-			}else {
-				encryptedText += string + " ";
+		int length =0;
+		for (int i = 0; i < encrypted.length; i++) {
+			encryptedText += encrypted[i];
+			if (length + clear[i].length() < clearText.length()) {
+				length += clear[i].length();
 			}
-			i++;
+			if (Character.isWhitespace(clearText.charAt(length)) || Character.isSpaceChar(clearText.charAt(length))) {
+				encryptedText += clearText.charAt(length);
+			}
+			length++;
 		}
-
 		if (isRealTime) {
 			int numberWord = clear.length;
 			int numberFoundWord = 0;
@@ -532,20 +529,20 @@ public class ExerciceController implements Initializable {
 	}
 
 	private void setIncreasingTimeline(Timeline timeline) {
-		 timeline.getKeyFrames().add(
-	                new KeyFrame(Duration.seconds(1),
-	                        new EventHandler<ActionEvent>() {
-	                    // KeyFrame event handler
-	                    @Override    
-	                    public void handle(ActionEvent arg0) {
-	                        seconds++;
-	                        if (seconds >59) {
-	                            minutes++;
-	                            seconds=0;
-	                        }
-	                        // update timerLabel
-	                        timeText.setText("Temps restant : " + minutes + ":" + seconds + "s");
-	                    }
-	                }));
+		timeline.getKeyFrames().add(
+				new KeyFrame(Duration.seconds(1),
+						new EventHandler<ActionEvent>() {
+					// KeyFrame event handler
+					@Override    
+					public void handle(ActionEvent arg0) {
+						seconds++;
+						if (seconds >59) {
+							minutes++;
+							seconds=0;
+						}
+						// update timerLabel
+						timeText.setText("Temps restant : " + minutes + ":" + seconds + "s");
+					}
+				}));
 	}
 }

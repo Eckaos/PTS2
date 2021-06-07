@@ -22,6 +22,7 @@ public class ModifyExerciseController implements Initializable{
 	@FXML private Button modifyButton;
 	@FXML private Button Addbutton;
 	private File currentFile;
+	@FXML private MenuItem reception;
 	@FXML private MenuItem newExercise;
 	@FXML private MenuItem seeResults;
 	@FXML private MenuItem close;
@@ -31,7 +32,9 @@ public class ModifyExerciseController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		reception.setOnAction(ActionEvent -> {
+			Main.setScreen(0);
+		});
 		deleteButton.setOnAction(ActionEvent -> {
 			if (currentFile != null) {
 				currentFile.delete();
@@ -44,7 +47,7 @@ public class ModifyExerciseController implements Initializable{
 			Stage stage = (Stage) Addbutton.getScene().getWindow();
 			stage.close();
 		});
-		
+		seeResults.setOnAction(ActionEvent -> Main.setScreen(3));
 		newExercise.setOnAction(ActionEvent -> {
 			Main.getExerciceEditorController().reset();
 			Main.setScreen(2);

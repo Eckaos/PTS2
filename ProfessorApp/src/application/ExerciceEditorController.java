@@ -55,6 +55,7 @@ public class ExerciceEditorController implements Initializable{
 	@FXML private Button save;
 	@FXML private Button importImageButton;
 	@FXML private ImageView imageView;
+	@FXML private MenuItem reception;
 	@FXML private MenuItem newExercise;
 	@FXML private MenuItem modifExercise;
 	@FXML private MenuItem seeResults;
@@ -76,13 +77,20 @@ public class ExerciceEditorController implements Initializable{
 		errorLabel.setVisible(false);
 		importImageButton.setVisible(false);
 		imagePath.setVisible(false);
+		reception.setOnAction(ActionEvent -> {
+			Main.setScreen(0);
+		});
+		seeResults.setOnAction(ActionEvent -> Main.setScreen(3));
 		close.setOnAction(ActionEvent -> 
 		{
 			Stage stage = (Stage) mediaView.getScene().getWindow();
 			stage.close();
 		});
 
-		newExercise.setOnAction(ActionEvent -> Main.setScreen(2));
+		newExercise.setOnAction(ActionEvent -> {
+			Main.getExerciceEditorController().reset();
+			Main.setScreen(2);
+		});
 		modifExercise.setOnAction(ActionEvent -> 
 		{
 			if (Main.getParameterController().getCreatedExercisePath() != null) {
