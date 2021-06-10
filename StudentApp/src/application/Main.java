@@ -20,6 +20,7 @@ public class Main extends Application {
 	private static FXMLLoader accueilLoader;
 	private static FXMLLoader exLoader;
 	
+	private static List<Scene> scenes = new ArrayList<>();
 	
 	@Override
 	public void start(Stage primaryStage){
@@ -35,6 +36,7 @@ public class Main extends Application {
 			screens.add((BorderPane)accueilLoader.load());
 			screens.add((BorderPane)exLoader.load());
 			scene = new Scene(screens.get(0),1280,720);
+			scenes.add(scene);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setMaximized(true);
 			primaryStage.setMinHeight(720);
@@ -70,5 +72,8 @@ public class Main extends Application {
 		return exLoader.getController();
 	}
 
+	public static List<Scene> getScenes() {
+		return scenes;
+	}
 
 }

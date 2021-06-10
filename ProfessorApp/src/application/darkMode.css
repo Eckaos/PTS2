@@ -1,0 +1,72 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.root {
+	-fx-background-color: #36393f;
+	-fx-font-family: "Comic Sans MS";
+}
+
+.text {
+	-fx-fill: #d7d5d9;
+}
+
+.button{
+	-fx-background-color: #2f3136;
+	-fx-cursor: hand;
+	-fx-border-color: #202225;
+	-fx-border-width: 1px;
+	-fx-text-fill: #d7d5d9;
+}
+
+.button:hover{
+	-fx-background-color: #202225;
+}
+
+.menu-bar{
+	-fx-background-color: #2f3136;
+}
+
+.menu-bar .container .menu:openvertically .label{
+	-fx-text-fill: #d7d5d9;
+}
+
+.context-menu{
+	-fx-background-color: #2f3136;
+}
+
+.menu-item{
+	-fx-background-color: #2f3136;
+}
+
+.menu-item:focused{
+	-fx-background-color: #202225;
+}
+
+.mediaButton{
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
+}
+
+.list-view {
+	-fx-background-color: #2f3136;
+}
+
+.list-cell {
+	-fx-background-color: #2f3136;
+    -fx-text-fill: #d7d5d9;
+}
+.list-cell:even {
+	-fx-background-color: #2f3136;
+    -fx-text-fill: #d7d5d9;
+}
+
+.list-cell:filled:selected {
+	-fx-background-color: #202225;
+}
+
+.slider .track{
+	-fx-background-color: #2f3136;
+}
+
+.slider .thumb{
+	-fx-background-color: #202225;
+}

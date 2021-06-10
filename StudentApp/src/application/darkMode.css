@@ -1,39 +1,46 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
 .root {
-	-fx-background-color: white;
+	-fx-background-color: #36393f;
 	-fx-font-family: "Comic Sans MS";
 }
 
+.text {
+	-fx-fill: #d7d5d9;
+}
+
 .button{
-	-fx-background-color: f2f3f5;
+	-fx-background-color: #2f3136;
 	-fx-cursor: hand;
-	-fx-border-color: d4d7dc;
+	-fx-border-color: #202225;
 	-fx-border-width: 1px;
+	-fx-text-fill: #d7d5d9;
 }
 
 .button:hover{
-	-fx-background-color: d4d7dc;
+	-fx-background-color: #202225;
 }
 
 .menu-bar{
-	-fx-background-color: e3e5e8;
+	-fx-background-color: #2f3136;
 }
 
 .menu-bar .container .menu:openvertically .label{
-	-fx-text-fill: black;
+	-fx-text-fill: #d7d5d9;
 }
 
 .context-menu{
-	-fx-background-color: e3e5e8;
+	-fx-background-color: #2f3136;
 }
 
 .menu-item{
-	-fx-background-color: e3e5e8;
+	-fx-background-color: #2f3136;
 }
 
 .menu-item:focused{
-	-fx-background-color: d4d7dc;
+	-fx-background-color: #202225;
 }
 
 .mediaButton{
@@ -42,25 +49,33 @@
 }
 
 .list-view {
-	-fx-background-color: f2f3f5;
+	-fx-background-color: #2f3136;
 }
 
 .list-cell {
-	-fx-background-color: f2f3f5;
-	-fx-text-fill: black;
+	-fx-background-color: #2f3136;
+    -fx-text-fill: #d7d5d9;
 }
 .list-cell:even {
-	-fx-background-color: f2f3f5;
-	-fx-text-fill: black;
+	-fx-background-color: #2f3136;
+    -fx-text-fill: #d7d5d9;
 }
 
 .list-cell:filled:selected {
-	-fx-background-color: d4d7dc;
+	-fx-background-color: #202225;
+}
+
+.slider .track{
+	-fx-background-color: #2f3136;
+}
+
+.slider .thumb{
+	-fx-background-color: #202225;
 }
 
 .text-area {
     -fx-background-insets: 0;
-    -fx-background-color: transparent, f2f3f5, transparent, f2f3f5;
+    -fx-background-color: transparent, #2f3136, transparent, #2f3136;
     -fx-background-radius: 0, 0, 0, 0;
 
     -fx-box-border: none;
@@ -71,7 +86,7 @@
 }
 
 .text-area .content {
-    -fx-background-color: transparent, f2f3f5, transparent, f2f3f5;
+    -fx-background-color: transparent, #2f3136, transparent, #2f3136;
 }
 
 .text-area:focused .content {
@@ -83,7 +98,7 @@
 
 .viewport {
     -fx-background-insets: 0;
-    -fx-background-color: transparent, f2f3f5, transparent, f2f3f5;
+    -fx-background-color: transparent, #2f3136, transparent, #2f3136;
     -fx-background-radius: 0, 0, 0, 0;
 
     -fx-focus-color: -fx-control-inner-background;
@@ -102,7 +117,7 @@
     -fx-highlight-fill: #7ecfff;
 
     -fx-background-insets: 0;
-    -fx-background-color: transparent, white, transparent, white;
+    -fx-background-color: transparent, #2f3136, transparent, #2f3136;
     -fx-background-radius: 0, 0, 0, 0;
 
     -fx-focus-color: -fx-control-inner-background;

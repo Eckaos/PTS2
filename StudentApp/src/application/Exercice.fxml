@@ -7,6 +7,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -44,16 +45,14 @@
    <center>
       <GridPane prefHeight="417.0" prefWidth="1255.0" BorderPane.alignment="CENTER">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="764.0" minWidth="10.0" prefWidth="758.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="495.0" minWidth="10.0" prefWidth="456.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="758.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="456.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="619.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="619.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <StackPane maxHeight="530.0" maxWidth="720.0" prefHeight="556.0" prefWidth="935.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <StackPane maxHeight="530.0" maxWidth="720.0" prefHeight="556.0" prefWidth="935.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" height="480.0" stroke="BLACK" strokeType="INSIDE" width="720.0" />
                   <MediaView fx:id="mediaView" fitHeight="480.0" fitWidth="720.0" />
@@ -100,56 +99,69 @@
                      </StackPane.margin>
                   </Slider>
                </children>
+               <GridPane.margin>
+                  <Insets bottom="50.0" />
+               </GridPane.margin>
             </StackPane>
-            <Label fx:id="instructionText" prefHeight="17.0" prefWidth="731.0" text="Consigne :" wrapText="true" GridPane.columnIndex="1">
+            <Label fx:id="instructionText" prefHeight="55.0" prefWidth="731.0" text="Consigne :" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <GridPane.margin>
-                  <Insets left="30.0" />
+                  <Insets bottom="650.0" left="30.0" />
                </GridPane.margin>
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="timeText" prefHeight="30.0" prefWidth="372.0" text="Timer" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Label fx:id="timeText" prefHeight="30.0" prefWidth="372.0" text="Timer" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets />
+                  <Insets top="10.0" />
                </GridPane.margin>
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="typedText" maxWidth="200.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <TextField fx:id="typedText" maxWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets top="400.0" />
+                  <Insets bottom="100.0" />
                </GridPane.margin>
             </TextField>
-            <Button fx:id="validateButton" mnemonicParsing="false" text="Valider" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <Button fx:id="validateButton" mnemonicParsing="false" text="Valider" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets left="260.0" top="400.0" />
+                  <Insets bottom="100.0" left="260.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="finishButton" mnemonicParsing="false" onAction="#finishHandle" text="Terminer" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            <Button fx:id="finishButton" mnemonicParsing="false" onAction="#finishHandle" text="Mettre fin à l'exercice" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="20.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="helpButton" mnemonicParsing="false" text="Aide" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <Button fx:id="helpButton" mnemonicParsing="false" text="Aide" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets bottom="500.0" />
+                  <Insets top="50.0" />
                </GridPane.margin>
             </Button>
-            <Label fx:id="textToFind" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="386.0" prefWidth="468.0" text="Text" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <Label fx:id="realTime" text="0 mots trouvés/8" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="50.0" />
+                  <Insets bottom="80.0" />
                </GridPane.margin>
+            </Label>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+               <image>
+                  <Image url="@../image/lemans-universite-large%20(1).png" />
+               </image>
+            </ImageView>
+            <Label text="Titre" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <font>
-                  <Font size="18.0" />
+                  <Font size="20.0" />
                </font>
-            </Label>
-            <Label fx:id="realTime" text="0 mots trouvés/8" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <GridPane.margin>
-                  <Insets top="440.0" />
+                  <Insets top="20.0" />
                </GridPane.margin>
             </Label>
+            <TextArea id="textToFind" fx:id="textToFind" editable="false" maxWidth="800.0" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="140.0" right="30.0" top="100.0" />
+               </GridPane.margin>
+            </TextArea>
          </children>
       </GridPane>
    </center>

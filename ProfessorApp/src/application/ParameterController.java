@@ -6,15 +6,18 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 public class ParameterController implements Initializable {
 	
@@ -49,11 +52,6 @@ public class ParameterController implements Initializable {
 		}else {
 			problemPath.setVisible(false);
 		}
-		if (darkModeActivated) {
-			setDarkMode();
-		}else {
-			unsetDarkMode();
-		}
 		
 	}
 
@@ -85,23 +83,39 @@ public class ParameterController implements Initializable {
 			slideContainer.setFill(Color.WHITE);
 			slideButton.setTranslateX(0.0);
 			darkModeActivated = false;
-			unsetDarkMode();
+			unsetDarkMode(Main.getScenes());
 		}else {
 			slideContainer.setFill(Color.LIMEGREEN);
 			slideButton.setTranslateX(21.5);
 			darkModeActivated = true;
-			setDarkMode();
+			setDarkMode(Main.getScenes());
 		}
 	}
 	
-	private void setDarkMode() {
-		// TODO Auto-generated method stub
-		
+	public void setStyleSheet() {
+		if (darkModeActivated) {
+			setDarkMode(Main.getScenes());
+		}else {
+			unsetDarkMode(Main.getScenes());
+		}
+	}
+	
+	private void setDarkMode(List<Scene> scenes) {
+		slideContainer.setFill(Color.LIMEGREEN);
+		slideButton.setTranslateX(21.5);
+		for (Scene scene : scenes) {
+			scene.getStylesheets().clear();
+			scene.getStylesheets().add(getClass().getResource("darkMode.css").toExternalForm());
+		}
 	}
 
-	private void unsetDarkMode() {
-		// TODO Auto-generated method stub
-		
+	private void unsetDarkMode(List<Scene> scenes) {
+		slideContainer.setFill(Color.WHITE);
+		slideButton.setTranslateX(0.0);
+		for (Scene scene : scenes) {
+			scene.getStylesheets().clear();
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		}
 	}
 	
 	@FXML
@@ -113,7 +127,7 @@ public class ParameterController implements Initializable {
 		fileWriter.write("\n");
 		fileWriter.write("Dark mode : " + darkModeActivated);
 		fileWriter.close();
-		
+		((Stage) saveButton.getScene().getWindow()).close();
 	}
 	
 	private void load() throws IOException {

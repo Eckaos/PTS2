@@ -27,6 +27,8 @@ public class Main extends Application {
 	private static Stage parameterStage;
 	private Scene parameterScene;
 	
+	private static List<Scene> scenes = new ArrayList<>();
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -52,7 +54,9 @@ public class Main extends Application {
 			screens.add((BorderPane)seeResultLoader.load());
 			screens.add((BorderPane)resultScreenLoader.load());
 			scene = new Scene(screens.get(0),1280,720);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			scenes.add(scene);
+			((ParameterController) parameterLoader.getController()).setStyleSheet();
+			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setMaximized(true);
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -60,7 +64,7 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -99,5 +103,9 @@ public class Main extends Application {
 	
 	public static Stage getParameterStage() {
 		return parameterStage;
+	}
+	
+	public static List<Scene> getScenes() {
+		return scenes;
 	}
 }

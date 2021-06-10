@@ -31,7 +31,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.scene.text.Text;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -44,8 +43,8 @@ public class ExerciceEditorController implements Initializable{
 	@FXML private TextArea instruction;
 	@FXML private TextArea help;
 	@FXML private TextArea text;
-	@FXML private Text mediaPath;
-	@FXML private Text imagePath;
+	@FXML private Label mediaPath;
+	@FXML private Label imagePath;
 	@FXML private Button pausePlayButton;
 	@FXML private ImageView playPauseImage;
 	@FXML private Slider progressBar;
@@ -70,7 +69,6 @@ public class ExerciceEditorController implements Initializable{
 	private BorderPane parameterRoot;
 
 	private File fileToModify;
-	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -105,6 +103,7 @@ public class ExerciceEditorController implements Initializable{
 			e1.printStackTrace();
 		}
 		Scene parameterScene = new Scene(parameterRoot);
+		Main.getScenes().add(parameterScene);
 		parameterStage.setResizable(false);
 		parameterStage.setScene(parameterScene);
 		parameterStage.initModality(Modality.APPLICATION_MODAL);
@@ -298,8 +297,7 @@ public class ExerciceEditorController implements Initializable{
 			mediaView.setMediaPlayer(mediaPlayer);
 			setMediaListener(media);
 			mediaPlayer.play();
-			File tempFile = new File("image/pauseButton.png");
-			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			Image imageTemp = new Image(getClass().getResource("/image/pauseButton.png").toString()); 
 			playPauseImage.setImage(imageTemp);
 		}
 	}
@@ -400,24 +398,20 @@ public class ExerciceEditorController implements Initializable{
 	
 	private void changePlayImage() {
 		if (mediaView.getMediaPlayer().getStatus().equals(Status.PAUSED) || mediaView.getMediaPlayer().getStatus().equals(Status.READY)) {
-			File tempFile = new File("image/pauseButton.png");
-			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			Image imageTemp = new Image(getClass().getResource("/image/pauseButton.png").toString()); 
 			playPauseImage.setImage(imageTemp);
 		}else {
-			File tempFile = new File("image/playButton.png");
-			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			Image imageTemp = new Image(getClass().getResource("/image/playButton.png").toString()); 
 			playPauseImage.setImage(imageTemp);
 		}
 	}
 	
 	private void changeSpeakerImage() {
 		if(mediaView.getMediaPlayer().isMute()) {
-			File tempFile = new File("image/speakerMute.png");
-			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			Image imageTemp = new Image(getClass().getResource("/image/speakerMute.png").toString()); 
 			muteImage.setImage(imageTemp);
 		}else {
-			File tempFile = new File("image/speaker.png");
-			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			Image imageTemp = new Image(getClass().getResource("/image/speaker.png").toString()); 
 			muteImage.setImage(imageTemp);
 		}
 	}

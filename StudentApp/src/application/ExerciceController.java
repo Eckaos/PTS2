@@ -25,6 +25,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -50,7 +51,7 @@ public class ExerciceController implements Initializable {
 	@FXML
 	private Button helpButton;
 	@FXML
-	private Label textToFind; //TODO Change name
+	private TextArea textToFind; //TODO Change name
 	@FXML
 	private TextField typedText;
 	@FXML
@@ -90,6 +91,7 @@ public class ExerciceController implements Initializable {
 		popupStage = new Stage();
 		try {
 			popupScreen = (BorderPane) popupLoader.load();
+			popupScreen.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			popupScene = new Scene(popupScreen);
 			popupStage.setResizable(false);
 			popupStage.setScene(popupScene);
@@ -541,7 +543,7 @@ public class ExerciceController implements Initializable {
 							seconds=0;
 						}
 						// update timerLabel
-						timeText.setText("Temps restant : " + minutes + ":" + seconds + "s");
+						timeText.setText("Temps écoulé : " + minutes + ":" + seconds + "s");
 					}
 				}));
 	}
