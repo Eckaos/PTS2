@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -16,11 +17,14 @@ public class Main extends Application {
 	private static Scene scene;
 
 	private static FXMLLoader parameterLoader;
-	private static ParameterController parameterController;
 	private static FXMLLoader accueilLoader;
 	private static FXMLLoader exLoader;
 	
 	private static List<Scene> scenes = new ArrayList<>();
+	
+	private static Stage parameterStage;
+	private BorderPane parameterScreen;
+	private Scene parameterScene;
 	
 	@Override
 	public void start(Stage primaryStage){
@@ -28,16 +32,21 @@ public class Main extends Application {
 			primaryStage.setTitle("Auditrad");
 			primaryStage.getIcons().add(new Image(getClass().getResource("/image/logo.png").toString()));
 			parameterLoader = new FXMLLoader(getClass().getResource("Parameter.fxml"));
+			parameterScreen = (BorderPane) parameterLoader.load();
+			parameterStage = new Stage();
+			parameterScene = new Scene(parameterScreen);
+			parameterStage.setResizable(false);
+			parameterStage.setScene(parameterScene);
+			parameterStage.initModality(Modality.APPLICATION_MODAL);
+			parameterScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			accueilLoader = new FXMLLoader(getClass().getResource("Accueil.fxml"));
 			exLoader = new FXMLLoader(getClass().getResource("Exercice.fxml"));
-			parameterLoader.load();
-			parameterController = parameterLoader.getController();
 			
 			screens.add((BorderPane)accueilLoader.load());
 			screens.add((BorderPane)exLoader.load());
 			scene = new Scene(screens.get(0),1280,720);
 			scenes.add(scene);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Main.getParameterController().setStyleSheet();
 			primaryStage.setMaximized(true);
 			primaryStage.setMinHeight(720);
 			primaryStage.setMinWidth(1280);
@@ -61,7 +70,7 @@ public class Main extends Application {
 	}
 
 	public static ParameterController getParameterController() {
-		return parameterController;
+		return parameterLoader.getController();
 	}
 
 	public static AccueilController getAccueilController() {
@@ -76,4 +85,7 @@ public class Main extends Application {
 		return scenes;
 	}
 
+	public static Stage getParameterStage() {
+		return parameterStage;
+	}
 }

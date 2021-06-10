@@ -11,7 +11,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public class AccueilController implements Initializable {
 
@@ -19,11 +21,17 @@ public class AccueilController implements Initializable {
 	@FXML private ListView<String> trainingFiles;
 	@FXML private ListView<String> examFiles;
 
+	@FXML private MenuItem closeItem;
+	@FXML private MenuItem parameterItem;
+	
 	private String selectedEx;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
+		closeItem.setOnAction(ActionEvent -> ((Stage) launchExButton.getScene().getWindow()).close());
+		parameterItem.setOnAction(ActionEvent -> Main.getParameterStage().show());
+		
 		File exerciseDirectory;
 		if (Main.getParameterController().getCreatedExercisePath() != null) {
 			exerciseDirectory = Main.getParameterController().getCreatedExercisePath();

@@ -299,7 +299,6 @@ public class ExerciceController implements Initializable {
 		textToFind.setText(clearText);
 		helpButton.setVisible(false);
 		finishButton.setText("Quitter");
-		
 	}
 
 

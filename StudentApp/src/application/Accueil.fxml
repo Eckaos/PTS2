@@ -21,13 +21,12 @@
         <menus>
           <Menu mnemonicParsing="false" text="Fichier">
             <items>
-              <MenuItem mnemonicParsing="false" text="Fermer" />
+              <MenuItem fx:id="closeItem" mnemonicParsing="false" text="Fermer" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Aide">
             <items>
-                  <MenuItem mnemonicParsing="false" text="Paramètres" />
-              <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem fx:id="parameterItem" mnemonicParsing="false" text="Paramètres" />
             </items>
           </Menu>
         </menus>

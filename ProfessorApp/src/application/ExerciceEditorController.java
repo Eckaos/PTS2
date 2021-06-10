@@ -284,6 +284,8 @@ public class ExerciceEditorController implements Initializable{
 	@FXML
 	private void OpenFileMethod(ActionEvent event) throws MalformedURLException {
 		FileChooser fileChooser = new FileChooser();
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("media files (*.mp3, *.mp4)", "*.mp3", "*.mp4");
+		fileChooser.getExtensionFilters().add(extFilter);
 		mediaFile = fileChooser.showOpenDialog(importMediaButton.getScene().getWindow());
 		if (".mp3".equals(FileUtil.getExtension(mediaFile))) {
 			importImageButton.setVisible(true);
@@ -305,6 +307,8 @@ public class ExerciceEditorController implements Initializable{
 	@FXML
 	public void importImage() {
 		FileChooser fileChooser = new FileChooser();
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("image files (*.jpg, *.png)", "*.jpg", "*.png");
+		fileChooser.getExtensionFilters().add(extFilter);
 		fileChooser.setTitle("Open Resource File");
 		image = fileChooser.showOpenDialog(importMediaButton.getScene().getWindow());
 		imagePath.setText(image.toString());

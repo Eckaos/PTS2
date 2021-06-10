@@ -2,29 +2,25 @@ package application;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Scanner;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 public class ParameterController implements Initializable {
 
-	@FXML private Spinner<Integer> fontSizeSpinner;
-	
 	@FXML private Text createdExercisePathText;
 	@FXML private Text studentExercisePathText;
 	@FXML private Button createdExerciseButton;
@@ -35,27 +31,27 @@ public class ParameterController implements Initializable {
 	
 	@FXML private Button saveButton;
 	
+	@FXML private Text problemPath;
+	
 	private File createdExercisePath;
 	private File studentExercsiePath;
 	
 	private boolean darkModeActivated = false;
-	private SpinnerValueFactory<Integer> valueFactory;
+	
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 30, 10);
-		fontSizeSpinner.setValueFactory(valueFactory);
 		
 		try {
 			load();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if (darkModeActivated) {
-			setDarkMode();
+		if (createdExercisePath == null || studentExercsiePath == null) {
+			problemPath.setVisible(true);
 		}else {
-			unsetDarkMode();
+			problemPath.setVisible(false);
 		}
-		
 		
 	}
 
@@ -65,6 +61,9 @@ public class ParameterController implements Initializable {
 		directoryChooser.setTitle("Open Resource File");
 		createdExercisePath = directoryChooser.showDialog(createdExerciseButton.getScene().getWindow());
 		createdExercisePathText.setText(createdExercisePath.getAbsolutePath());
+		if (studentExercsiePath != null) {
+			problemPath.setVisible(false);
+		}
 	}
 	
 	@FXML
@@ -73,6 +72,9 @@ public class ParameterController implements Initializable {
 		directoryChooser.setTitle("Open Resource File");
 		studentExercsiePath = directoryChooser.showDialog(studentExerciseButton.getScene().getWindow());
 		studentExercisePathText.setText(studentExercsiePath.getAbsolutePath());
+		if (createdExercisePath != null) {
+			problemPath.setVisible(false);
+		}
 	}
 	
 	@FXML
@@ -81,36 +83,51 @@ public class ParameterController implements Initializable {
 			slideContainer.setFill(Color.WHITE);
 			slideButton.setTranslateX(0.0);
 			darkModeActivated = false;
-			unsetDarkMode();
+			unsetDarkMode(Main.getScenes());
 		}else {
 			slideContainer.setFill(Color.LIMEGREEN);
 			slideButton.setTranslateX(21.5);
 			darkModeActivated = true;
-			setDarkMode();
+			setDarkMode(Main.getScenes());
 		}
 	}
 	
-	private void setDarkMode() {
-		// TODO Auto-generated method stub
-		
+	public void setStyleSheet() {
+		if (darkModeActivated) {
+			setDarkMode(Main.getScenes());
+		}else {
+			unsetDarkMode(Main.getScenes());
+		}
+	}
+	
+	private void setDarkMode(List<Scene> scenes) {
+		slideContainer.setFill(Color.LIMEGREEN);
+		slideButton.setTranslateX(21.5);
+		for (Scene scene : scenes) {
+			scene.getStylesheets().clear();
+			scene.getStylesheets().add(getClass().getResource("darkMode.css").toExternalForm());
+		}
 	}
 
-	private void unsetDarkMode() {
-		// TODO Auto-generated method stub
-		
+	private void unsetDarkMode(List<Scene> scenes) {
+		slideContainer.setFill(Color.WHITE);
+		slideButton.setTranslateX(0.0);
+		for (Scene scene : scenes) {
+			scene.getStylesheets().clear();
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		}
 	}
 	
 	@FXML
 	public void save() throws IOException {
 		FileWriter fileWriter = new FileWriter("parameter.txt");
-		fileWriter.write("Font size : " + fontSizeSpinner.getValue());
-		fileWriter.write("\n");
 		fileWriter.write("Created Exercise directory : " + createdExercisePathText.getText());
 		fileWriter.write("\n");
 		fileWriter.write("Student Exercise directory : " + studentExercisePathText.getText());
 		fileWriter.write("\n");
 		fileWriter.write("Dark mode : " + darkModeActivated);
 		fileWriter.close();
+		((Stage) saveButton.getScene().getWindow()).close();
 	}
 	
 	private void load() throws IOException {
@@ -118,13 +135,6 @@ public class ParameterController implements Initializable {
 		BufferedReader reader= new BufferedReader(new FileReader(parameter));
 		String string = reader.readLine();
 		while (string != null) {
-			if (string.contains("Font size : ")) {
-				int index = "Font size : ".length();
-				int size = Integer.parseInt(string.substring(index));
-				valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 30, size);
-				fontSizeSpinner.setValueFactory(valueFactory);
-				setFontSize();
-			}
 			if (string.contains("Created Exercise directory : ")) {
 				int index = "Created Exercise directory : ".length();
 				if ("Aucun dossier selectionné".equals(string.substring(index))) {
@@ -153,19 +163,6 @@ public class ParameterController implements Initializable {
 			string = reader.readLine();
 		}
 		reader.close();
-	}
-
-	private void setFontSize() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public int getFontSize() {
-		return fontSizeSpinner.getValue();
-	}
-	
-	public String test() {
-		return getCreatedExercisePath().getAbsolutePath();
 	}
 	
 	public File getCreatedExercisePath() {
