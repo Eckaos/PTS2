@@ -57,6 +57,9 @@ public class AccueilController implements Initializable {
 		trainingFiles.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent click) {
+				if (trainingFiles.getSelectionModel().getSelectedItem() == null) {
+					return;
+				}
 				selectedEx = trainingFiles.getSelectionModel().getSelectedItem() + ".train";
 				if (click.getClickCount() == 2) {
 					try {
@@ -72,6 +75,9 @@ public class AccueilController implements Initializable {
 		examFiles.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent click) {
+				if (examFiles.getSelectionModel().getSelectedItem() == null) {
+					return;
+				}
 				selectedEx = examFiles.getSelectionModel().getSelectedItem() + ".exam";
 				if (click.getClickCount() == 2) {
 					try {

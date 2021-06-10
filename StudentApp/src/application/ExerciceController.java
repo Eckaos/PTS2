@@ -122,8 +122,12 @@ public class ExerciceController implements Initializable {
 
 	@FXML
 	private void finishHandle() {
-		((PopupController)popupLoader.getController()).reset();
-		popupStage.show();
+		if (finishButton.getText().equals("Quitter")) {
+			Main.setScreen(0);
+		}else {
+			((PopupController)popupLoader.getController()).reset();
+			popupStage.show();
+		}
 	}
 
 	private void verify(String text) {
@@ -262,7 +266,7 @@ public class ExerciceController implements Initializable {
 		}
 
 		helpText = helpString;
-		instructionText.setText(instructionString);
+		instructionText.setText("Consigne :\n"+instructionString);
 	}
 
 	private int getBit(byte b, int pos) {
@@ -293,14 +297,21 @@ public class ExerciceController implements Initializable {
 
 	public void setSoluce() {
 		textToFind.setText(clearText);
-		finishButton.setVisible(false);
+		helpButton.setVisible(false);
+		finishButton.setText("Quitter");
+		
 	}
 
 
 	public void setExercise(String exName) throws IOException {
 		File ex = new File(Main.getParameterController().getCreatedExercisePath().getAbsolutePath() + "/" + exName);
 		parseExercise(ex);
-		timeText.setText("Temps restant : " + minutes + ":" + seconds + "s");
+		if (exam) {
+			timeText.setText("Temps restant : " + minutes + ":" + seconds + "s");
+			helpButton.setVisible(false);
+		}else {
+			timeText.setText("Temps écoulé : " + minutes + ":" + seconds + "s");
+		}
 		try {
 			encryptedText = encryptText();
 			textToFind.setText(encryptedText);
@@ -454,24 +465,20 @@ public class ExerciceController implements Initializable {
 
 	private void changePlayImage() {
 		if (mediaView.getMediaPlayer().getStatus().equals(Status.PAUSED) || mediaView.getMediaPlayer().getStatus().equals(Status.READY)) {
-			File tempFile = new File("image/pauseButton.png");
-			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			Image imageTemp = new Image(getClass().getResource("/image/pauseButton.png").toString()); 
 			playPauseImage.setImage(imageTemp);
 		}else {
-			File tempFile = new File("image/playButton.png");
-			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			Image imageTemp = new Image(getClass().getResource("/image/playButton.png").toString()); 
 			playPauseImage.setImage(imageTemp);
 		}
 	}
 
 	private void changeSpeakerImage() {
 		if(mediaView.getMediaPlayer().isMute()) {
-			File tempFile = new File("image/speakerMute.png");
-			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			Image imageTemp = new Image(getClass().getResource("/image/speakerMute.png").toString()); 
 			muteImage.setImage(imageTemp);
 		}else {
-			File tempFile = new File("image/speaker.png");
-			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			Image imageTemp = new Image(getClass().getResource("/image/speaker.png").toString()); 
 			muteImage.setImage(imageTemp);
 		}
 	}
