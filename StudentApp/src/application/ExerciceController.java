@@ -35,38 +35,20 @@ import javafx.scene.media.MediaPlayer.Status;
 
 public class ExerciceController implements Initializable {
 
-	@FXML
-	private MediaView mediaView;
-	@FXML
-	private Label instructionText;
-	@FXML
-	private Button pausePlayButton;
-	@FXML
-	private Slider progressBar;
-	@FXML
-	private Button soundButton;
-
-	@FXML
-	private Label timeText;
-	@FXML
-	private Button helpButton;
-	@FXML
-	private TextArea textToFind; //TODO Change name
-	@FXML
-	private TextField typedText;
-	@FXML
-	private Button validateButton;
-	@FXML
-	private Button finishButton;
-
-	@FXML
-	private Button launchExButton;
-
-	@FXML
-	private Slider soundSlider;
-
-	@FXML
-	private ImageView imageView;
+	@FXML private MediaView mediaView;
+	@FXML private Label instructionText;
+	@FXML private Button pausePlayButton;
+	@FXML private Slider progressBar;
+	@FXML private Button soundButton;
+	@FXML private Label timeText;
+	@FXML private Button helpButton;
+	@FXML private TextArea textToFind;
+	@FXML private TextField typedText;
+	@FXML private Button validateButton;
+	@FXML private Button finishButton;
+	@FXML private Button launchExButton;
+	@FXML private Slider soundSlider;
+	@FXML private ImageView imageView;
 
 	private String encryptedText;
 	private String helpText;
@@ -80,8 +62,6 @@ public class ExerciceController implements Initializable {
 	private Scene popupScene;
 
 	@FXML private Label realTime;
-
-	//TODO demander le nom d'un etudiant sur la validation de l'exercice exam
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -134,7 +114,10 @@ public class ExerciceController implements Initializable {
 
 			}
 		});
-		validateButton.setOnAction(ActionEvent -> verify(typedText.getText()));
+		validateButton.setOnAction(ActionEvent -> {
+			verify(typedText.getText());
+			typedText.setText("");
+		});
 	}
 
 	@FXML
