@@ -95,7 +95,7 @@
                   <Font size="15.0" />
                </font>
             </CheckBox>
-            <CheckBox fx:id="realTimeNumberWordCheckBox" mnemonicParsing="false" prefHeight="27.0" prefWidth="524.0" text="Autoriser l'affichage de mot découverts" textAlignment="CENTER" wrapText="true" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <CheckBox fx:id="realTimeNumberWordCheckBox" mnemonicParsing="false" prefHeight="27.0" prefWidth="524.0" text="Autoriser l'affichage du nombre de mot découverts" textAlignment="CENTER" wrapText="true" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="20.0" top="100.0" />
                </GridPane.margin>

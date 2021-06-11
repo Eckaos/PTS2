@@ -108,4 +108,8 @@ public class Main extends Application {
 	public static List<Scene> getScenes() {
 		return scenes;
 	}
+	
+	public static Scene getScene() {
+		return scene;
+	}
 }

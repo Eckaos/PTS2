@@ -250,6 +250,7 @@ public class ExerciseParameterController implements Initializable{
 		Main.getExerciceEditorController().save(titleField.getText());
 		Main.setScreen(0);
 		((Stage) finishButton.getScene().getWindow()).close();
+		//TODO dispose media
 	}
 
 	@FXML

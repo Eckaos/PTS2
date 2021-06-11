@@ -29,6 +29,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.*;
 import javafx.scene.media.MediaPlayer.Status;
@@ -79,8 +81,7 @@ public class ExerciceController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-
+		
 		helpButton.setOnAction(ActionEvent -> {
 			if (helpDisplayed) {
 				helpDisplayed = false;
@@ -102,18 +103,9 @@ public class ExerciceController implements Initializable {
 			} else {
 				mediaView.getMediaPlayer().pause();
 			}
+			changePlayImage();
 		});
 
-		soundSlider.valueProperty().addListener(new InvalidationListener() {
-
-			@Override
-			public void invalidated(Observable observable) {
-				if (mediaView.getMediaPlayer() != null) {
-					mediaView.getMediaPlayer().setVolume(soundSlider.getValue() / 100);
-				}
-
-			}
-		});
 		validateButton.setOnAction(ActionEvent -> {
 			verify(typedText.getText());
 			typedText.setText("");
@@ -141,8 +133,8 @@ public class ExerciceController implements Initializable {
 		Matcher clearMatcher;
 		for (int i = 0; i < clear.length; i++) {
 			clearMatcher = punctionLessPattern.matcher(clear[i]);
-			if (clearMatcher.find() && clearMatcher.group(0).equals(text)) {
-				if (letterCase && !clearMatcher.group(0).toLowerCase().equals(text.toLowerCase())) {
+			if (clearMatcher.find() && clearMatcher.group(0).toLowerCase().equals(text.toLowerCase())) {
+				if (letterCase && !clearMatcher.group(0).equals(text)) {
 					continue;
 				}
 				encrypted[i]=clear[i];
@@ -235,9 +227,8 @@ public class ExerciceController implements Initializable {
 		}
 		int bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
 		fos.write(fin.readNBytes(bytesRead));
-
+		bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
 		if (getBit(parameter[0], 6) == 0) {
-			bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
 			fos2.write(fin.readNBytes(bytesRead));
 		}
 		fos.close();
@@ -327,6 +318,19 @@ public class ExerciceController implements Initializable {
 
 			mediaView.setMediaPlayer(new MediaPlayer(new Media(mediaSelected.toURI().toURL().toExternalForm())));
 			soundSlider.setValue(mediaView.getMediaPlayer().getVolume() * 100);
+			mediaView.getMediaPlayer().volumeProperty().addListener(l -> {
+				soundSlider.setValue(mediaView.getMediaPlayer().getVolume() * 100);
+			});
+			soundSlider.valueProperty().addListener(new InvalidationListener() {
+
+				@Override
+				public void invalidated(Observable observable) {
+					if (mediaView.getMediaPlayer() != null) {
+						mediaView.getMediaPlayer().setVolume(soundSlider.getValue() / 100);
+					}
+
+				}
+			});
 			InvalidationListener sliderChangeListener = o -> {
 				Duration seekTo = Duration.seconds(progressBar.getValue());
 				mediaView.getMediaPlayer().seek(seekTo);
@@ -348,6 +352,7 @@ public class ExerciceController implements Initializable {
 				}
 
 			});
+			setKeyboardShortcut();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -443,10 +448,10 @@ public class ExerciceController implements Initializable {
 	}
 
 	@FXML
-	ImageView playPauseImage;
+	private ImageView playPauseImage;
 
 	@FXML
-	ImageView muteImage;
+	private ImageView muteImage;
 
 	@FXML
 	public void muteHandle() {
@@ -535,5 +540,38 @@ public class ExerciceController implements Initializable {
 						timeText.setText("Temps écoulé : " + minutes + ":" + seconds + "s");
 					}
 				}));
+	}
+	
+	
+	private void setKeyboardShortcut() {
+		Main.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent event) {
+				if (event.getCode() == KeyCode.SPACE) {
+					if (mediaView.getMediaPlayer().getStatus() == Status.PAUSED) {
+						mediaView.getMediaPlayer().play();
+						changePlayImage();
+					}
+					if (mediaView.getMediaPlayer().getStatus() == Status.PLAYING) {
+						mediaView.getMediaPlayer().pause();
+						changePlayImage();
+					}
+				}
+				if (event.getCode() == KeyCode.RIGHT && mediaView.getMediaPlayer().getTotalDuration().greaterThan(mediaView.getMediaPlayer().getCurrentTime().add(new Duration(5000)))) {
+					mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getCurrentTime().add(new Duration(5000)));
+				}
+				if (event.getCode() == KeyCode.LEFT && new Duration(0).lessThan(mediaView.getMediaPlayer().getCurrentTime().subtract(new Duration(5000)))) {
+					mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getCurrentTime().subtract(new Duration(5000)));
+				}
+				if (event.getCode() == KeyCode.UP && mediaView.getMediaPlayer().getVolume() <= 1-0.1) {
+					mediaView.getMediaPlayer().setVolume(mediaView.getMediaPlayer().getVolume()+0.1);
+				}
+				if (event.getCode() == KeyCode.DOWN && mediaView.getMediaPlayer().getVolume() >= 0 + 0.1) {
+					mediaView.getMediaPlayer().setVolume(mediaView.getMediaPlayer().getVolume()-0.1);
+				}
+			}
+			
+		});
+		
 	}
 }

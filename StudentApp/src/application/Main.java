@@ -88,4 +88,7 @@ public class Main extends Application {
 	public static Stage getParameterStage() {
 		return parameterStage;
 	}
+	public static Scene getScene() {
+		return scene;
+	}
 }

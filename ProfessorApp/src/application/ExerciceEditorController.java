@@ -26,6 +26,8 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
@@ -167,14 +169,15 @@ public class ExerciceEditorController implements Initializable{
 		fos.write(exerciceSeconds);
 		
 		int bytesRead = 0;
+		byte[] mediaBytes = null;
 		FileInputStream fileInputStream1 = new FileInputStream(mediaFile);
 		if (mediaFile != null) {
-			byte[] mediaFile = fileInputStream1.readAllBytes();
-			bytesRead = mediaFile.length;
+			mediaBytes = fileInputStream1.readAllBytes();
+			bytesRead = mediaBytes.length;
 		}
 		fos.write(ByteBuffer.allocate(8).putInt(bytesRead).array());
 		if (bytesRead > 0) {
-			fos.write(fileInputStream1.readAllBytes());
+			fos.write(mediaBytes);
 		}
 		fileInputStream1.close();
 		fos.write(ByteBuffer.allocate(8).putInt(imageLenght).array());
@@ -368,7 +371,9 @@ public class ExerciceEditorController implements Initializable{
 				mediaPlayer.setVolume(soundSlider.getValue()/100);
 			}
 		});
-
+		mediaView.getMediaPlayer().volumeProperty().addListener(l -> {
+			soundSlider.setValue(mediaView.getMediaPlayer().getVolume() * 100);
+		});
 		mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
 			@Override
 			public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
@@ -397,6 +402,40 @@ public class ExerciceEditorController implements Initializable{
 				progressBar.setMax(total.toSeconds());
 			}
 		});
+		setKeyboardShortcut();
+		
+	}
+	
+	private void setKeyboardShortcut() {
+		Main.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent event) {
+				if (event.getCode() == KeyCode.SPACE) {
+					if (mediaView.getMediaPlayer().getStatus() == Status.PAUSED) {
+						mediaView.getMediaPlayer().play();
+						changePlayImage();
+					}
+					if (mediaView.getMediaPlayer().getStatus() == Status.PLAYING) {
+						mediaView.getMediaPlayer().pause();
+						changePlayImage();
+					}
+				}
+				if (event.getCode() == KeyCode.RIGHT && mediaView.getMediaPlayer().getTotalDuration().greaterThan(mediaView.getMediaPlayer().getCurrentTime().add(new Duration(5000)))) {
+					mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getCurrentTime().add(new Duration(5000)));
+				}
+				if (event.getCode() == KeyCode.LEFT && new Duration(0).lessThan(mediaView.getMediaPlayer().getCurrentTime().subtract(new Duration(5000)))) {
+					mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getCurrentTime().subtract(new Duration(5000)));
+				}
+				if (event.getCode() == KeyCode.UP && mediaView.getMediaPlayer().getVolume() <= 1-0.1) {
+					mediaView.getMediaPlayer().setVolume(mediaView.getMediaPlayer().getVolume()+0.1);
+				}
+				if (event.getCode() == KeyCode.DOWN && mediaView.getMediaPlayer().getVolume() >= 0 + 0.1) {
+					mediaView.getMediaPlayer().setVolume(mediaView.getMediaPlayer().getVolume()-0.1);
+				}
+			}
+			
+		});
+		
 	}
 	
 	
