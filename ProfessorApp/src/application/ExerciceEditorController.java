@@ -220,10 +220,10 @@ public class ExerciceEditorController implements Initializable{
 		FileOutputStream fos = null;
 		FileOutputStream fos2 = null;
 		if (getBit(parameter[0], 6) == 1) {
-			fos = new FileOutputStream("temp.mp4");
+			fos = new FileOutputStream("Auditrad/temp.mp4");
 		}else {
-			fos = new FileOutputStream("temp.mp3");
-			fos2 = new FileOutputStream("temp.png");
+			fos = new FileOutputStream("Auditrad/temp.mp3");
+			fos2 = new FileOutputStream("Auditrad/temp.png");
 		}
 		int bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
 		fos.write(fin.readNBytes(bytesRead));
@@ -233,9 +233,9 @@ public class ExerciceEditorController implements Initializable{
 		if (getBit(parameter[0], 6) == 0) {
 			bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
 			fos2.write(fin.readNBytes(bytesRead));
-			mediaFile = new File("temp.png");
+			mediaFile = new File("Auditrad/temp.png");
 			imageView.setImage(new Image(mediaFile.toURI().toString()));
-			mediaFile = new File("temp.mp3");
+			mediaFile = new File("Auditrad/temp.mp3");
 			media = new Media(mediaFile.toURI().toString());
 			mediaPlayer = new MediaPlayer(media);
 			mediaView.setMediaPlayer(mediaPlayer);
@@ -243,7 +243,7 @@ public class ExerciceEditorController implements Initializable{
 			importImageButton.setVisible(true);
 			imagePath.setVisible(true);
 		}else {
-			mediaFile = new File("temp.mp4");
+			mediaFile = new File("Auditrad/temp.mp4");
 			media = new Media(mediaFile.toURI().toString());
 			mediaPlayer = new MediaPlayer(media);
 			mediaView.setMediaPlayer(mediaPlayer);

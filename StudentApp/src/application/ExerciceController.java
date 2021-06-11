@@ -218,12 +218,12 @@ public class ExerciceController implements Initializable {
 		FileOutputStream fos = null;
 		FileOutputStream fos2 = null;
 		if (getBit(parameter[0], 6) == 1) {
-			fos = new FileOutputStream("temp.mp4");
+			fos = new FileOutputStream("Auditrad/temp.mp4");
 			mediaType = true;
 		} else {
 			mediaType = false;
-			fos = new FileOutputStream("temp.mp3");
-			fos2 = new FileOutputStream("temp.png");
+			fos = new FileOutputStream("Auditrad/temp.mp3");
+			fos2 = new FileOutputStream("Auditrad/temp.png");
 		}
 		int bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
 		fos.write(fin.readNBytes(bytesRead));
