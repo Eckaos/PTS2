@@ -55,8 +55,8 @@ public class Main extends Application {
 			screens.add((BorderPane)resultScreenLoader.load());
 			scene = new Scene(screens.get(0),1280,720);
 			scenes.add(scene);
+			scenes.add(parameterScene);
 			((ParameterController) parameterLoader.getController()).setStyleSheet();
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setMaximized(true);
 			primaryStage.setScene(scene);
 			primaryStage.show();

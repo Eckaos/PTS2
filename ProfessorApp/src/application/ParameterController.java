@@ -120,17 +120,25 @@ public class ParameterController implements Initializable {
 	
 	@FXML
 	public void save() throws IOException {
+		
 		FileWriter fileWriter = new FileWriter("Auditrad/parameter.txt");
-		fileWriter.write("Created Exercise directory : " + createdExercisePathText.getText());
-		fileWriter.write("\n");
-		fileWriter.write("Student Exercise directory : " + studentExercisePathText.getText());
-		fileWriter.write("\n");
+		if (createdExercisePath != null) {
+			fileWriter.write("Created Exercise directory : " + createdExercisePathText.getText());
+			fileWriter.write("\n");
+		}
+		if (studentExercisePathText != null) {
+			fileWriter.write("Student Exercise directory : " + studentExercisePathText.getText());
+			fileWriter.write("\n");
+		}
 		fileWriter.write("Dark mode : " + darkModeActivated);
 		fileWriter.close();
 		((Stage) saveButton.getScene().getWindow()).close();
 	}
 	
 	private void load() throws IOException {
+		if (!new File("Auditrad/parameter.txt").exists()) {
+			return;
+		}
 		File parameter = new File("Auditrad/parameter.txt");
 		BufferedReader reader= new BufferedReader(new FileReader(parameter));
 		String string = reader.readLine();
