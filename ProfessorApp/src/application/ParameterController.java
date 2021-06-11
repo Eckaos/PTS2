@@ -120,7 +120,7 @@ public class ParameterController implements Initializable {
 	
 	@FXML
 	public void save() throws IOException {
-		FileWriter fileWriter = new FileWriter("parameter.txt");
+		FileWriter fileWriter = new FileWriter(getClass().getClassLoader().getResource("parameter.txt").getPath().toString());
 		fileWriter.write("Created Exercise directory : " + createdExercisePathText.getText());
 		fileWriter.write("\n");
 		fileWriter.write("Student Exercise directory : " + studentExercisePathText.getText());
@@ -131,7 +131,7 @@ public class ParameterController implements Initializable {
 	}
 	
 	private void load() throws IOException {
-		File parameter = new File("parameter.txt");
+		File parameter = new File(getClass().getClassLoader().getResource("parameter.txt").getPath().toString());
 		BufferedReader reader= new BufferedReader(new FileReader(parameter));
 		String string = reader.readLine();
 		while (string != null) {

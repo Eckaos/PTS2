@@ -1,3 +1,0 @@
-Created Exercise directory : C:\Users\NathanPollart\git\PTS2\ProfessorApp\exercise
-Student Exercise directory : C:\Users\NathanPollart\git\PTS2\ProfessorApp\exercise
-Dark mode : true
