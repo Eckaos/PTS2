@@ -96,35 +96,35 @@ public class ResultScreenController implements Initializable {
 
 		FileInputStream fileInputStream = new FileInputStream(currentFile);
 
-		mediaType = ByteBuffer.wrap(fileInputStream.readNBytes(4)).getInt() == 1 ? true:false;
+		mediaType = ByteBuffer.wrap(FileUtil.readNBytes(fileInputStream,4)).getInt() == 1 ? true:false;
 
-		length = ByteBuffer.wrap(fileInputStream.readNBytes(4)).getInt();
-		clearText = convertByteToString(fileInputStream.readNBytes(length));
+		length = ByteBuffer.wrap(FileUtil.readNBytes(fileInputStream,4)).getInt();
+		clearText = convertByteToString(FileUtil.readNBytes(fileInputStream, length));
 
-		length = ByteBuffer.wrap(fileInputStream.readNBytes(4)).getInt();
-		encryptedText = convertByteToString(fileInputStream.readNBytes(length));
+		length = ByteBuffer.wrap(FileUtil.readNBytes(fileInputStream,4)).getInt();
+		encryptedText = convertByteToString(FileUtil.readNBytes(fileInputStream,length));
 
-		length = ByteBuffer.wrap(fileInputStream.readNBytes(4)).getInt();
-		instructionText = convertByteToString(fileInputStream.readNBytes(length));
+		length = ByteBuffer.wrap(FileUtil.readNBytes(fileInputStream,4)).getInt();
+		instructionText = convertByteToString(FileUtil.readNBytes(fileInputStream,length));
 
-		length = ByteBuffer.wrap(fileInputStream.readNBytes(8)).getInt();
+		length = ByteBuffer.wrap(FileUtil.readNBytes(fileInputStream,8)).getInt();
 
 		FileOutputStream mediaOutputStream;
 		FileOutputStream image;
 
 		if (mediaType) {
-			mediaOutputStream = new FileOutputStream("temp.mp4");
+			mediaOutputStream = new FileOutputStream(System.getProperty("user.home")+"/Auditrad/temp.mp4");
 		}else {
-			mediaOutputStream = new FileOutputStream("temp.mp3");
+			mediaOutputStream = new FileOutputStream(System.getProperty("user.home")+"/Auditrad/temp.mp3");
 		}
 
-		mediaOutputStream.write(fileInputStream.readNBytes(length));
+		mediaOutputStream.write(FileUtil.readNBytes(fileInputStream,length));
 
-		length = ByteBuffer.wrap(fileInputStream.readNBytes(8)).getInt();
+		length = ByteBuffer.wrap(FileUtil.readNBytes(fileInputStream,8)).getInt();
 
 		if (length > 0) {
-			image = new FileOutputStream("temp.png");
-			image.write(fileInputStream.readNBytes(length));
+			image = new FileOutputStream(System.getProperty("user.home")+"/Auditrad/temp.png");
+			image.write(FileUtil.readNBytes(fileInputStream,length));
 			image.close();
 		}
 
@@ -152,11 +152,13 @@ public class ResultScreenController implements Initializable {
 
 		File mediaFile;
 		if (mediaType) {
-			mediaFile = new File("temp.mp4");
+			mediaFile = new File(System.getProperty("user.home")+"/Auditrad/temp.mp4");
 			media = new Media(mediaFile.toURI().toString());
+			mediaFile.deleteOnExit();
 		}else {
-			mediaFile = new File("temp.mp3");
+			mediaFile = new File(System.getProperty("user.home")+"/Auditrad/temp.mp3");
 			media = new Media(mediaFile.toURI().toString());
+			mediaFile.deleteOnExit();
 		}
 		mediaPlayer = new MediaPlayer(media);
 		mediaView.setMediaPlayer(mediaPlayer);
