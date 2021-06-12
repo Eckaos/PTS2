@@ -19,6 +19,8 @@ public class AccueilController implements Initializable{
 	@FXML private MenuItem close;
 	@FXML private MenuItem parameter;
 	
+	//TODO Check seeResult list affichge
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		addButton.setOnAction(ActionEvent -> Main.setScreen(2));

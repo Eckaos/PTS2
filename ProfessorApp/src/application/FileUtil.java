@@ -69,6 +69,21 @@ public class FileUtil {
 		return name.substring(posPoint+1, name.length());
 	}
 	
+	public static String getExerciceName(File file) {
+		String name = stripExtension(file);
+		if (file == null) {
+			return null;
+		}
+
+		int posPoint = name.lastIndexOf("_");
+
+		if (posPoint == -1) {
+			return name;
+		}
+		
+		return name.substring(0, posPoint);
+	}
+	
 	private static final int DEFAULT_BUFFER_SIZE = 8192;
 	private static final int MAX_BUFFER_SIZE = Integer.MAX_VALUE - 8;
 	public static byte[] readNBytes(FileInputStream fin, int len) throws IOException {

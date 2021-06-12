@@ -73,8 +73,9 @@ public class SeeResultController implements Initializable{
 			@Override
 			public void handle(MouseEvent click) {
 				elevesListView.getItems().clear();
+				exercisesFullName.clear();
 				for (File file : Main.getParameterController().getStudentExercisePath().listFiles()) {
-					if (file.getName().contains(examFiles.getSelectionModel().getSelectedItem()) && FileUtil.getExtension(file).equals(".student")) {
+					if (FileUtil.getExerciceName(file).contains(examFiles.getSelectionModel().getSelectedItem()) && FileUtil.getExtension(file).equals(".student")) {
 						elevesListView.getItems().add(FileUtil.stripExerciceName(file));
 						exercisesFullName.add(file.getName());
 					}

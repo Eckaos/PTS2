@@ -364,6 +364,7 @@ public class ExerciceEditorController implements Initializable{
 		if (!instruction.getText().equals("") && !text.getText().equals("")) {
 			errorLabel.setVisible(false);
 		}
+		mediaView.getMediaPlayer().dispose();
 		parameterStage.show();
 	}
 
