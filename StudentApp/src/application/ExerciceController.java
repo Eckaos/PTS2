@@ -584,9 +584,6 @@ public class ExerciceController implements Initializable {
 	
 	
 	private void setKeyboardShortcut() {
-		Main.getScene().setOnMouseClicked(ActionEvent -> {
-			mediaView.requestFocus();
-		});
 		Main.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {

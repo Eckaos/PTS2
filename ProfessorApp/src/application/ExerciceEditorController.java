@@ -406,7 +406,6 @@ public class ExerciceEditorController implements Initializable{
 	}
 	
 	private void setKeyboardShortcut() {
-		Main.getScene().setOnMouseClicked(ActionEvent -> mediaView.requestFocus());
 		Main.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
@@ -431,6 +430,20 @@ public class ExerciceEditorController implements Initializable{
 				}
 				if (event.getCode() == KeyCode.DOWN && mediaView.getMediaPlayer().getVolume() >= 0 + 0.1) {
 					mediaView.getMediaPlayer().setVolume(mediaView.getMediaPlayer().getVolume()-0.1);
+				}
+				if (event.getCode() == KeyCode.BACK_SPACE) {
+					if (instruction.isFocused()) {
+						instruction.setText(instruction.getText().substring(0,instruction.getText().length()-1));
+						instruction.positionCaret(instruction.getText().length());
+					}
+					if (help.isFocused()) {
+						help.setText(instruction.getText().substring(0, help.getText().length()-1));
+						help.positionCaret(help.getText().length());
+					}
+					if (text.isFocused()) {
+						text.setText(text.getText().substring(0, text.getText().length()-1));
+						text.positionCaret(text.getText().length());
+					}
 				}
 				event.consume();
 			}
