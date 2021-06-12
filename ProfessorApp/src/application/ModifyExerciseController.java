@@ -117,6 +117,8 @@ public class ModifyExerciseController implements Initializable{
 	
 	public void refreshList() {
 		File exerciseDirectory;
+		trainingFiles.getItems().clear();
+		examFiles.getItems().clear();
 		if (Main.getParameterController().getCreatedExercisePath() != null) {
 			exerciseDirectory = Main.getParameterController().getCreatedExercisePath();
 			if (exerciseDirectory.exists()) {

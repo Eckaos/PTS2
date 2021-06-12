@@ -38,6 +38,7 @@ public class SeeResultController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		refreshList();
 		deleteButton.setVisible(false);
 		deleteButton.setOnAction(ActionEvent -> {
 			if (currentFile != null) {
@@ -121,6 +122,7 @@ public class SeeResultController implements Initializable{
 
 	public void refreshList() {
 		File exerciseDirectory = null;
+		examFiles.getItems().clear();
 		if (Main.getParameterController().getStudentExercisePath() != null) {
 			exerciseDirectory = Main.getParameterController().getStudentExercisePath();
 			if (exerciseDirectory.exists()) {

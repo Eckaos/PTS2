@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,7 +25,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.scene.media.MediaPlayer.Status;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -32,8 +37,7 @@ public class ResultScreenController implements Initializable {
 
 	@FXML private Label instruction;
 	@FXML private Label averageNumberOfWord;
-	@FXML private Label completeText;
-	@FXML private Label reconstructedText;
+	@FXML private TextFlow reconstructedText;
 
 	@FXML private MediaView mediaView;
 	@FXML private Button playButton;
@@ -54,6 +58,7 @@ public class ResultScreenController implements Initializable {
 	@FXML private MenuItem seeResults;
 	@FXML private MenuItem close;
 	@FXML private MenuItem parameter;
+	@FXML private ScrollPane scrollPane;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -77,11 +82,13 @@ public class ResultScreenController implements Initializable {
 			Stage stage = (Stage) mediaView.getScene().getWindow();
 			stage.close();
 		});
+		
+		reconstructedText.prefHeightProperty().bind(scrollPane.heightProperty().subtract(5));
+		reconstructedText.prefWidthProperty().bind(scrollPane.widthProperty().subtract(20));
 	}
 
 	public void parseExercise(File currentFile) throws IOException {
 		int length;
-
 		String clearText;
 		String encryptedText;
 		String instructionText;
@@ -122,8 +129,26 @@ public class ResultScreenController implements Initializable {
 		}
 
 		instruction.setText(instructionText);
-		completeText.setText(clearText);
-		reconstructedText.setText(encryptedText);
+		String[] encrypted = encryptedText.split("[ \\t\\n\\x0B\\f\\r]");
+		String[] clear = clearText.split("[ \\t\\n\\x0B\\f\\r]");
+		int lengthText = 0;
+		for (int i = 0; i < clear.length; i++) {
+			Text t = new Text(clear[i]);
+			t.setFont(Font.font("Comic Sans MS",20));
+			if (clear[i].equals(encrypted[i])) {
+				t.setFill(Color.GREEN);
+			}else {
+				t.setFill(Color.RED);
+			}
+			reconstructedText.getChildren().add(t);
+			if (lengthText + clear[i].length() < clearText.length()) {
+				lengthText += clear[i].length();
+			}
+			if (Character.isWhitespace(clearText.charAt(lengthText)) || Character.isSpaceChar(clearText.charAt(lengthText))) {
+				reconstructedText.getChildren().add(new Text(""+clearText.charAt(length)));
+			}
+			lengthText++;
+		}
 
 		File mediaFile;
 		if (mediaType) {
@@ -228,24 +253,20 @@ public class ResultScreenController implements Initializable {
 
 	private void changePlayImage() {
 		if (mediaView.getMediaPlayer().getStatus().equals(Status.PAUSED) || mediaView.getMediaPlayer().getStatus().equals(Status.READY)) {
-			File tempFile = new File("image/pauseButton.png");
-			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			Image imageTemp = new Image(getClass().getResource("/image/pauseButton.png").toString()); 
 			playPauseImage.setImage(imageTemp);
 		}else {
-			File tempFile = new File("image/playButton.png");
-			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			Image imageTemp = new Image(getClass().getResource("/image/playButton.png").toString()); 
 			playPauseImage.setImage(imageTemp);
 		}
 	}
-
+	
 	private void changeSpeakerImage() {
-		if(mediaView.getMediaPlayer().isMute()) {
-			File tempFile = new File("image/speakerMute.png");
-			Image imageTemp = new Image(tempFile.toURI().toString()); 
+		if(mediaView.getMediaPlayer().isMute() || volumeSlider.getValue() == 0) {
+			Image imageTemp = new Image(getClass().getResource("/image/speakerMute.png").toString()); 
 			muteImage.setImage(imageTemp);
 		}else {
-			File tempFile = new File("image/speaker.png");
-			Image imageTemp = new Image(tempFile.toURI().toString()); 
+			Image imageTemp = new Image(getClass().getResource("/image/speaker.png").toString()); 
 			muteImage.setImage(imageTemp);
 		}
 	}

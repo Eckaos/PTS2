@@ -82,6 +82,8 @@ public class AccueilController implements Initializable {
 	}
 
 	public void refreshList() {
+		trainingFiles.getItems().clear();
+		examFiles.getItems().clear();
 		File exerciseDirectory;
 		if (Main.getParameterController().getCreatedExercisePath() != null) {
 			exerciseDirectory = Main.getParameterController().getCreatedExercisePath();

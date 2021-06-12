@@ -9,6 +9,11 @@
 	-fx-fill: #d7d5d9;
 }
 
+#reconstructedText{
+	-fx-background-color: #2f3136;
+}
+
+
 .button{
 	-fx-background-color: #2f3136;
 	-fx-cursor: hand;
@@ -69,4 +74,47 @@
 
 .slider .thumb{
 	-fx-background-color: #202225;
+}
+
+.scroll-pane {
+    -fx-background-insets: 0;
+    -fx-background-color: transparent, #2f3136, transparent, #2f3136;
+    -fx-background-radius: 0, 0, 0, 0;
+    -fx-box-border: none;
+    -fx-focus-color: -fx-control-inner-background;
+    -fx-faint-focus-color: -fx-control-inner-background;
+    -fx-text-box-border: -fx-control-inner-background;
+    -fx-border-width: -1;
+}
+
+.scroll-pane .content {
+    -fx-background-color: transparent, #2f3136, transparent, #2f3136;
+}
+
+.scroll-pane:focused .content {
+    -fx-background-color: transparent, #2f3136, transparent, #2f3136;
+}
+
+.viewport {
+    -fx-background-insets: 0;
+    -fx-background-color: transparent, #2f3136, transparent, #2f3136;
+    -fx-background-radius: 0, 0, 0, 0;
+
+    -fx-focus-color: -fx-control-inner-background;
+    -fx-faint-focus-color: -fx-control-inner-background;
+    -fx-text-box-border: -fx-control-inner-background;
+    -fx-border-width: -1;
+}
+
+
+.scroll-pane:focused {
+
+    -fx-background-insets: 0;
+    -fx-background-color: transparent, #2f3136, transparent, #2f3136;
+    -fx-background-radius: 0, 0, 0, 0;
+
+    -fx-focus-color: -fx-control-inner-background;
+    -fx-faint-focus-color: -fx-control-inner-background;
+    -fx-text-box-border: -fx-control-inner-background;
+    -fx-border-width: -1;
 }
