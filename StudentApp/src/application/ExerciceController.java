@@ -202,6 +202,7 @@ public class ExerciceController implements Initializable {
 		String occultation;
 		byte[] parameter;
 
+		reset();
 		exerciseName = FileUtil.stripExtension(file);
 		FileInputStream fin = new FileInputStream(file);
 		titleLabel.setText(exerciseName);
@@ -306,6 +307,8 @@ public class ExerciceController implements Initializable {
 		textToFind.setVisible(false);
 		soluce.setVisible(true);
 		helpButton.setVisible(false);
+		typedText.setVisible(false);
+		validateButton.setVisible(false);
 		finishButton.setText("Quitter");
 		String[] encrypted = encryptedText.split("[ \\t\\n\\x0B\\f\\r]");
 		String[] clear = clearText.split("[ \\t\\n\\x0B\\f\\r]");
@@ -413,11 +416,11 @@ public class ExerciceController implements Initializable {
 		FileInputStream mediaFileinput;
 		FileInputStream imageFileinput = null;
 		if (mediaType) {
-			mediaFileinput = new FileInputStream("temp.mp4");
+			mediaFileinput = new FileInputStream(System.getProperty("user.home")+"/Auditrad/temp.mp4");
 		}else {
-			mediaFileinput = new FileInputStream("temp.mp3");
+			mediaFileinput = new FileInputStream(System.getProperty("user.home")+"/Auditrad/temp.mp3");
 			if (imageView.getImage() != null) {
-				imageFileinput = new FileInputStream("temp.png");
+				imageFileinput = new FileInputStream(System.getProperty("user.home")+"/Auditrad/temp.png");
 				image = imageFileinput.readAllBytes();
 				imageLength = image.length;
 			}
@@ -614,5 +617,11 @@ public class ExerciceController implements Initializable {
 			
 		});
 		
+	}
+	
+	
+	private void reset() {
+		soluce.setVisible(false);
+		textToFind.setVisible(true);
 	}
 }

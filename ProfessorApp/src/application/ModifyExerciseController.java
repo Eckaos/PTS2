@@ -78,7 +78,6 @@ public class ModifyExerciseController implements Initializable{
 				examFiles.getSelectionModel().select(null);
 				if (click.getClickCount() == 2) {
 					try {
-						Main.getExerciceEditorController().setFileToModify(currentFile);
 						Main.getExerciceEditorController().parseExercise(currentFile);
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -95,7 +94,6 @@ public class ModifyExerciseController implements Initializable{
 				trainingFiles.getSelectionModel().select(null);
 				if (click.getClickCount() == 2) {
 					try {
-						Main.getExerciceEditorController().setFileToModify(currentFile);
 						Main.getExerciceEditorController().parseExercise(currentFile);
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -108,7 +106,6 @@ public class ModifyExerciseController implements Initializable{
 		Addbutton.setOnAction(ActionEvent -> 
 		{
 			currentFile = null;
-			Main.getExerciceEditorController().setFileToModify(null);
 			Main.getExerciceEditorController().reset();
 			Main.setScreen(2);
 		});
@@ -124,7 +121,6 @@ public class ModifyExerciseController implements Initializable{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			Main.getExerciceEditorController().setFileToModify(currentFile);
 			Main.setScreen(2);
 		});
 	}

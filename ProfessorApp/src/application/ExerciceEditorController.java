@@ -69,8 +69,6 @@ public class ExerciceEditorController implements Initializable{
 	private FXMLLoader loader = new FXMLLoader(getClass().getResource("ExerciseParameter.fxml"));
 	private Stage parameterStage = new Stage();
 	private BorderPane parameterRoot;
-
-	private File fileToModify;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -146,9 +144,7 @@ public class ExerciceEditorController implements Initializable{
 
 		}
 		FileOutputStream fos;
-		if (fileToModify != null) {
-			fos = new FileOutputStream(fileToModify);
-		}else if(getBit(parameters, 0) == 0){
+		if(getBit(parameters, 0) == 0){
 			fos = new FileOutputStream(Main.getParameterController().getCreatedExercisePath().getAbsolutePath()+"/"+name+".train");
 		}else {
 			fos = new FileOutputStream(Main.getParameterController().getCreatedExercisePath().getAbsolutePath()+"/"+name+".exam");
@@ -243,6 +239,7 @@ public class ExerciceEditorController implements Initializable{
 			setMediaListener(media);
 			importImageButton.setVisible(true);
 			imagePath.setVisible(true);
+			mediaPath.setText("Un média sauvardé dans l'exercice a été choisi");
 		}else {
 			mediaFile = new File(System.getProperty("user.home")+"/Auditrad/temp.mp4");
 			media = new Media(mediaFile.toURI().toString());
@@ -279,9 +276,6 @@ public class ExerciceEditorController implements Initializable{
 		this.image = image;
 	}
 
-	public void setFileToModify(File fileToModify) {
-		this.fileToModify = fileToModify;
-	}
 
 	private String path;
 	private MediaPlayer mediaPlayer;
@@ -464,6 +458,7 @@ public class ExerciceEditorController implements Initializable{
 	}
 
 	public void reset() {
+		instruction.setText("");
 		help.setText("");
 		text.setText("");
 		imagePath.setText("Aucune une image de choisie");

@@ -36,18 +36,14 @@ public class AccueilController implements Initializable {
 		if (Main.getParameterController().getCreatedExercisePath() != null) {
 			exerciseDirectory = Main.getParameterController().getCreatedExercisePath();
 			if (exerciseDirectory.exists()) {
-				ObservableList<String> trainingFileList = FXCollections.observableArrayList();
-				ObservableList<String> examFileList = FXCollections.observableArrayList();
 				for (File file : exerciseDirectory.listFiles()) {
 					if (".train".equals(FileUtil.getExtension(file))) {
-						trainingFileList.add(FileUtil.stripExtension(file));
+						trainingFiles.getItems().add(FileUtil.stripExtension(file));
 					}
 					if (".exam".equals(FileUtil.getExtension(file))) {
-						examFileList.add(FileUtil.stripExtension(file));
+						examFiles.getItems().add(FileUtil.stripExtension(file));
 					}
 				}
-				trainingFiles.setItems(trainingFileList);
-				examFiles.setItems(examFileList);
 			}
 		}
 
