@@ -71,7 +71,7 @@
             </Label>
             <ImageView fitHeight="225.0" fitWidth="227.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <image>
-                  <Image url="@../image/trainingBrain.png" />
+                  <Image url="@/image/trainingBrain.png" />
                </image>
                <GridPane.margin>
                   <Insets top="20.0" />
@@ -87,7 +87,7 @@
             </Label>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                <image>
-                  <Image url="@../image/logo.png" />
+                  <Image url="@/image/logo.png" />
                </image>
                <GridPane.margin>
                   <Insets bottom="400.0" left="175.0" />
@@ -95,7 +95,7 @@
             </ImageView>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
                <image>
-                  <Image url="@../image/lemans-universite-large%20(1).png" />
+                  <Image url="@/image/lemans-universite-large.png" />
                </image>
             </ImageView>
             <Label prefHeight="183.0" prefWidth="297.0" text="Vous pouvez selectionner un exercice d'entrainement ou un exercice en mode examen" textAlignment="CENTER" wrapText="true" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
@@ -108,13 +108,13 @@
             </Label>
             <ImageView fitHeight="246.0" fitWidth="272.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <image>
-                  <Image url="@../image/imageExam.png" />
+                  <Image url="@/image/imageExam.png" />
                </image>
                <GridPane.margin>
                   <Insets left="800.0" />
                </GridPane.margin>
             </ImageView>
-            <Label text="Olivia MANCEAU, Nathan POLLART, Ewen GILLARD, Albin LADISLAS" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+            <Label text="Olivia MANCEAU, Nathan POLLART, Ewen GILARD, Albin LADISLAS" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="25.0" />
                </font>

@@ -139,7 +139,7 @@ public class ExerciceEditorController implements Initializable{
 		}else {
 			if (image != null) {
 				FileInputStream imageInputStream = new FileInputStream(image);
-				imageFile = imageInputStream.readAllBytes();
+				imageFile = FileUtil.readAllBytes(imageInputStream);
 				imageLenght = imageFile.length;
 				imageInputStream.close();
 			}
@@ -172,7 +172,7 @@ public class ExerciceEditorController implements Initializable{
 		byte[] mediaBytes = null;
 		FileInputStream fileInputStream1 = new FileInputStream(mediaFile);
 		if (mediaFile != null) {
-			mediaBytes = fileInputStream1.readAllBytes();
+			mediaBytes = FileUtil.readAllBytes(fileInputStream1);
 			bytesRead = mediaBytes.length;
 		}
 		fos.write(ByteBuffer.allocate(8).putInt(bytesRead).array());
@@ -196,23 +196,23 @@ public class ExerciceEditorController implements Initializable{
 		parameterController.setTitle(FileUtil.stripExtension(file));
 		FileInputStream fin = new FileInputStream(file);
 		
-		nbBytesToRead = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
-		text.setText(convertByteToString(fin.readNBytes(nbBytesToRead)));
+		nbBytesToRead = ByteBuffer.wrap(FileUtil.readNBytes(fin, 4)).getInt();
+		text.setText(convertByteToString(FileUtil.readNBytes(fin, nbBytesToRead)));
 
-		nbBytesToRead = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
-		help.setText(convertByteToString(fin.readNBytes(nbBytesToRead)));
+		nbBytesToRead = ByteBuffer.wrap(FileUtil.readNBytes(fin, 4)).getInt();
+		help.setText(convertByteToString(FileUtil.readNBytes(fin, nbBytesToRead)));
 
-		nbBytesToRead = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
-		instruction.setText(convertByteToString(fin.readNBytes(nbBytesToRead)));
+		nbBytesToRead = ByteBuffer.wrap(FileUtil.readNBytes(fin, 4)).getInt();
+		instruction.setText(convertByteToString(FileUtil.readNBytes(fin, nbBytesToRead)));
 
-		parameter = fin.readNBytes(1);
+		parameter = FileUtil.readNBytes(fin, 1);
 		parameterController.setParameters(parameter);
 
 
-		parameterController.setOccultationChoiceField(convertByteToString(fin.readNBytes(1)));
+		parameterController.setOccultationChoiceField(convertByteToString(FileUtil.readNBytes(fin,1)));
 
-		minutes = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
-		seconds = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
+		minutes = ByteBuffer.wrap(FileUtil.readNBytes(fin, 4)).getInt();
+		seconds = ByteBuffer.wrap(FileUtil.readNBytes(fin, 4)).getInt();
 
 		parameterController.setMinute(minutes);
 		parameterController.setSecond(seconds);
@@ -220,22 +220,22 @@ public class ExerciceEditorController implements Initializable{
 		FileOutputStream fos = null;
 		FileOutputStream fos2 = null;
 		if (getBit(parameter[0], 6) == 1) {
-			fos = new FileOutputStream("Auditrad/temp.mp4");
+			fos = new FileOutputStream(System.getProperty("user.home")+"/Auditrad/temp.mp4");
 		}else {
-			fos = new FileOutputStream("Auditrad/temp.mp3");
-			fos2 = new FileOutputStream("Auditrad/temp.png");
+			fos = new FileOutputStream(System.getProperty("user.home")+"/Auditrad/temp.mp3");
+			fos2 = new FileOutputStream(System.getProperty("user.home")+"/Auditrad/temp.png");
 		}
-		int bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
-		fos.write(fin.readNBytes(bytesRead));
+		int bytesRead = ByteBuffer.wrap(FileUtil.readNBytes(fin, 8)).getInt();
+		fos.write(FileUtil.readNBytes(fin,bytesRead));
 
 		File mediaFile;
 		Media media;
 		if (getBit(parameter[0], 6) == 0) {
-			bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
-			fos2.write(fin.readNBytes(bytesRead));
-			mediaFile = new File("Auditrad/temp.png");
+			bytesRead = ByteBuffer.wrap(FileUtil.readNBytes(fin, 8)).getInt();
+			fos2.write(FileUtil.readNBytes(fin,bytesRead));
+			mediaFile = new File(System.getProperty("user.home")+"/Auditrad/temp.png");
 			imageView.setImage(new Image(mediaFile.toURI().toString()));
-			mediaFile = new File("Auditrad/temp.mp3");
+			mediaFile = new File(System.getProperty("user.home")+"/Auditrad/temp.mp3");
 			media = new Media(mediaFile.toURI().toString());
 			mediaPlayer = new MediaPlayer(media);
 			mediaView.setMediaPlayer(mediaPlayer);
@@ -243,7 +243,7 @@ public class ExerciceEditorController implements Initializable{
 			importImageButton.setVisible(true);
 			imagePath.setVisible(true);
 		}else {
-			mediaFile = new File("Auditrad/temp.mp4");
+			mediaFile = new File(System.getProperty("user.home")+"/Auditrad/temp.mp4");
 			media = new Media(mediaFile.toURI().toString());
 			mediaPlayer = new MediaPlayer(media);
 			mediaView.setMediaPlayer(mediaPlayer);
@@ -369,6 +369,7 @@ public class ExerciceEditorController implements Initializable{
 			@Override
 			public void invalidated(Observable observable) {
 				mediaPlayer.setVolume(soundSlider.getValue()/100);
+				changeSpeakerImage();
 			}
 		});
 		mediaView.getMediaPlayer().volumeProperty().addListener(l -> {
@@ -452,7 +453,7 @@ public class ExerciceEditorController implements Initializable{
 	}
 	
 	private void changeSpeakerImage() {
-		if(mediaView.getMediaPlayer().isMute()) {
+		if(mediaView.getMediaPlayer().isMute() || soundSlider.getValue() == 0) {
 			Image imageTemp = new Image(getClass().getResource("/image/speakerMute.png").toString()); 
 			muteImage.setImage(imageTemp);
 		}else {
@@ -464,8 +465,7 @@ public class ExerciceEditorController implements Initializable{
 	public void reset() {
 		help.setText("");
 		text.setText("");
-		instruction.setText("Aucune une image de choisie");
-		imagePath.setText("");
+		imagePath.setText("Aucune une image de choisie");
 		imageView.setImage(null);
 		image = null;
 		mediaPath.setText("Aucune vidéo ou audio choisie");

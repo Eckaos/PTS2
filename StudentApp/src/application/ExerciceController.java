@@ -14,7 +14,6 @@ import javafx.animation.Timeline;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,7 +31,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.*;
 import javafx.scene.media.MediaPlayer.Status;
@@ -208,21 +206,21 @@ public class ExerciceController implements Initializable {
 		FileInputStream fin = new FileInputStream(file);
 		titleLabel.setText(exerciseName);
 
-		nbBytesToRead = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
-		clearText = convertByteToString(fin.readNBytes(nbBytesToRead));
+		nbBytesToRead = ByteBuffer.wrap(FileUtil.readNBytes(fin, 4)).getInt();
+		clearText = convertByteToString(FileUtil.readNBytes(fin, nbBytesToRead));
 
-		nbBytesToRead = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
-		helpString = convertByteToString(fin.readNBytes(nbBytesToRead));
+		nbBytesToRead = ByteBuffer.wrap(FileUtil.readNBytes(fin, 4)).getInt();
+		helpString = convertByteToString(FileUtil.readNBytes(fin, nbBytesToRead));
 
-		nbBytesToRead = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
-		instructionString = convertByteToString(fin.readNBytes(nbBytesToRead));
+		nbBytesToRead = ByteBuffer.wrap(FileUtil.readNBytes(fin, 4)).getInt();
+		instructionString = convertByteToString(FileUtil.readNBytes(fin, nbBytesToRead));
 
-		parameter = fin.readNBytes(1);
-		occultation = convertByteToString(fin.readNBytes(1));
+		parameter = FileUtil.readNBytes(fin, 1);
+		occultation = convertByteToString(FileUtil.readNBytes(fin, 1));
 		occultationChar = occultation.charAt(0);
 
-		minutes = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
-		seconds = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
+		minutes = ByteBuffer.wrap(FileUtil.readNBytes(fin, 4)).getInt();
+		seconds = ByteBuffer.wrap(FileUtil.readNBytes(fin, 4)).getInt();
 
 		FileOutputStream fos = null;
 		FileOutputStream fos2 = null;
@@ -234,11 +232,11 @@ public class ExerciceController implements Initializable {
 			fos = new FileOutputStream(System.getProperty("user.home")+"/Auditrad/temp.mp3");
 			fos2 = new FileOutputStream(System.getProperty("user.home")+"/Auditrad/temp.png");
 		}
-		int bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
-		fos.write(fin.readNBytes(bytesRead));
-		bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
+		int bytesRead = ByteBuffer.wrap(FileUtil.readNBytes(fin, 8)).getInt();
+		fos.write(FileUtil.readNBytes(fin, bytesRead));
+		bytesRead = ByteBuffer.wrap(FileUtil.readNBytes(fin, 8)).getInt();
 		if (getBit(parameter[0], 6) == 0) {
-			fos2.write(fin.readNBytes(bytesRead));
+			fos2.write(FileUtil.readNBytes(fin, bytesRead));
 		}
 		fos.close();
 		fin.close();
@@ -297,9 +295,14 @@ public class ExerciceController implements Initializable {
 
 
 	public void setSoluce() {
+		if (timeline == null && exam) {
+			return;
+		}
+		if (timeline != null) {
+			timeline.stop();
+		}
 		mediaView.getMediaPlayer().pause();
 		mediaView.getMediaPlayer().seek(new Duration(0));
-		timeline.stop();
 		textToFind.setVisible(false);
 		soluce.setVisible(true);
 		helpButton.setVisible(false);
@@ -360,6 +363,7 @@ public class ExerciceController implements Initializable {
 				public void invalidated(Observable observable) {
 					if (mediaView.getMediaPlayer() != null) {
 						mediaView.getMediaPlayer().setVolume(soundSlider.getValue() / 100);
+						changeSpeakerImage();
 					}
 
 				}
@@ -511,7 +515,7 @@ public class ExerciceController implements Initializable {
 	}
 
 	private void changeSpeakerImage() {
-		if(mediaView.getMediaPlayer().isMute()) {
+		if(mediaView.getMediaPlayer().isMute() || soundSlider.getValue() == 0) {
 			Image imageTemp = new Image(getClass().getResource("/image/speakerMute.png").toString()); 
 			muteImage.setImage(imageTemp);
 		}else {
@@ -577,7 +581,9 @@ public class ExerciceController implements Initializable {
 	
 	
 	private void setKeyboardShortcut() {
-		Main.getScene().setOnMouseClicked(ActionEvent -> mediaView.requestFocus());
+		Main.getScene().setOnMouseClicked(ActionEvent -> {
+			mediaView.requestFocus();
+		});
 		Main.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {

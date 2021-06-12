@@ -78,7 +78,7 @@
             </Label>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
                <image>
-                  <Image url="@../image/lemans-universite-large.png" />
+                  <Image url="@/image/lemans-universite-large.png" />
                </image>
             </ImageView>
             <Label text="Olivia MANCEAU, Nathan POLLART, Ewen GILLARD, Albin LADISLAS" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">

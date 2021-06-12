@@ -42,7 +42,7 @@
                      <graphic>
                         <ImageView fx:id="playPauseImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../image/playButton.png" />
+                              <Image url="@/image/playButton.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -65,7 +65,7 @@
                      <graphic>
                         <ImageView fx:id="muteImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../image/speaker.png" />
+                              <Image url="@/image/speaker.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -115,7 +115,7 @@
             </Label>
             <ImageView fitHeight="103.0" fitWidth="287.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
                <image>
-                  <Image url="@../image/lemans-universite-large%20(1).png" />
+                  <Image url="@/image/lemans-universite-large.png" />
                </image>
             </ImageView>
             <Label fx:id="titleLabel" text="Titre" GridPane.halignment="CENTER" GridPane.valignment="TOP">

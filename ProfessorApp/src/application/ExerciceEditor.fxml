@@ -69,7 +69,7 @@
                      <graphic>
                         <ImageView fx:id="playPauseImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../image/playButton.png" />
+                              <Image url="@/image/playButton.png" />
                            </image></ImageView>
                      </graphic>
                   </Button>
@@ -85,7 +85,7 @@
                      <graphic>
                         <ImageView fx:id="muteImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../image/speaker.png" />
+                              <Image url="@/image/speaker.png" />
                            </image></ImageView>
                      </graphic>
                   </Button>
@@ -139,7 +139,7 @@
             </Label>
             <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <image>
-                  <Image url="@../image/logo.png" />
+                  <Image url="@/image/logo.png" />
                </image>
             </ImageView>
             <Label fx:id="errorLabel" text="Vous devez entrer une consigne et un texte à reconstituer !" textFill="RED" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">

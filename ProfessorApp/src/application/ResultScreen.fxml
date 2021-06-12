@@ -66,7 +66,7 @@
                      <graphic>
                         <ImageView fx:id="playPauseImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../image/playButton.png" />
+                              <Image url="@/image/playButton.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -83,7 +83,7 @@
                      <graphic>
                         <ImageView fx:id="muteImage" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../image/speaker.png" />
+                              <Image url="@/image/speaker.png" />
                            </image>
                         </ImageView>
                      </graphic>
