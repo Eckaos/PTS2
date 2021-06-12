@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -21,7 +20,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 public class ParameterController implements Initializable {
-
+	
 	@FXML private Text createdExercisePathText;
 	@FXML private Text studentExercisePathText;
 	@FXML private Button createdExerciseButton;
@@ -45,7 +44,7 @@ public class ParameterController implements Initializable {
 		
 		try {
 			load();
-		} catch (IOException | URISyntaxException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		if (createdExercisePath == null || studentExercsiePath == null) {
@@ -121,18 +120,25 @@ public class ParameterController implements Initializable {
 	
 	@FXML
 	public void save() throws IOException {
-		FileWriter fileWriter = new FileWriter("Auditrad/parameter.txt");
-		fileWriter.write("Created Exercise directory : " + createdExercisePathText.getText());
-		fileWriter.write("\n");
-		fileWriter.write("Student Exercise directory : " + studentExercisePathText.getText());
-		fileWriter.write("\n");
+		File file = new File(System.getProperty("user.home")+"/Auditrad");
+		file.mkdir();
+		FileWriter fileWriter = new FileWriter(file.getAbsolutePath()+"/parameterStudent.txt");
+		if (createdExercisePath != null) {
+			fileWriter.write("Created Exercise directory : " + createdExercisePathText.getText());
+			fileWriter.write("\n");
+		}
+		if (studentExercisePathText != null) {
+			fileWriter.write("Student Exercise directory : " + studentExercisePathText.getText());
+			fileWriter.write("\n");
+		}
 		fileWriter.write("Dark mode : " + darkModeActivated);
 		fileWriter.close();
+
 		((Stage) saveButton.getScene().getWindow()).close();
 	}
 	
-	private void load() throws IOException, URISyntaxException {
-		File parameter = new File("Auditrad/parameter.txt");
+	private void load() throws IOException {
+		File parameter = new File(System.getProperty("user.home")+"/Auditrad/parameterStudent.txt");
 		BufferedReader reader= new BufferedReader(new FileReader(parameter));
 		String string = reader.readLine();
 		while (string != null) {

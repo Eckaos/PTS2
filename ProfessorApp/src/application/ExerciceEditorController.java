@@ -407,18 +407,19 @@ public class ExerciceEditorController implements Initializable{
 	}
 	
 	private void setKeyboardShortcut() {
+		Main.getScene().setOnMouseClicked(ActionEvent -> mediaView.requestFocus());
 		Main.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
-				if (event.getCode() == KeyCode.SPACE) {
-					if (mediaView.getMediaPlayer().getStatus() == Status.PAUSED) {
+				if (event.getCode() == KeyCode.SPACE && !instruction.isFocused() && !help.isFocused() && !text.isFocused()) {
+					if (mediaView.getMediaPlayer().getStatus().equals(Status.PAUSED) || mediaView.getMediaPlayer().getStatus().equals(Status.READY)) {
 						mediaView.getMediaPlayer().play();
 						changePlayImage();
-					}
-					if (mediaView.getMediaPlayer().getStatus() == Status.PLAYING) {
+					}else if(mediaView.getMediaPlayer().getStatus() == Status.PLAYING) {
 						mediaView.getMediaPlayer().pause();
 						changePlayImage();
 					}
+					
 				}
 				if (event.getCode() == KeyCode.RIGHT && mediaView.getMediaPlayer().getTotalDuration().greaterThan(mediaView.getMediaPlayer().getCurrentTime().add(new Duration(5000)))) {
 					mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getCurrentTime().add(new Duration(5000)));
@@ -432,6 +433,7 @@ public class ExerciceEditorController implements Initializable{
 				if (event.getCode() == KeyCode.DOWN && mediaView.getMediaPlayer().getVolume() >= 0 + 0.1) {
 					mediaView.getMediaPlayer().setVolume(mediaView.getMediaPlayer().getVolume()-0.1);
 				}
+				event.consume();
 			}
 			
 		});
@@ -462,7 +464,13 @@ public class ExerciceEditorController implements Initializable{
 	public void reset() {
 		help.setText("");
 		text.setText("");
-		instruction.setText("");
+		instruction.setText("Aucune une image de choisie");
+		imagePath.setText("");
+		imageView.setImage(null);
+		image = null;
+		mediaPath.setText("Aucune vidéo ou audio choisie");
+		mediaView.setMediaPlayer(null);
+		mediaFile = null;
 	}
 
 }

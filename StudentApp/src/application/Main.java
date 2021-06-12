@@ -46,6 +46,7 @@ public class Main extends Application {
 			screens.add((BorderPane)exLoader.load());
 			scene = new Scene(screens.get(0),1280,720);
 			scenes.add(scene);
+			scenes.add(parameterScene);
 			Main.getParameterController().setStyleSheet();
 			primaryStage.setMaximized(true);
 			primaryStage.setMinHeight(720);

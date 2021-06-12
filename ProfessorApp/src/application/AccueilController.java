@@ -26,6 +26,13 @@ public class AccueilController implements Initializable{
 		if (Main.getParameterController().getCreatedExercisePath() == null) {
 			modifyButton.setDisable(true);
 			addButton.setDisable(true);
+			modifExercise.setDisable(true);
+			newExercise.setDisable(true);
+		}
+		
+		if (Main.getParameterController().getStudentExercisePath() == null) {
+			result.setDisable(true);
+			seeResults.setDisable(true);
 		}
 		seeResults.setOnAction(ActionEvent -> Main.setScreen(3));
 		result.setOnAction(ActionEvent -> Main.setScreen(3));
@@ -53,5 +60,28 @@ public class AccueilController implements Initializable{
 			Main.getParameterStage().show();
 		}
 	}
-		
+	
+	public Button getAddButton() {
+		return addButton;
+	}
+	
+	public MenuItem getModifExercise() {
+		return modifExercise;
+	}
+	
+	public Button getModifyButton() {
+		return modifyButton;
+	}
+	
+	public MenuItem getNewExercise() {
+		return newExercise;
+	}
+	
+	public MenuItem getSeeResults() {
+		return seeResults;
+	}
+	
+	public Button getResult() {
+		return result;
+	}
 }

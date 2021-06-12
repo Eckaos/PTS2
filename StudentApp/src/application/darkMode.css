@@ -73,6 +73,10 @@
 	-fx-background-color: #202225;
 }
 
+#soluce {
+	-fx-background-color: #2f3136;
+}
+
 .text-area {
 	-fx-text-fill: #d7d5d9;
     -fx-background-insets: 0;

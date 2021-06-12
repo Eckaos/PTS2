@@ -120,26 +120,31 @@ public class ParameterController implements Initializable {
 	
 	@FXML
 	public void save() throws IOException {
-		
-		FileWriter fileWriter = new FileWriter("Auditrad/parameter.txt");
+		File file = new File(System.getProperty("user.home")+"/Auditrad");
+		file.mkdir();
+		FileWriter fileWriter = new FileWriter(file.getAbsolutePath()+"/parameter.txt");
 		if (createdExercisePath != null) {
 			fileWriter.write("Created Exercise directory : " + createdExercisePathText.getText());
 			fileWriter.write("\n");
+			((AccueilController) Main.getAccueilController()).getAddButton().setDisable(false);
+			((AccueilController) Main.getAccueilController()).getNewExercise().setDisable(false);
+			((AccueilController) Main.getAccueilController()).getModifExercise().setDisable(false);
+			((AccueilController) Main.getAccueilController()).getModifyButton().setDisable(false);
 		}
 		if (studentExercisePathText != null) {
 			fileWriter.write("Student Exercise directory : " + studentExercisePathText.getText());
 			fileWriter.write("\n");
+			((AccueilController) Main.getAccueilController()).getResult().setDisable(false);
+			((AccueilController) Main.getAccueilController()).getSeeResults().setDisable(false);
 		}
 		fileWriter.write("Dark mode : " + darkModeActivated);
 		fileWriter.close();
+
 		((Stage) saveButton.getScene().getWindow()).close();
 	}
 	
 	private void load() throws IOException {
-		if (!new File("Auditrad/parameter.txt").exists()) {
-			return;
-		}
-		File parameter = new File("Auditrad/parameter.txt");
+		File parameter = new File(System.getProperty("user.home")+"/Auditrad/parameter.txt");
 		BufferedReader reader= new BufferedReader(new FileReader(parameter));
 		String string = reader.readLine();
 		while (string != null) {

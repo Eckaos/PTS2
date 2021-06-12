@@ -17,6 +17,7 @@ public class Main extends Application {
 	private static int currentIndex = 0;
 	private static Scene scene;
 	
+	private static FXMLLoader accueilLoader;
 	private static FXMLLoader modifyLoader;
 	private static FXMLLoader exerciseEditorLoader;
 	private static FXMLLoader seeResultLoader;
@@ -26,6 +27,7 @@ public class Main extends Application {
 	private BorderPane parameterScreen;
 	private static Stage parameterStage;
 	private Scene parameterScene;
+	
 	
 	private static List<Scene> scenes = new ArrayList<>();
 	
@@ -41,14 +43,16 @@ public class Main extends Application {
 			parameterStage.setResizable(false);
 			parameterStage.setScene(parameterScene);
 			parameterStage.initModality(Modality.APPLICATION_MODAL);
+			parameterStage.setAlwaysOnTop(true);
 			parameterScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
+			accueilLoader = new FXMLLoader(getClass().getResource("Accueil.fxml"));
 			modifyLoader = new FXMLLoader(getClass().getResource("ModifyExercise.fxml"));
 			exerciseEditorLoader = new FXMLLoader(getClass().getResource("ExerciceEditor.fxml"));
 			seeResultLoader = new FXMLLoader(getClass().getResource("SeeResult.fxml"));
 			resultScreenLoader = new FXMLLoader(getClass().getResource("ResultScreen.fxml"));
 			
-			screens.add((BorderPane)FXMLLoader.load(getClass().getResource("Accueil.fxml"))); //index 0
+			screens.add((BorderPane)accueilLoader.load()); //index 0
 			screens.add((BorderPane)modifyLoader.load()); //index 1
 			screens.add((BorderPane)exerciseEditorLoader.load()); //index 2*/
 			screens.add((BorderPane)seeResultLoader.load());
@@ -80,6 +84,10 @@ public class Main extends Application {
 	
 	public static BorderPane getCurrentScreen() {
 		return screens.get(currentIndex);
+	}
+	
+	public static AccueilController getAccueilController() {
+		return accueilLoader.getController();
 	}
 	
 	public static ModifyExerciseController getModifyExerciseController() {

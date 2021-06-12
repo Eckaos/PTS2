@@ -62,6 +62,11 @@
 	-fx-background-color: #d4d7dc;
 }
 
+
+#soluce{
+	-fx-background-color: #f2f3f5;
+}
+
 .text-area {
     -fx-background-insets: 0;
     -fx-background-color: transparent, #f2f3f5, transparent, #f2f3f5;

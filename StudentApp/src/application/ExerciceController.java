@@ -14,6 +14,7 @@ import javafx.animation.Timeline;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,9 +32,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.*;
 import javafx.scene.media.MediaPlayer.Status;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 public class ExerciceController implements Initializable {
 
@@ -51,6 +56,8 @@ public class ExerciceController implements Initializable {
 	@FXML private Button launchExButton;
 	@FXML private Slider soundSlider;
 	@FXML private ImageView imageView;
+	@FXML private TextFlow soluce;
+	@FXML private Label titleLabel;
 
 	private String encryptedText;
 	private String helpText;
@@ -67,14 +74,15 @@ public class ExerciceController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		soluce.setVisible(false);
 		realTime.setVisible(false);
 		popupLoader = new FXMLLoader(getClass().getResource("FinishPopupEx.fxml"));
 		BorderPane popupScreen;
 		popupStage = new Stage();
 		try {
 			popupScreen = (BorderPane) popupLoader.load();
-			popupScreen.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			popupScene = new Scene(popupScreen);
+			Main.getScenes().add(popupScene);
 			popupStage.setResizable(false);
 			popupStage.setScene(popupScene);
 			popupStage.initModality(Modality.APPLICATION_MODAL);
@@ -198,6 +206,7 @@ public class ExerciceController implements Initializable {
 
 		exerciseName = FileUtil.stripExtension(file);
 		FileInputStream fin = new FileInputStream(file);
+		titleLabel.setText(exerciseName);
 
 		nbBytesToRead = ByteBuffer.wrap(fin.readNBytes(4)).getInt();
 		clearText = convertByteToString(fin.readNBytes(nbBytesToRead));
@@ -218,12 +227,12 @@ public class ExerciceController implements Initializable {
 		FileOutputStream fos = null;
 		FileOutputStream fos2 = null;
 		if (getBit(parameter[0], 6) == 1) {
-			fos = new FileOutputStream("Auditrad/temp.mp4");
+			fos = new FileOutputStream(System.getProperty("user.home")+"/Auditrad/temp.mp4");
 			mediaType = true;
 		} else {
 			mediaType = false;
-			fos = new FileOutputStream("Auditrad/temp.mp3");
-			fos2 = new FileOutputStream("Auditrad/temp.png");
+			fos = new FileOutputStream(System.getProperty("user.home")+"/Auditrad/temp.mp3");
+			fos2 = new FileOutputStream(System.getProperty("user.home")+"/Auditrad/temp.png");
 		}
 		int bytesRead = ByteBuffer.wrap(fin.readNBytes(8)).getInt();
 		fos.write(fin.readNBytes(bytesRead));
@@ -258,6 +267,7 @@ public class ExerciceController implements Initializable {
 
 		helpText = helpString;
 		instructionText.setText("Consigne :\n"+instructionString);
+		
 	}
 
 	private int getBit(byte b, int pos) {
@@ -287,9 +297,32 @@ public class ExerciceController implements Initializable {
 
 
 	public void setSoluce() {
-		textToFind.setText(clearText);
+		mediaView.getMediaPlayer().pause();
+		mediaView.getMediaPlayer().seek(new Duration(0));
+		timeline.stop();
+		textToFind.setVisible(false);
+		soluce.setVisible(true);
 		helpButton.setVisible(false);
 		finishButton.setText("Quitter");
+		String[] encrypted = encryptedText.split("[ \\t\\n\\x0B\\f\\r]");
+		String[] clear = clearText.split("[ \\t\\n\\x0B\\f\\r]");
+		int length = 0;
+		for (int i = 0; i < clear.length; i++) {
+			Text t = new Text(clear[i]);
+			if (clear[i].equals(encrypted[i])) {
+				t.setFill(Color.GREEN);
+			}else {
+				t.setFill(Color.RED);
+			}
+			soluce.getChildren().add(t);
+			if (length + clear[i].length() < clearText.length()) {
+				length += clear[i].length();
+			}
+			if (Character.isWhitespace(clearText.charAt(length)) || Character.isSpaceChar(clearText.charAt(length))) {
+				soluce.getChildren().add(new Text(""+clearText.charAt(length)));
+			}
+			length++;
+		}
 	}
 
 
@@ -307,11 +340,11 @@ public class ExerciceController implements Initializable {
 			textToFind.setText(encryptedText);
 			File mediaSelected;
 			if (mediaType) {
-				mediaSelected = new File("temp.mp4");
+				mediaSelected = new File(System.getProperty("user.home")+"/Auditrad/temp.mp4");
 				imageView.setVisible(false);
 			} else {
-				mediaSelected = new File("temp.mp3");
-				File imageTemp = new File("temp.png");
+				mediaSelected = new File(System.getProperty("user.home")+"/Auditrad/temp.mp3");
+				File imageTemp = new File(System.getProperty("user.home")+"/Auditrad/temp.png");
 				Image image = new Image(imageTemp.toURI().toString());
 				imageView.setImage(image);
 			}
@@ -544,18 +577,19 @@ public class ExerciceController implements Initializable {
 	
 	
 	private void setKeyboardShortcut() {
+		Main.getScene().setOnMouseClicked(ActionEvent -> mediaView.requestFocus());
 		Main.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
-				if (event.getCode() == KeyCode.SPACE) {
-					if (mediaView.getMediaPlayer().getStatus() == Status.PAUSED) {
+				if (event.getCode() == KeyCode.SPACE && !typedText.isFocused()) {
+					if (mediaView.getMediaPlayer().getStatus().equals(Status.PAUSED) || mediaView.getMediaPlayer().getStatus().equals(Status.READY)) {
 						mediaView.getMediaPlayer().play();
 						changePlayImage();
-					}
-					if (mediaView.getMediaPlayer().getStatus() == Status.PLAYING) {
+					}else if(mediaView.getMediaPlayer().getStatus() == Status.PLAYING) {
 						mediaView.getMediaPlayer().pause();
 						changePlayImage();
 					}
+					
 				}
 				if (event.getCode() == KeyCode.RIGHT && mediaView.getMediaPlayer().getTotalDuration().greaterThan(mediaView.getMediaPlayer().getCurrentTime().add(new Duration(5000)))) {
 					mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getCurrentTime().add(new Duration(5000)));
@@ -569,6 +603,7 @@ public class ExerciceController implements Initializable {
 				if (event.getCode() == KeyCode.DOWN && mediaView.getMediaPlayer().getVolume() >= 0 + 0.1) {
 					mediaView.getMediaPlayer().setVolume(mediaView.getMediaPlayer().getVolume()-0.1);
 				}
+				event.consume();
 			}
 			
 		});

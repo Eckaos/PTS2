@@ -16,6 +16,7 @@
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ExerciceController">
    <center>
@@ -117,7 +118,7 @@
                   <Image url="@../image/lemans-universite-large%20(1).png" />
                </image>
             </ImageView>
-            <Label text="Titre" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <Label fx:id="titleLabel" text="Titre" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <font>
                   <Font size="20.0" />
                </font>
@@ -138,6 +139,11 @@
                   <Font size="20.0" />
                </font>
             </Label>
+            <TextFlow fx:id="soluce" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="140.0" right="30.0" top="100.0" />
+               </GridPane.margin>
+            </TextFlow>
          </children>
       </GridPane>
    </center>
