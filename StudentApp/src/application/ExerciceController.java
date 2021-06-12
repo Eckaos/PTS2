@@ -347,10 +347,13 @@ public class ExerciceController implements Initializable {
 			File mediaSelected;
 			if (mediaType) {
 				mediaSelected = new File(System.getProperty("user.home")+"/Auditrad/temp.mp4");
+				mediaSelected.deleteOnExit();
 				imageView.setVisible(false);
 			} else {
 				mediaSelected = new File(System.getProperty("user.home")+"/Auditrad/temp.mp3");
+				mediaSelected.deleteOnExit();
 				File imageTemp = new File(System.getProperty("user.home")+"/Auditrad/temp.png");
+				imageTemp.deleteOnExit();
 				Image image = new Image(imageTemp.toURI().toString());
 				imageView.setImage(image);
 			}

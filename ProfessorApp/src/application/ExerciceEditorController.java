@@ -231,9 +231,11 @@ public class ExerciceEditorController implements Initializable{
 		if (getBit(parameter[0], 6) == 0) {
 			bytesRead = ByteBuffer.wrap(FileUtil.readNBytes(fin, 8)).getInt();
 			fos2.write(FileUtil.readNBytes(fin,bytesRead));
-			mediaFile = new File(System.getProperty("user.home")+"/Auditrad/temp.png");
-			imageView.setImage(new Image(mediaFile.toURI().toString()));
+			image = new File(System.getProperty("user.home")+"/Auditrad/temp.png");
+			image.deleteOnExit();
+			imageView.setImage(new Image(image.toURI().toString()));
 			mediaFile = new File(System.getProperty("user.home")+"/Auditrad/temp.mp3");
+			mediaFile.deleteOnExit();
 			media = new Media(mediaFile.toURI().toString());
 			mediaPlayer = new MediaPlayer(media);
 			mediaView.setMediaPlayer(mediaPlayer);
@@ -245,6 +247,10 @@ public class ExerciceEditorController implements Initializable{
 			}
 		}else {
 			mediaFile = new File(System.getProperty("user.home")+"/Auditrad/temp.mp4");
+			if (mediaFile.exists()) {
+				mediaPath.setText("Un média sauvardé dans l'exercice a été choisi");
+			}
+			mediaFile.deleteOnExit();
 			media = new Media(mediaFile.toURI().toString());
 			mediaPlayer = new MediaPlayer(media);
 			mediaView.setMediaPlayer(mediaPlayer);
