@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,20 +30,7 @@ public class AccueilController implements Initializable {
 		closeItem.setOnAction(ActionEvent -> ((Stage) launchExButton.getScene().getWindow()).close());
 		parameterItem.setOnAction(ActionEvent -> Main.getParameterStage().show());
 		
-		File exerciseDirectory;
-		if (Main.getParameterController().getCreatedExercisePath() != null) {
-			exerciseDirectory = Main.getParameterController().getCreatedExercisePath();
-			if (exerciseDirectory.exists()) {
-				for (File file : exerciseDirectory.listFiles()) {
-					if (".train".equals(FileUtil.getExtension(file))) {
-						trainingFiles.getItems().add(FileUtil.stripExtension(file));
-					}
-					if (".exam".equals(FileUtil.getExtension(file))) {
-						examFiles.getItems().add(FileUtil.stripExtension(file));
-					}
-				}
-			}
-		}
+		refreshList();
 
 		launchExButton.setOnAction(ActionEvent -> {
 			if(trainingFiles.getSelectionModel().getSelectedItem() != null || examFiles.getSelectionModel().getSelectedItem() != null) {
@@ -96,4 +81,20 @@ public class AccueilController implements Initializable {
 
 	}
 
+	public void refreshList() {
+		File exerciseDirectory;
+		if (Main.getParameterController().getCreatedExercisePath() != null) {
+			exerciseDirectory = Main.getParameterController().getCreatedExercisePath();
+			if (exerciseDirectory.exists()) {
+				for (File file : exerciseDirectory.listFiles()) {
+					if (".train".equals(FileUtil.getExtension(file))) {
+						trainingFiles.getItems().add(FileUtil.stripExtension(file));
+					}
+					if (".exam".equals(FileUtil.getExtension(file))) {
+						examFiles.getItems().add(FileUtil.stripExtension(file));
+					}
+				}
+			}
+		}
+	}
 }

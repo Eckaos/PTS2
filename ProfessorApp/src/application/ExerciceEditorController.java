@@ -93,6 +93,7 @@ public class ExerciceEditorController implements Initializable{
 		{
 			if (Main.getParameterController().getCreatedExercisePath() != null) {
 				Main.setScreen(1);
+				Main.getModifyExerciseController().refreshList();
 			}
 		});
 		parameterMenuItem.setOnAction(ActionEvent -> Main.getParameterStage().show());
@@ -239,7 +240,9 @@ public class ExerciceEditorController implements Initializable{
 			setMediaListener(media);
 			importImageButton.setVisible(true);
 			imagePath.setVisible(true);
-			mediaPath.setText("Un média sauvardé dans l'exercice a été choisi");
+			if (mediaFile.exists()) {
+				mediaPath.setText("Un média sauvardé dans l'exercice a été choisi");
+			}
 		}else {
 			mediaFile = new File(System.getProperty("user.home")+"/Auditrad/temp.mp4");
 			media = new Media(mediaFile.toURI().toString());

@@ -70,6 +70,7 @@ public class ResultScreenController implements Initializable {
 		modifExercise.setOnAction(ActionEvent -> {
 			if (Main.getParameterController().getCreatedExercisePath() != null) {
 				Main.setScreen(1);
+				Main.getModifyExerciseController().refreshList();
 			}
 		});
 		close.setOnAction(ActionEvent -> {

@@ -64,20 +64,9 @@ public class SeeResultController implements Initializable{
 		modifExercise.setOnAction(ActionEvent -> {
 			if (Main.getParameterController().getCreatedExercisePath() != null) {
 				Main.setScreen(1);
+				Main.getModifyExerciseController().refreshList();
 			}
 		});
-
-		File exerciseDirectory = null;
-		if (Main.getParameterController().getStudentExercisePath() != null) {
-			exerciseDirectory = Main.getParameterController().getStudentExercisePath();
-			if (exerciseDirectory.exists()) {
-				for (File file : exerciseDirectory.listFiles()) {
-					if (".exam".equals(FileUtil.getExtension(file))) {
-						examFiles.getItems().add(FileUtil.stripExtension(file));
-					}
-				}
-			}
-		}
 
 		examFiles.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
@@ -130,4 +119,17 @@ public class SeeResultController implements Initializable{
 		return currentFile;
 	}
 
+	public void refreshList() {
+		File exerciseDirectory = null;
+		if (Main.getParameterController().getStudentExercisePath() != null) {
+			exerciseDirectory = Main.getParameterController().getStudentExercisePath();
+			if (exerciseDirectory.exists()) {
+				for (File file : exerciseDirectory.listFiles()) {
+					if (".exam".equals(FileUtil.getExtension(file))) {
+						examFiles.getItems().add(FileUtil.stripExtension(file));
+					}
+				}
+			}
+		}
+	}
 }

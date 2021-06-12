@@ -22,7 +22,10 @@ public class AccueilController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		addButton.setOnAction(ActionEvent -> Main.setScreen(2));
-		modifyButton.setOnAction(ActionEvent -> Main.setScreen(1));
+		modifyButton.setOnAction(ActionEvent -> {
+			Main.setScreen(1);
+			Main.getModifyExerciseController().refreshList();
+		});
 		if (Main.getParameterController().getCreatedExercisePath() == null) {
 			modifyButton.setDisable(true);
 			addButton.setDisable(true);
@@ -34,7 +37,10 @@ public class AccueilController implements Initializable{
 			result.setDisable(true);
 			seeResults.setDisable(true);
 		}
-		seeResults.setOnAction(ActionEvent -> Main.setScreen(3));
+		seeResults.setOnAction(ActionEvent -> {
+			Main.setScreen(3);
+			Main.getSeeResultController().refreshList();
+		});
 		result.setOnAction(ActionEvent -> Main.setScreen(3));
 		close.setOnAction(ActionEvent -> 
 		{
@@ -42,7 +48,10 @@ public class AccueilController implements Initializable{
 			stage.close();
 		});
 		
-		seeResults.setOnAction(ActionEvent -> Main.setScreen(3));
+		seeResults.setOnAction(ActionEvent -> {
+			Main.setScreen(3);
+			Main.getSeeResultController().refreshList();
+		});
 		
 		newExercise.setOnAction(ActionEvent -> {
 			Main.getExerciceEditorController().reset();
@@ -52,6 +61,7 @@ public class AccueilController implements Initializable{
 		{
 			if (Main.getParameterController().getCreatedExercisePath() != null) {
 				Main.setScreen(1);
+				Main.getModifyExerciseController().refreshList();
 			}
 		});
 		

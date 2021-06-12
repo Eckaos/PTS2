@@ -54,23 +54,6 @@ public class ModifyExerciseController implements Initializable{
 		});
 		parameter.setOnAction(ActionEvent -> Main.getParameterStage().show());
 		
-		File exerciseDirectory;
-		if (Main.getParameterController().getCreatedExercisePath() != null) {
-			exerciseDirectory = Main.getParameterController().getCreatedExercisePath();
-			if (exerciseDirectory.exists()) {
-				for (File file : exerciseDirectory.listFiles()) {
-					if (".train".equals(FileUtil.getExtension(file))) {
-						fileMap.put(file, trainingFiles);
-						trainingFiles.getItems().add(FileUtil.stripExtension(file));
-					}
-					if (".exam".equals(FileUtil.getExtension(file))) {
-						fileMap.put(file, examFiles);
-						examFiles.getItems().add(FileUtil.stripExtension(file));
-					}
-				}
-			}
-		}
-		
 		trainingFiles.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent click) {
@@ -130,5 +113,24 @@ public class ModifyExerciseController implements Initializable{
 			return null;
 		}
 		return currentFile;
+	}
+	
+	public void refreshList() {
+		File exerciseDirectory;
+		if (Main.getParameterController().getCreatedExercisePath() != null) {
+			exerciseDirectory = Main.getParameterController().getCreatedExercisePath();
+			if (exerciseDirectory.exists()) {
+				for (File file : exerciseDirectory.listFiles()) {
+					if (".train".equals(FileUtil.getExtension(file))) {
+						fileMap.put(file, trainingFiles);
+						trainingFiles.getItems().add(FileUtil.stripExtension(file));
+					}
+					if (".exam".equals(FileUtil.getExtension(file))) {
+						fileMap.put(file, examFiles);
+						examFiles.getItems().add(FileUtil.stripExtension(file));
+					}
+				}
+			}
+		}
 	}
 }

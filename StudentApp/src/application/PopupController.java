@@ -59,6 +59,7 @@ public class PopupController implements Initializable {
 					e.printStackTrace();
 				}
 			}
+			Main.getAccueilController().refreshList();
 			((Stage) oui.getScene().getWindow()).close();
 		});
 	}
