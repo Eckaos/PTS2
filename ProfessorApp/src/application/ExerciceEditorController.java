@@ -170,16 +170,18 @@ public class ExerciceEditorController implements Initializable{
 		
 		int bytesRead = 0;
 		byte[] mediaBytes = null;
-		FileInputStream fileInputStream1 = new FileInputStream(mediaFile);
+		
 		if (mediaFile != null) {
+			FileInputStream fileInputStream1 = new FileInputStream(mediaFile);
 			mediaBytes = FileUtil.readAllBytes(fileInputStream1);
 			bytesRead = mediaBytes.length;
+			fileInputStream1.close();
 		}
 		fos.write(ByteBuffer.allocate(8).putInt(bytesRead).array());
 		if (bytesRead > 0) {
 			fos.write(mediaBytes);
 		}
-		fileInputStream1.close();
+		
 		fos.write(ByteBuffer.allocate(8).putInt(imageLenght).array());
 		if (image != null) {
 			fos.write(imageFile);
@@ -228,7 +230,6 @@ public class ExerciceEditorController implements Initializable{
 		int bytesRead = ByteBuffer.wrap(FileUtil.readNBytes(fin, 8)).getInt();
 		fos.write(FileUtil.readNBytes(fin,bytesRead));
 
-		File mediaFile;
 		Media media;
 		if (getBit(parameter[0], 6) == 0) {
 			bytesRead = ByteBuffer.wrap(FileUtil.readNBytes(fin, 8)).getInt();
