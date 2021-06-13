@@ -8,11 +8,14 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ModifyExerciseController implements Initializable{
@@ -32,13 +35,28 @@ public class ModifyExerciseController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("DeletePopUp.fxml"));
+		Stage stageDelete = new Stage();
+		stageDelete.initModality(Modality.APPLICATION_MODAL);
+		stageDelete.setAlwaysOnTop(true);
+		stageDelete.setResizable(false);
+		Scene scene = null;
+		try {
+			scene = new Scene(loader.load());
+			stageDelete.setScene(scene);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		DeletePopUpController controller = loader.getController();
+		Main.getScenes().add(scene);
 		reception.setOnAction(ActionEvent -> {
 			Main.setScreen(0);
 		});
 		deleteButton.setOnAction(ActionEvent -> {
 			if (currentFile != null) {
-				currentFile.delete();
-				fileMap.get(currentFile).getItems().remove(FileUtil.stripExtension(currentFile));
+				controller.setFile(currentFile);
+				stageDelete.show();
+				refreshList();
 			}
 		});
 		
@@ -47,7 +65,6 @@ public class ModifyExerciseController implements Initializable{
 			Stage stage = (Stage) Addbutton.getScene().getWindow();
 			stage.close();
 		});
-		seeResults.setOnAction(ActionEvent -> Main.setScreen(3));
 		newExercise.setOnAction(ActionEvent -> {
 			Main.getExerciceEditorController().reset();
 			Main.setScreen(2);
@@ -57,6 +74,9 @@ public class ModifyExerciseController implements Initializable{
 		trainingFiles.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent click) {
+				if (Main.getParameterController().getCreatedExercisePath() == null) {
+					return;
+				}
 				currentFile = new File(Main.getParameterController().getCreatedExercisePath().getAbsolutePath()+"/"+trainingFiles.getSelectionModel().getSelectedItem()+".train");
 				examFiles.getSelectionModel().select(null);
 				if (click.getClickCount() == 2) {
@@ -73,6 +93,9 @@ public class ModifyExerciseController implements Initializable{
 		examFiles.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent click) {
+				if (Main.getParameterController().getCreatedExercisePath() == null) {
+					return;
+				}
 				currentFile = new File(Main.getParameterController().getCreatedExercisePath().getAbsolutePath()+"/"+examFiles.getSelectionModel().getSelectedItem()+".exam");
 				trainingFiles.getSelectionModel().select(null);
 				if (click.getClickCount() == 2) {

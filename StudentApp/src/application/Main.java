@@ -38,6 +38,7 @@ public class Main extends Application {
 			parameterStage.setResizable(false);
 			parameterStage.setScene(parameterScene);
 			parameterStage.initModality(Modality.APPLICATION_MODAL);
+			parameterStage.setAlwaysOnTop(true);
 			parameterScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			accueilLoader = new FXMLLoader(getClass().getResource("Accueil.fxml"));
 			exLoader = new FXMLLoader(getClass().getResource("Exercice.fxml"));

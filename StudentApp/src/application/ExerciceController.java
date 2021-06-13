@@ -612,6 +612,10 @@ public class ExerciceController implements Initializable {
 				if (event.getCode() == KeyCode.DOWN && mediaView.getMediaPlayer().getVolume() >= 0 + 0.1) {
 					mediaView.getMediaPlayer().setVolume(mediaView.getMediaPlayer().getVolume()-0.1);
 				}
+				if (event.getCode() == KeyCode.BACK_SPACE && typedText.isFocused()) {
+					typedText.setText(typedText.getText().substring(0, typedText.getText().length()-1));
+					typedText.positionCaret(typedText.getText().length());
+				}
 				event.consume();
 			}
 			

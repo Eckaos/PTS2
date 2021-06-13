@@ -23,7 +23,6 @@
                   <MenuItem fx:id="reception" mnemonicParsing="false" text="Accueil" />
                   <MenuItem fx:id="newExercise" mnemonicParsing="false" text="Nouvel Exercice" />
                   <MenuItem fx:id="modifExercise" mnemonicParsing="false" text="Modifier Exercice" />
-                  <MenuItem fx:id="seeResults" mnemonicParsing="false" text="Consulter résultats" />
                   <SeparatorMenuItem mnemonicParsing="false" />
               <MenuItem fx:id="close" mnemonicParsing="false" text="Fermer" />
             </items>

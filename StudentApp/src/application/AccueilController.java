@@ -32,6 +32,10 @@ public class AccueilController implements Initializable {
 		
 		refreshList();
 
+		if (Main.getParameterController().getCreatedExercisePath() == null || Main.getParameterController().getStudentExercisePath() == null) {
+			Main.getParameterStage().show();
+		}
+		
 		launchExButton.setOnAction(ActionEvent -> {
 			if(trainingFiles.getSelectionModel().getSelectedItem() != null || examFiles.getSelectionModel().getSelectedItem() != null) {
 				try {
