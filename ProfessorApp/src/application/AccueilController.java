@@ -23,7 +23,10 @@ public class AccueilController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		addButton.setOnAction(ActionEvent -> Main.setScreen(2));
+		addButton.setOnAction(ActionEvent -> {
+			Main.getExerciceEditorController().reset();
+			Main.setScreen(2);
+		});
 		modifyButton.setOnAction(ActionEvent -> {
 			Main.setScreen(1);
 			Main.getModifyExerciseController().refreshList();

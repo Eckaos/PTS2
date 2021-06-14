@@ -81,7 +81,7 @@
                   <Image url="@/image/lemans-universite-large.png" />
                </image>
             </ImageView>
-            <Label text="Olivia MANCEAU, Nathan POLLART, Ewen GILLARD, Albin LADISLAS" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+            <Label text="Olivia MANCEAU, Nathan POLLART, Ewen GILARD, Albin LADISLAS" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                <font>
                   <Font name="Comic Sans MS" size="25.0" />
                </font>

@@ -133,7 +133,7 @@ public class ParameterController implements Initializable {
 		}
 		fileWriter.write("Dark mode : " + darkModeActivated);
 		fileWriter.close();
-
+		Main.getAccueilController().refreshList();
 		((Stage) saveButton.getScene().getWindow()).close();
 	}
 	

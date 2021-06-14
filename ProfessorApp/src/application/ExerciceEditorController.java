@@ -26,8 +26,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
@@ -364,10 +362,13 @@ public class ExerciceEditorController implements Initializable{
 		if (!instruction.getText().equals("") && !text.getText().equals("")) {
 			errorLabel.setVisible(false);
 		}
-		mediaView.getMediaPlayer().dispose();
 		parameterStage.show();
 	}
 
+	public MediaPlayer getMediaPlayer() {
+		return mediaPlayer;
+	}
+	
 	private void setMediaListener(Media media) {
 		soundSlider.setValue(mediaPlayer.getVolume()*100);
 		soundSlider.valueProperty().addListener(new InvalidationListener() {
@@ -408,54 +409,6 @@ public class ExerciceEditorController implements Initializable{
 				progressBar.setMax(total.toSeconds());
 			}
 		});
-		setKeyboardShortcut();
-		
-	}
-	
-	private void setKeyboardShortcut() {
-		Main.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent event) {
-				if (event.getCode() == KeyCode.SPACE && !instruction.isFocused() && !help.isFocused() && !text.isFocused()) {
-					if (mediaView.getMediaPlayer().getStatus().equals(Status.PAUSED) || mediaView.getMediaPlayer().getStatus().equals(Status.READY)) {
-						mediaView.getMediaPlayer().play();
-						changePlayImage();
-					}else if(mediaView.getMediaPlayer().getStatus() == Status.PLAYING) {
-						mediaView.getMediaPlayer().pause();
-						changePlayImage();
-					}
-					
-				}
-				if (event.getCode() == KeyCode.RIGHT && mediaView.getMediaPlayer().getTotalDuration().greaterThan(mediaView.getMediaPlayer().getCurrentTime().add(new Duration(5000)))) {
-					mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getCurrentTime().add(new Duration(5000)));
-				}
-				if (event.getCode() == KeyCode.LEFT && new Duration(0).lessThan(mediaView.getMediaPlayer().getCurrentTime().subtract(new Duration(5000)))) {
-					mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getCurrentTime().subtract(new Duration(5000)));
-				}
-				if (event.getCode() == KeyCode.UP && mediaView.getMediaPlayer().getVolume() <= 1-0.1) {
-					mediaView.getMediaPlayer().setVolume(mediaView.getMediaPlayer().getVolume()+0.1);
-				}
-				if (event.getCode() == KeyCode.DOWN && mediaView.getMediaPlayer().getVolume() >= 0 + 0.1) {
-					mediaView.getMediaPlayer().setVolume(mediaView.getMediaPlayer().getVolume()-0.1);
-				}
-				if (event.getCode() == KeyCode.BACK_SPACE) {
-					if (instruction.isFocused()) {
-						instruction.setText(instruction.getText().substring(0,instruction.getText().length()-1));
-						instruction.positionCaret(instruction.getText().length());
-					}
-					if (help.isFocused()) {
-						help.setText(instruction.getText().substring(0, help.getText().length()-1));
-						help.positionCaret(help.getText().length());
-					}
-					if (text.isFocused()) {
-						text.setText(text.getText().substring(0, text.getText().length()-1));
-						text.positionCaret(text.getText().length());
-					}
-				}
-				event.consume();
-			}
-			
-		});
 		
 	}
 	
@@ -488,7 +441,10 @@ public class ExerciceEditorController implements Initializable{
 		imageView.setImage(null);
 		image = null;
 		mediaPath.setText("Aucune vidéo ou audio choisie");
-		mediaView.setMediaPlayer(null);
+		if (mediaPlayer!=null) {
+			mediaView.getMediaPlayer().dispose();
+		}
+		
 		mediaFile = null;
 	}
 

@@ -29,8 +29,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.*;
 import javafx.scene.media.MediaPlayer.Status;
@@ -395,7 +393,6 @@ public class ExerciceController implements Initializable {
 				}
 
 			});
-			setKeyboardShortcut();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -585,43 +582,6 @@ public class ExerciceController implements Initializable {
 				}));
 	}
 	
-	
-	private void setKeyboardShortcut() {
-		Main.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent event) {
-				if (event.getCode() == KeyCode.SPACE && !typedText.isFocused()) {
-					if (mediaView.getMediaPlayer().getStatus().equals(Status.PAUSED) || mediaView.getMediaPlayer().getStatus().equals(Status.READY)) {
-						mediaView.getMediaPlayer().play();
-						changePlayImage();
-					}else if(mediaView.getMediaPlayer().getStatus() == Status.PLAYING) {
-						mediaView.getMediaPlayer().pause();
-						changePlayImage();
-					}
-					
-				}
-				if (event.getCode() == KeyCode.RIGHT && mediaView.getMediaPlayer().getTotalDuration().greaterThan(mediaView.getMediaPlayer().getCurrentTime().add(new Duration(5000)))) {
-					mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getCurrentTime().add(new Duration(5000)));
-				}
-				if (event.getCode() == KeyCode.LEFT && new Duration(0).lessThan(mediaView.getMediaPlayer().getCurrentTime().subtract(new Duration(5000)))) {
-					mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getCurrentTime().subtract(new Duration(5000)));
-				}
-				if (event.getCode() == KeyCode.UP && mediaView.getMediaPlayer().getVolume() <= 1-0.1) {
-					mediaView.getMediaPlayer().setVolume(mediaView.getMediaPlayer().getVolume()+0.1);
-				}
-				if (event.getCode() == KeyCode.DOWN && mediaView.getMediaPlayer().getVolume() >= 0 + 0.1) {
-					mediaView.getMediaPlayer().setVolume(mediaView.getMediaPlayer().getVolume()-0.1);
-				}
-				if (event.getCode() == KeyCode.BACK_SPACE && typedText.isFocused()) {
-					typedText.setText(typedText.getText().substring(0, typedText.getText().length()-1));
-					typedText.positionCaret(typedText.getText().length());
-				}
-				event.consume();
-			}
-			
-		});
-		
-	}
 	
 	
 	private void reset() {
