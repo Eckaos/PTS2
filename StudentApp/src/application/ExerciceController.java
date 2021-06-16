@@ -143,11 +143,11 @@ public class ExerciceController implements Initializable {
 				}
 				encrypted[i]=clear[i];
 			}
-			Pattern numberCharPattern = Pattern.compile(".{"+numberPartialReplacement+"}");
+			Pattern numberCharPattern = Pattern.compile(".{4,}");
 			Matcher numberCharMatcher = numberCharPattern.matcher(clear[i]);
-			if (numberCharMatcher.find() && numberCharMatcher.group(0).equals(text) && numberPartialReplacement >0 && numberCharMatcher.group().matches(".{4,}")) {
-				encrypted[i] = numberCharMatcher.group(0);
-				for (int j = 2; j < clearMatcher.group(0).length(); j++) {
+			if (numberCharMatcher.find() && numberPartialReplacement > 0 && text.length() >= numberPartialReplacement && encrypted[i].substring(0,text.length()).contains(""+occultationChar) && numberCharMatcher.group().substring(0,text.length()).equals(text)) {
+				encrypted[i] = numberCharMatcher.group(0).substring(0,text.length());
+				for (int j = text.length(); j < clearMatcher.group(0).length(); j++) {
 					encrypted[i] += occultationChar;
 				}
 				encrypted[i] += clear[i].substring(clearMatcher.group(0).length());
