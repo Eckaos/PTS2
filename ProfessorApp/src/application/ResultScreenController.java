@@ -145,7 +145,7 @@ public class ResultScreenController implements Initializable {
 				lengthText += clear[i].length();
 			}
 			if (Character.isWhitespace(clearText.charAt(lengthText)) || Character.isSpaceChar(clearText.charAt(lengthText))) {
-				reconstructedText.getChildren().add(new Text(""+clearText.charAt(length)));
+				reconstructedText.getChildren().add(new Text(""+clearText.charAt(lengthText)));
 			}
 			lengthText++;
 		}

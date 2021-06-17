@@ -132,7 +132,6 @@ public class ExerciceController implements Initializable {
 		}
 		String[] encrypted = encryptedText.split("[ \\t\\n\\x0B\\f\\r]");
 		String[] clear = clearText.split("[ \\t\\n\\x0B\\f\\r]");
-
 		Pattern punctionLessPattern = Pattern.compile("[^\\p{Punct}&&[^'-]]*");
 		Matcher clearMatcher;
 		for (int i = 0; i < clear.length; i++) {
@@ -145,7 +144,10 @@ public class ExerciceController implements Initializable {
 			}
 			Pattern numberCharPattern = Pattern.compile(".{4,}");
 			Matcher numberCharMatcher = numberCharPattern.matcher(clear[i]);
-			if (numberCharMatcher.find() && numberPartialReplacement > 0 && text.length() >= numberPartialReplacement && encrypted[i].substring(0,text.length()).contains(""+occultationChar) && numberCharMatcher.group().substring(0,text.length()).equals(text)) {
+			if (numberCharMatcher.find() && numberPartialReplacement > 0 && text.length() >= numberPartialReplacement 
+					&& encrypted[i].substring(0,text.length()).contains(""+occultationChar) 
+					&& numberCharMatcher.group().substring(0,text.length()).equals(text)) {
+				
 				encrypted[i] = numberCharMatcher.group(0).substring(0,text.length());
 				for (int j = text.length(); j < clearMatcher.group(0).length(); j++) {
 					encrypted[i] += occultationChar;
@@ -153,7 +155,6 @@ public class ExerciceController implements Initializable {
 				encrypted[i] += clear[i].substring(clearMatcher.group(0).length());
 			}
 		}
-		//Reconstruction
 		encryptedText = "";
 		int length =0;
 		for (int i = 0; i < encrypted.length; i++) {
@@ -177,7 +178,6 @@ public class ExerciceController implements Initializable {
 			realTime.setText(numberFoundWord +" mots trouvés/" + numberWord);
 		}
 		textToFind.setText(encryptedText);
-
 	}
 
 	private String clearText;
